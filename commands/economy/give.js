@@ -7,7 +7,7 @@ const { benefitsdisplay } = require('../../config.js');
 exports.run = async (client, message, args) => {
     const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
-    amount = parseInt(args[1]);
+    const amount = parseInt(args[1]);
 
     if (!amount) {
         return message.reply('請提供數值');
@@ -44,19 +44,18 @@ exports.run = async (client, message, args) => {
         totemdata = await totem.findOne({ discordid: message.author.id });
     }
 
-    targetcredit = data.tails_credit;
+    const targetcredit = data.tails_credit;
 
-    const data2 = await credit.findOne({ discordid: message.author.id });
+    let senderData = await credit.findOne({ discordid: message.author.id });
 
-    if (!data2) {
-        await credit.create({
+    if (!senderData) {
+        senderData = await credit.create({
             discordid: message.author.id,
             tails_credit: 0,
         });
-        data = await credit.findOne({ discordid: message.author.id });
     }
 
-    sendercredit = data2.tails_credit;
+    const sendercredit = senderData.tails_credit;
 
     if (sendercredit < amount) {
         return message.reply('你的錢似乎無法負荷這樣的金額 <:thinking_cute:852936219515551754>');

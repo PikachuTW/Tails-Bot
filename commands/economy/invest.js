@@ -16,9 +16,6 @@ exports.run = async (client, message, args) => {
         data = await invest.findOne({ discordid: target.id });
     }
 
-    const list = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048,
-    ];
-
     const price = [20, 50, 120, 200, 400, 750, 1250, 2500, 4000, 6000, 10000, 15000,
     ];
 

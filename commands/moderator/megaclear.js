@@ -2,7 +2,7 @@ exports.run = async (client, message, args) => {
     if (!args[0] || isNaN(args[0])) return message.reply('請輸入有效訊息數!');
     const times = Math.floor((parseInt(args[0]) + 1) / 100);
     const left = (parseInt(args[0]) + 1) % 100;
-    for (i = 0; i < times; i++) {
+    for (let i = 0; i < times; i++) {
         message.channel.bulkDelete(100);
     }
     message.channel.bulkDelete(left);

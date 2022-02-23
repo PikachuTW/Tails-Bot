@@ -1,5 +1,4 @@
 const { codeBlock } = require('@discordjs/builders');
-const util = require('util');
 
 /*
   MESSAGE CLEAN FUNCTION
@@ -10,8 +9,8 @@ const util = require('util');
   This is mostly only used by the Eval and Exec commands.
 */
 async function clean(client, text) {
-    if (text && text.constructor.name == 'Promise') {text = await text;}
-    if (typeof text !== 'string') {text = require('util').inspect(text, { depth: 1 });}
+    if (text && text.constructor.name == 'Promise') { text = await text; }
+    if (typeof text !== 'string') { text = require('util').inspect(text, { depth: 1 }); }
 
     text = text
         .replace(/`/g, '`' + String.fromCharCode(8203))

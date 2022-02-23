@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 
     if (!args[0] || args[0] == 'list' || parseInt(args[0]) > 12 || parseInt(args[0]) < 0) {
         let res = '';
-        for (i = 0; i < 12; i++) {
+        for (let i = 0; i < 12; i++) {
             res += `\`${i + 1}\` 圖騰等級 \`${roman.romanize(i + 1)}\` 價錢 \`${price[i]}\`\n`;
         }
         const gachaembed = new MessageEmbed()
@@ -29,7 +29,7 @@ exports.run = async (client, message, args) => {
             discordid: message.author.id,
             tails_credit: 0,
         });
-        creditdata = await credit.findOne({ discordid: target.id });
+        creditdata = await credit.findOne({ discordid: message.author.id });
     }
 
     if (creditdata.tails_credit < price[buyrank - 1]) {
@@ -42,7 +42,7 @@ exports.run = async (client, message, args) => {
     let randomNum;
 
     while (randomResult[0] == randomResult[1]) {
-        for (i = 0; i < 2; i++) {
+        for (let i = 0; i < 2; i++) {
             randomNum = Math.random();
             if (randomNum < 0.1) {
                 randomResult[i] = 1;
@@ -62,7 +62,7 @@ exports.run = async (client, message, args) => {
         }
     }
 
-    const tier = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    // const tier = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
     const a_res = ['無', '無', '無', '無', '無'];
     // let new_cooldownReduce = '無';
     // let new_investMulti = '無';
@@ -70,7 +70,7 @@ exports.run = async (client, message, args) => {
     // let new_giveTax = '無';
     // let new_doubleChance = '無';
 
-    for (p = 0; p < 2; p++) {
+    for (let p = 0; p < 2; p++) {
         if (randomResult[p] == 1) {
             a_res[0] = benefitsdisplay.cooldownReduce[Math.ceil((buyrank + p) / 2)];
         }
@@ -113,7 +113,7 @@ exports.run = async (client, message, args) => {
         collector.stop();
         if (m.content == 'yes' || m.content == 'y') {
             const final = [0, 0, 0, 0, 0];
-            for (p = 0; p < 2; p++) {
+            for (let p = 0; p < 2; p++) {
                 if (randomResult[p] == 1) {
                     final[0] = Math.ceil((buyrank + p) / 2);
                 }
@@ -149,7 +149,7 @@ exports.run = async (client, message, args) => {
         }
     });
 
-    collector.on('end', collected => {
+    collector.on('end', () => {
         if (done == true) return;
         return message.reply('已經取消指令!');
     });

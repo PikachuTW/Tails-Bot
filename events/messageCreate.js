@@ -30,14 +30,14 @@ module.exports = async (client, message) => {
     if (message.content.toLowerCase().startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
-        const level = permlevel(message);
+        const permlevelGet = permlevel(message);
         const cmd = container.commands.get(command) || container.commands.get(container.aliases.get(command));
         if (!cmd) return;
         if (!cmd.conf.enabled) return;
-        if (level < container.levelCache[cmd.conf.permLevel]) {
-            return message.channel.send(`你沒有權限使用!\n你的權限等級為 ${level} (${config.permLevels.find(l => l.level === level).name})\n你需要權限等級 ${container.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`);
+        if (permlevelGet < container.levelCache[cmd.conf.permLevel]) {
+            return message.channel.send(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${config.permLevels.find(l => l.level === permlevelGet).name})\n你需要權限等級 ${container.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`);
         }
-        message.author.permLevel = level;
+        message.author.permLevel = permlevelGet;
         try {
             let data = await cooldown.findOne({ discordid: message.author.id });
             if (!data) {
@@ -52,12 +52,11 @@ module.exports = async (client, message) => {
 
             await cmd.run(client, message, args);
             await cooldown.updateOne({ 'discordid': message.author.id }, { $set: { 'stamp': Date.now() } });
-            client.channels.cache.find(channel => channel.id === '891011360413057075').send(`${config.permLevels.find(l => l.level === level).name} ${message.author.id} ${message.author.tag} ran command ${cmd.help.name}`, 'cmd');
-            logger.log(`${config.permLevels.find(l => l.level === level).name} ${message.author.tag} 執行了 ${cmd.help.name}`, 'cmd');
+            client.channels.cache.find(channel => channel.id === '891011360413057075').send(`${config.permLevels.find(l => l.level === permlevelGet).name} ${message.author.id} ${message.author.tag} ran command ${cmd.help.name}`, 'cmd');
+            logger.log(`${config.permLevels.find(l => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.help.name}`, 'cmd');
         }
         catch (e) {
-            message.channel.send({ content: `出現了些錯誤\n\`\`\`${e.message}\`\`\`` })
-                .catch(e => console.error('An error occurred replying on an error', e));
+            message.channel.send({ content: `出現了些錯誤\n\`\`\`${e.message}\`\`\`` });
         }
     }
 

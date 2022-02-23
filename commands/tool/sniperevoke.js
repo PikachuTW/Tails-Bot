@@ -34,7 +34,7 @@ exports.run = async (client, message) => {
     if (before >= Math.round(15 * benefitsdata.commandCost[totemdata.commandCost])) {
         await credit.findOneAndUpdate({ 'discordid': message.author.id }, { $inc: { 'tails_credit': -1 * Math.round(15 * benefitsdata.commandCost[totemdata.commandCost]) } });
 
-        sdata = await snipedata.findOne({ channelid: message.channel.id });
+        const sdata = await snipedata.findOne({ channelid: message.channel.id });
         if (!sdata) {
             await snipedata.create({
                 channelid: message.channel.id,

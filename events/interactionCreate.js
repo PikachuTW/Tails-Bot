@@ -74,7 +74,7 @@ module.exports = async (client, interaction) => {
                 const collector = interaction.channel.createMessageCollector({ filter, time: 10000 });
                 interaction.reply('你是否確定關閉票券? (y/n)');
 
-                done = false;
+                let done = false;
 
                 collector.on('collect', async m => {
                     if (['y', 'yes', '是'].indexOf(m.content.toLowerCase()) == -1) return collector.stop();
@@ -101,7 +101,7 @@ module.exports = async (client, interaction) => {
                     });
                 });
 
-                collector.on('end', collected => {
+                collector.on('end', () => {
                     if (done == true) return;
                     return interaction.channel.send('已經取消!');
                 });

@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const totem = require('../../models/totem.js');
 const roman = require('romans');
 const { benefitsdisplay } = require('../../config.js');
-const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
 

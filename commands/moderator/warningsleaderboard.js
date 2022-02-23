@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const warning = require('../../models/warning.js');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
 
     const res = await warning.aggregate([
         { $sortByCount: '$discordid' },
@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 
     let co = '';
 
-    for (i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].count}**\n`;
     }
 

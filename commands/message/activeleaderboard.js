@@ -19,7 +19,7 @@ exports.run = async (client, message) => {
 
     let co = '';
 
-    for (i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`;
     }
 

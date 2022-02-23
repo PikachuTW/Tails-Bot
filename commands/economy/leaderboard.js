@@ -1,13 +1,13 @@
 const { MessageEmbed } = require('discord.js');
 const credit = require('../../models/credit.js');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
 
     const res = await credit.find({}).sort({ tails_credit: -1 }).limit(10);
 
     let co = '';
 
-    for (i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         co += `\`${i + 1}\` <@${res[i].discordid}> **${res[i].tails_credit}**\n`;
     }
 

@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
         return message.reply('請提供數值');
     }
 
-    data = await credit.findOne({ discordid: target.id });
+    let data = await credit.findOne({ discordid: target.id });
     if (!data) {
         await credit.create({
             discordid: target.id,

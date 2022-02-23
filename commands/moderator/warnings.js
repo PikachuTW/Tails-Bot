@@ -33,7 +33,7 @@ exports.run = async (client, message, args) => {
         .setAuthor({ name: `${target.user.tag} 目前有 ${warntotal.length} 則警告`, iconURL: target.displayAvatarURL({ format: 'png' }) })
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
-    for (i = 0; i < warnres.length; i++) {
+    for (let i = 0; i < warnres.length; i++) {
         warningembed.addField(`ID: ${warnres[i]['_id']} | 管理人員: ${client.users.cache.get(warnres[i].warnstaff).tag}`, `${warnres[i].warncontent} - ${new Date(warnres[i].warnstamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
     }
 

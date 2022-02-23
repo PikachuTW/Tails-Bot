@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
     }
 
     let text = '';
-    for (i = 0; i < res.length; i++) {
+    for (let i = 0; i < res.length; i++) {
         text += `\`${i + 1}\` ${res[i]}\n`;
     }
     const embed = new MessageEmbed()
@@ -48,7 +48,7 @@ exports.run = async (client, message, args) => {
         return message.reply({ embeds: [successembed] });
     });
 
-    collector.on('end', collected => {
+    collector.on('end', () => {
         if (done == true) return;
         return message.reply('已經取消指令!');
     });

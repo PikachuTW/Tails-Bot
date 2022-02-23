@@ -76,7 +76,7 @@ exports.run = async (client, message, args) => {
 
         const check = res[0].daily.date;
 
-        for (i = 1; i < forCount; i++) {
+        for (let i = 1; i < forCount; i++) {
             if (res[i].daily.date != check + i) {
                 res.splice(i, 0, { daily: { date: check + i, count: 0 } });
                 forCount++;

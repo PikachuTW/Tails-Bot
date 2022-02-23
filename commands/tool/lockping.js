@@ -1,8 +1,7 @@
-exports.run = async (client, message, args) => {
-    const guild = client.guilds.cache.find(guild => guild.id == '828450904990154802');
+exports.run = async (client, message) => {
     const lockchannel = message.guild.channels.cache.find(channel => channel.id === '832219569501241385');
-    const lockrole = message.guild.roles.cache.find(role => role.id === '881911118845587477') || await guild.roles.fetch('881911118845587477');
-    const lockrole2 = message.guild.roles.cache.find(role => role.id === '897124893383094302') || await guild.roles.fetch('897124893383094302');
+    const lockrole = message.guild.roles.cache.find(role => role.id === '881911118845587477');
+    const lockrole2 = message.guild.roles.cache.find(role => role.id === '897124893383094302');
     lockchannel.permissionOverwrites.edit(lockrole, { MENTION_EVERYONE: false });
     lockchannel.permissionOverwrites.edit(lockrole2, { MENTION_EVERYONE: false });
 

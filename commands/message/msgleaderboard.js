@@ -2,7 +2,7 @@ const { MessageEmbed, MessageAttachment } = require('discord.js');
 const level = require('../../models/level.js');
 const QuickChart = require('quickchart-js');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
 
     const res = await level.aggregate([
         { $unwind: '$daily' },
@@ -62,7 +62,7 @@ exports.run = async (client, message, args) => {
 
     let co = '';
 
-    for (i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`;
     }
 
