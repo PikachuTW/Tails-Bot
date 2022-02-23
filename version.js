@@ -1,8 +1,6 @@
-const version = {
-    number: '1.11.3',
+module.exports = {
+    number: '1.12.0',
     tag: '修補性更新',
-    important: '',
-    description: '1. 現在Warn會發送訊息給使用者',
+    important: '<@&892235277823799367>',
+    description: '1. 大幅改善代碼品質\n2. 修復部分Bug',
 };
-
-module.exports = version;
