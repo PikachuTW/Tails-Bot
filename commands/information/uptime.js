@@ -1,8 +1,8 @@
-const moment = require("moment")
-require("moment-duration-format");
+const moment = require('moment');
+require('moment-duration-format');
 
 exports.run = (client, message) => {
-    let duration = moment.duration(client.uptime).format(" D [天], H [小時], m [分], s [秒]");
+    const duration = moment.duration(client.uptime).format(' D [天], H [小時], m [分], s [秒]');
     message.reply(`機器人上線時間: \`${duration}\``);
 };
 
@@ -10,12 +10,12 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: [],
-    permLevel: "User"
+    permLevel: 'User',
 };
 
 exports.help = {
-    name: "uptime",
-    category: "資訊",
-    description: "回傳機器人上線時間",
-    usage: "uptime"
+    name: 'uptime',
+    category: '資訊',
+    description: '回傳機器人上線時間',
+    usage: 'uptime',
 };

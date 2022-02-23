@@ -1,157 +1,170 @@
 const { MessageEmbed } = require('discord.js');
 const totem = require('../../models/totem.js');
 const roman = require('romans');
-const credit = require('../../models/credit.js')
+const credit = require('../../models/credit.js');
 const { benefitsdisplay } = require('../../config.js');
 
 exports.run = async (client, message, args) => {
 
-  const price = [500, 1250, 2000, 3000, 5000, 7500, 12500, 20000, 35000, 50000, 100000, 200000];
+    const price = [500, 1250, 2000, 3000, 5000, 7500, 12500, 20000, 35000, 50000, 100000, 200000];
 
-  if (!args[0] || args[0] == 'list' || parseInt(args[0]) > 12 || parseInt(args[0]) < 0) {
-    let res = ''
-    for (i = 0; i < 12; i++) {
-      res += `\`${i + 1}\` 圖騰等級 \`${roman.romanize(i + 1)}\` 價錢 \`${price[i]}\`\n`
-    }
-    const gachaembed = new MessageEmbed()
-      .setTitle(`Totem列表`)
-      .setColor('#ffae00')
-      .setDescription(res)
-      .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' })
-    return message.reply({ embeds: [gachaembed] });
-  }
-
-  let buyrank = parseInt(args[0])
-
-  let creditdata = await credit.findOne({ discordid: message.author.id });
-  if (!creditdata) {
-    await credit.create({
-      discordid: message.author.id,
-      tails_credit: 0
-    });
-    creditdata = await credit.findOne({ discordid: target.id });
-  }
-
-  if (creditdata.tails_credit < price[buyrank - 1]) {
-    return message.reply('你似乎買不起圖騰呢! :joy: :pinching_hand:');
-  }
-
-  await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { 'tails_credit': price[buyrank - 1] * -1 } });
-
-  let randomResult = [0, 0];
-  let randomNum;
-
-  while (randomResult[0] == randomResult[1]) {
-    for (i = 0; i < 2; i++) {
-      randomNum = Math.random();
-      if (randomNum < 0.1) {
-        randomResult[i] = 1;
-      } else if (randomNum < 0.2) {
-        randomResult[i] = 2;
-      } else if (randomNum < 0.55) {
-        randomResult[i] = 3;
-      } else if (randomNum < 0.9) {
-        randomResult[i] = 4;
-      } else {
-        randomResult[i] = 5;
-      }
-    }
-  }
-
-  const tier = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
-  let a_res = ['無', '無', '無', '無', '無'];
-  // let new_cooldownReduce = '無';
-  // let new_investMulti = '無';
-  // let new_commandCost = '無';
-  // let new_giveTax = '無';
-  // let new_doubleChance = '無';
-
-  for (p = 0; p < 2; p++) {
-    if (randomResult[p] == 1) {
-      a_res[0] = benefitsdisplay.cooldownReduce[Math.ceil((buyrank + p) / 2)];
-    } else if (randomResult[p] == 2) {
-      a_res[1] = benefitsdisplay.investMulti[Math.ceil((buyrank + p) / 2)];
-    } else if (randomResult[p] == 3) {
-      a_res[2] = benefitsdisplay.commandCost[Math.ceil((buyrank + p) / 2)];
-    } else if (randomResult[p] == 4) {
-      a_res[3] = benefitsdisplay.giveTax[Math.ceil((buyrank + p) / 2)];
-    } else {
-      a_res[4] = benefitsdisplay.doubleChance[Math.ceil((buyrank + p) / 2)];
-    }
-  }
-
-  const newEmbed = new MessageEmbed()
-    .setColor('#ffae00')
-    .setTitle(`${message.author.tag} 新圖騰購買結果`)
-    .setDescription(`**圖騰等級** \`${roman.romanize(buyrank)}\``)
-    .addField(`投資出資冷卻`, `\`${a_res[0]}\``, true)
-    .addField(`投資出資乘數`, `\`${a_res[1]}\``, true)
-    .addField(`指令花費金額`, `\`${a_res[2]}\``, true)
-    .addField(`贈與金錢稅金`, `\`${a_res[3]}\``, true)
-    .addField(`雙倍金額機會`, `\`${a_res[4]}\``, true)
-    .setThumbnail(message.author.displayAvatarURL({ format: 'png' }))
-    .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
-
-  message.reply({ embeds: [newEmbed] });
-  message.reply(`你是否要替換掉原本的圖騰? (y/n)`);
-
-  const filter = m => ['yes', 'y', 'no', 'n'].indexOf(m.content) != -1 && m.author.id == message.author.id;
-  const collector = message.channel.createMessageCollector({ filter, time: 20000 });
-
-  let done = false;
-
-  collector.on('collect', async m => {
-    done = true;
-    collector.stop();
-    if (m.content == 'yes' || m.content == 'y') {
-      let final = [0, 0, 0, 0, 0];
-      for (p = 0; p < 2; p++) {
-        if (randomResult[p] == 1) {
-          final[0] = Math.ceil((buyrank + p) / 2);
-        } else if (randomResult[p] == 2) {
-          final[1] = Math.ceil((buyrank + p) / 2);
-        } else if (randomResult[p] == 3) {
-          final[2] = Math.ceil((buyrank + p) / 2);
-        } else if (randomResult[p] == 4) {
-          final[3] = Math.ceil((buyrank + p) / 2);
-        } else {
-          final[4] = Math.ceil((buyrank + p) / 2);
+    if (!args[0] || args[0] == 'list' || parseInt(args[0]) > 12 || parseInt(args[0]) < 0) {
+        let res = '';
+        for (i = 0; i < 12; i++) {
+            res += `\`${i + 1}\` 圖騰等級 \`${roman.romanize(i + 1)}\` 價錢 \`${price[i]}\`\n`;
         }
-      }
-      await totem.findOneAndUpdate(
-        { 'discordid': message.author.id },
-        {
-          $set: {
-            'rank': parseInt(buyrank),
-            'cooldownReduce': final[0],
-            'investMulti': final[1],
-            'commandCost': final[2],
-            'giveTax': final[3],
-            'doubleChance': final[4]
-          }
-        });
-      return message.reply('已經保留 :sob: :thumbsup:');
-    } else {
-      return message.reply('已經丟棄 :joy:');
+        const gachaembed = new MessageEmbed()
+            .setTitle('Totem列表')
+            .setColor('#ffae00')
+            .setDescription(res)
+            .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
+        return message.reply({ embeds: [gachaembed] });
     }
-  });
 
-  collector.on('end', collected => {
-    if (done == true) return;
-    return message.reply('已經取消指令!')
-  });
+    const buyrank = parseInt(args[0]);
+
+    let creditdata = await credit.findOne({ discordid: message.author.id });
+    if (!creditdata) {
+        await credit.create({
+            discordid: message.author.id,
+            tails_credit: 0,
+        });
+        creditdata = await credit.findOne({ discordid: target.id });
+    }
+
+    if (creditdata.tails_credit < price[buyrank - 1]) {
+        return message.reply('你似乎買不起圖騰呢! :joy: :pinching_hand:');
+    }
+
+    await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { 'tails_credit': price[buyrank - 1] * -1 } });
+
+    const randomResult = [0, 0];
+    let randomNum;
+
+    while (randomResult[0] == randomResult[1]) {
+        for (i = 0; i < 2; i++) {
+            randomNum = Math.random();
+            if (randomNum < 0.1) {
+                randomResult[i] = 1;
+            }
+            else if (randomNum < 0.2) {
+                randomResult[i] = 2;
+            }
+            else if (randomNum < 0.55) {
+                randomResult[i] = 3;
+            }
+            else if (randomNum < 0.9) {
+                randomResult[i] = 4;
+            }
+            else {
+                randomResult[i] = 5;
+            }
+        }
+    }
+
+    const tier = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    const a_res = ['無', '無', '無', '無', '無'];
+    // let new_cooldownReduce = '無';
+    // let new_investMulti = '無';
+    // let new_commandCost = '無';
+    // let new_giveTax = '無';
+    // let new_doubleChance = '無';
+
+    for (p = 0; p < 2; p++) {
+        if (randomResult[p] == 1) {
+            a_res[0] = benefitsdisplay.cooldownReduce[Math.ceil((buyrank + p) / 2)];
+        }
+        else if (randomResult[p] == 2) {
+            a_res[1] = benefitsdisplay.investMulti[Math.ceil((buyrank + p) / 2)];
+        }
+        else if (randomResult[p] == 3) {
+            a_res[2] = benefitsdisplay.commandCost[Math.ceil((buyrank + p) / 2)];
+        }
+        else if (randomResult[p] == 4) {
+            a_res[3] = benefitsdisplay.giveTax[Math.ceil((buyrank + p) / 2)];
+        }
+        else {
+            a_res[4] = benefitsdisplay.doubleChance[Math.ceil((buyrank + p) / 2)];
+        }
+    }
+
+    const newEmbed = new MessageEmbed()
+        .setColor('#ffae00')
+        .setTitle(`${message.author.tag} 新圖騰購買結果`)
+        .setDescription(`**圖騰等級** \`${roman.romanize(buyrank)}\``)
+        .addField('投資出資冷卻', `\`${a_res[0]}\``, true)
+        .addField('投資出資乘數', `\`${a_res[1]}\``, true)
+        .addField('指令花費金額', `\`${a_res[2]}\``, true)
+        .addField('贈與金錢稅金', `\`${a_res[3]}\``, true)
+        .addField('雙倍金額機會', `\`${a_res[4]}\``, true)
+        .setThumbnail(message.author.displayAvatarURL({ format: 'png' }))
+        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
+
+    message.reply({ embeds: [newEmbed] });
+    message.reply('你是否要替換掉原本的圖騰? (y/n)');
+
+    const filter = m => ['yes', 'y', 'no', 'n'].indexOf(m.content) != -1 && m.author.id == message.author.id;
+    const collector = message.channel.createMessageCollector({ filter, time: 20000 });
+
+    let done = false;
+
+    collector.on('collect', async m => {
+        done = true;
+        collector.stop();
+        if (m.content == 'yes' || m.content == 'y') {
+            const final = [0, 0, 0, 0, 0];
+            for (p = 0; p < 2; p++) {
+                if (randomResult[p] == 1) {
+                    final[0] = Math.ceil((buyrank + p) / 2);
+                }
+                else if (randomResult[p] == 2) {
+                    final[1] = Math.ceil((buyrank + p) / 2);
+                }
+                else if (randomResult[p] == 3) {
+                    final[2] = Math.ceil((buyrank + p) / 2);
+                }
+                else if (randomResult[p] == 4) {
+                    final[3] = Math.ceil((buyrank + p) / 2);
+                }
+                else {
+                    final[4] = Math.ceil((buyrank + p) / 2);
+                }
+            }
+            await totem.findOneAndUpdate(
+                { 'discordid': message.author.id },
+                {
+                    $set: {
+                        'rank': parseInt(buyrank),
+                        'cooldownReduce': final[0],
+                        'investMulti': final[1],
+                        'commandCost': final[2],
+                        'giveTax': final[3],
+                        'doubleChance': final[4],
+                    },
+                });
+            return message.reply('已經保留 :sob: :thumbsup:');
+        }
+        else {
+            return message.reply('已經丟棄 :joy:');
+        }
+    });
+
+    collector.on('end', collected => {
+        if (done == true) return;
+        return message.reply('已經取消指令!');
+    });
 };
 
 exports.conf = {
-  enabled: true,
-  guildOnly: true,
-  aliases: [],
-  permLevel: "User"
+    enabled: true,
+    guildOnly: true,
+    aliases: [],
+    permLevel: 'User',
 };
 
 exports.help = {
-  name: "gacha",
-  category: "Tails幣",
-  description: "購買Totem",
-  usage: "gacha"
+    name: 'gacha',
+    category: 'Tails幣',
+    description: '購買Totem',
+    usage: 'gacha',
 };

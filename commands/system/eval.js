@@ -1,4 +1,4 @@
-const { codeBlock } = require("@discordjs/builders");
+const { codeBlock } = require('@discordjs/builders');
 const util = require('util');
 
 /*
@@ -10,42 +10,41 @@ const util = require('util');
   This is mostly only used by the Eval and Exec commands.
 */
 async function clean(client, text) {
-  if (text && text.constructor.name == "Promise")
-    text = await text;
-  if (typeof text !== "string")
-    text = require("util").inspect(text, { depth: 1 });
+    if (text && text.constructor.name == 'Promise') {text = await text;}
+    if (typeof text !== 'string') {text = require('util').inspect(text, { depth: 1 });}
 
-  text = text
-    .replace(/`/g, "`" + String.fromCharCode(8203))
-    .replace(/@/g, "@" + String.fromCharCode(8203));
+    text = text
+        .replace(/`/g, '`' + String.fromCharCode(8203))
+        .replace(/@/g, '@' + String.fromCharCode(8203));
 
-  text = text.replaceAll(client.token, "[REDACTED]");
+    text = text.replaceAll(client.token, '[REDACTED]');
 
-  return text;
+    return text;
 }
 
 exports.run = async (client, message, args) => {
-  const code = args.join(" ");
-  try {
-    const evaled = eval(code);
-    const cleaned = await clean(client, evaled);
-    if (cleaned.startsWith('<ref *1>')) return;
-    message.channel.send(codeBlock("js", cleaned));
-  } catch (err) {
-    message.channel.send(codeBlock("js", err));
-  }
+    const code = args.join(' ');
+    try {
+        const evaled = eval(code);
+        const cleaned = await clean(client, evaled);
+        if (cleaned.startsWith('<ref *1>')) return;
+        message.channel.send(codeBlock('js', cleaned));
+    }
+    catch (err) {
+        message.channel.send(codeBlock('js', err));
+    }
 };
 
 exports.conf = {
-  enabled: true,
-  guildOnly: true,
-  aliases: [],
-  permLevel: "Tails"
+    enabled: true,
+    guildOnly: true,
+    aliases: [],
+    permLevel: 'Tails',
 };
 
 exports.help = {
-  name: "eval",
-  category: "系統",
-  description: "執行任何 javascript 程式碼",
-  usage: "eval [...code]"
+    name: 'eval',
+    category: '系統',
+    description: '執行任何 javascript 程式碼',
+    usage: 'eval [...code]',
 };

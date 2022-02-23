@@ -6,15 +6,15 @@ exports.run = async (client, message) => {
 };
 
 exports.conf = {
-  enabled: true,
-  guildOnly: true,
-  aliases: [],
-  permLevel: "User"
+    enabled: true,
+    guildOnly: true,
+    aliases: [],
+    permLevel: 'User',
 };
 
 exports.help = {
-  name: "ping",
-  category: "系統",
-  description: "傳送延遲值",
-  usage: "ping"
+    name: 'ping',
+    category: '系統',
+    description: '傳送延遲值',
+    usage: 'ping',
 };

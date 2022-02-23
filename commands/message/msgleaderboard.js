@@ -9,23 +9,23 @@ exports.run = async (client, message, args) => {
         {
             $group: {
                 _id: '$discordid',
-                total: { $sum: '$daily.count' }
-            }
+                total: { $sum: '$daily.count' },
+            },
         },
         { $sort: { total: -1 } },
-        { $limit: 10 }
-    ])
+        { $limit: 10 },
+    ]);
 
     const chartRes = await level.aggregate([
         { $unwind: '$daily' },
         {
             $group: {
                 _id: '$daily.date',
-                total: { $sum: '$daily.count' }
-            }
+                total: { $sum: '$daily.count' },
+            },
         },
         { $sort: { _id: 1 } },
-    ])
+    ]);
 
     const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -44,34 +44,34 @@ exports.run = async (client, message, args) => {
                 borderColor: '#ffae00',
                 pointBackgroundColor: '#ffae00',
                 data: chartRes.map(d => d.total),
-            }]
+            }],
         },
         options: {
             legend: {
-                display: false
+                display: false,
             },
             title: {
                 display: true,
-                text: `伺服器訊息資料圖表`
-            }
-        }
+                text: '伺服器訊息資料圖表',
+            },
+        },
     });
 
-    const imageGen = new MessageAttachment(chart.getUrl(), `server_chart.png`);
+    const imageGen = new MessageAttachment(chart.getUrl(), 'server_chart.png');
 
 
-    let co = ""
+    let co = '';
 
     for (i = 0; i < 10; i++) {
-        co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`
+        co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`;
     }
 
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
-        .setTitle(`總訊息量前十排行榜`)
+        .setTitle('總訊息量前十排行榜')
         .setDescription(co)
         .setThumbnail('https://i.imgur.com/MTWQbeh.png')
-        .setImage(`attachment://server_chart.png`)
+        .setImage('attachment://server_chart.png')
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     message.reply({ embeds: [exampleEmbed], files: [imageGen] });
@@ -81,12 +81,12 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: ['msglb'],
-    permLevel: "User"
+    permLevel: 'User',
 };
 
 exports.help = {
-    name: "msgleaderboard",
-    category: "訊息",
-    description: "總訊息量排行榜",
-    usage: "msgleaderboard"
+    name: 'msgleaderboard',
+    category: '訊息',
+    description: '總訊息量排行榜',
+    usage: 'msgleaderboard',
 };

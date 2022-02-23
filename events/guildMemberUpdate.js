@@ -20,7 +20,7 @@ module.exports = async (client, oldMember, newMember) => {
     const resEmbed = new MessageEmbed()
         .setColor('#ffae00')
         .setTitle(`${newMember.user.tag} ${newMember.user.id} 已經被 ${Log.executor.tag} ${Log.executor.id} 進行非法操作，已經移除所有身分組`)
-        .setFooter({ text: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }) })
+        .setFooter({ text: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }) });
     client.channels.cache.find(channel => channel.id == '832219569501241385').send({ embeds: [resEmbed] });
     client.users.cache.find(user => user.id == '650604337000742934').send({ embeds: [resEmbed] });
 };

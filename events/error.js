@@ -1,4 +1,4 @@
-const logger = require("../modules/Logger.js");
+const logger = require('../modules/Logger.js');
 module.exports = async (client, error) => {
-  logger.log(`${JSON.stringify(error)}`, "error");
+    logger.log(`${JSON.stringify(error)}`, 'error');
 };
