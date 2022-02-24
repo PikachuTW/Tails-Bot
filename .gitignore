@@ -5,3 +5,7 @@ node_modules/
 .env
 
 core
+
+.npmrc
+
+.pnpm-debug.log
