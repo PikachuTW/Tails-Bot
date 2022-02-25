@@ -111,7 +111,7 @@ exports.run = async (client, message, args) => {
     collector.on('collect', async m => {
         done = true;
         collector.stop();
-        if (m.content == 'yes' || m.content == 'y') {
+        if (m.content.toLowerCase() == 'yes' || m.content.toLowerCase() == 'y') {
             const final = [0, 0, 0, 0, 0];
             for (let p = 0; p < 2; p++) {
                 if (randomResult[p] == 1) {
