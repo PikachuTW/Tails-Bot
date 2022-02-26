@@ -16,7 +16,7 @@ exports.run = (client, message) => {
         },
     });
 
-    const resource = createAudioResource('/home/tails/下載/無職/オンリー.mp3');
+    const resource = createAudioResource('/home/tails/下載/無職/祈りの唄.mp3');
     player.play(resource);
 
     connection.subscribe(player);
