@@ -16,6 +16,7 @@ exports.run = async (client, message) => {
         embeds: [
             new MessageEmbed()
                 .setTitle('播放清單')
+                .setColor('#ffae00')
                 .setDescription(res)
                 .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
         ],

@@ -5,12 +5,14 @@ const version = require('../version.js');
 const { codeBlock } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const level = require('../models/level.js');
+const { getVoiceConnection } = require('@discordjs/voice');
+
 
 module.exports = async client => {
     logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
-
     client.user.setActivity(`${settings.prefix}help | Made By Tails`, { type: 'PLAYING' });
 
+    client.channels.cache.find(c => c.id == '832219569501241385').send('機器人已經重新開機!');
     const versionDate = await misc.findOne({ 'key': 'version' });
     if (version.number != versionDate.value_string) {
         const Embed1 = new MessageEmbed()
@@ -27,6 +29,10 @@ module.exports = async client => {
         const count = targetGuild.memberCount;
         client.channels.cache.find(channel => channel.id === '897054056625885214').setName(`成員數:${count}`);
         client.channels.cache.find(channel => channel.id === '898168354680995880').send(`成員數:${count}`);
+        if (targetGuild.me.voice.channelId == '858370818635464774' && targetGuild.me.voice.channel.members.map(m => m).length == 1) {
+            getVoiceConnection('828450904990154802').destroy();
+            client.channels.cache.find(c => c.id == '832219569501241385').send('因為無人在語音頻道，機器人已斷開連線');
+        }
     }, 300000);
 
     setInterval(async () => {
