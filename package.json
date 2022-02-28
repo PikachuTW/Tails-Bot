@@ -1,6 +1,6 @@
 {
   "name": "tails-bot",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Tails Bot",
   "main": "index.js",
   "dependencies": {
@@ -32,7 +32,7 @@
     "romans": "^2.0.4",
     "sodium": "^3.0.2",
     "unb-api": "^1.2.3",
-    "ytdl-core": "^4.10.1"
+    "play-dl": "^1.8.8"
   },
   "peerDependencies": {
     "@discordjs/opus": "^0.5.0"

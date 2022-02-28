@@ -12,6 +12,12 @@ const misc = new mongoose.Schema({
     value_string: {
         type: mongoose.SchemaTypes.String,
     },
+    value_arr: {
+        type: mongoose.SchemaTypes.Array,
+    },
+    value_object: {
+        type: mongoose.SchemaTypes.Mixed,
+    },
 });
 
 module.exports = mongoose.model('misc', misc);

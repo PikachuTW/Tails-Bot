@@ -109,31 +109,18 @@ const config = {
             },
         },
 
-        {
-            level: 7,
-            name: 'Dodo',
-            check: (message) => {
-                try {
-                    if (message.member.roles.cache.has('886670168594477106')) return true;
-                }
-                catch (e) {
-                    return false;
-                }
-            },
-        },
-
-        {
-            level: 8,
-            name: 'Heiegg',
-            check: (message) => {
-                try {
-                    if (message.member.id == '707485331850657793') return true;
-                }
-                catch (e) {
-                    return false;
-                }
-            },
-        },
+        // {
+        //     level: 7,
+        //     name: 'Dodo',
+        //     check: (message) => {
+        //         try {
+        //             if (message.member.roles.cache.has('886670168594477106')) return true;
+        //         }
+        //         catch (e) {
+        //             return false;
+        //         }
+        //     },
+        // },
 
         {
             level: 9,

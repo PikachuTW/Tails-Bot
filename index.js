@@ -7,9 +7,19 @@ const { permLevels } = require('./config.js');
 const logger = require('./modules/Logger.js');
 const client = new Client({ intents: 32767, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'] });
 const mongoose = require('mongoose');
+const { createAudioPlayer, NoSubscriberBehavior, createAudioResource, getVoiceConnection } = require('@discordjs/voice');
+const music = require('./models/music.js');
+const misc = require('./models/misc.js');
+const play = require('play-dl');
 
 const commands = new Collection();
 const aliases = new Collection();
+
+const player = createAudioPlayer({
+    behaviors: {
+        noSubscriber: NoSubscriberBehavior.Pause,
+    },
+});
 
 mongoose
     .connect(process.env.MONGO, {
@@ -32,6 +42,7 @@ client.container = {
     commands,
     aliases,
     levelCache,
+    player,
 };
 
 const init = async () => {
@@ -69,8 +80,32 @@ const init = async () => {
 
     client.on('threadCreate', (thread) => thread.join());
 
-    client.login(process.env.DISCORD_TOKEN);
+    player.on('stateChange', async (oldState, newState) => {
+        console.log(`${oldState.status} => ${newState.status}`);
+        const connection = getVoiceConnection('828450904990154802');
+        if (newState.status == 'idle' && connection._state.status == 'ready') {
+            const data = await music.findOne({});
+            if (!data.queue[0]) return;
+            const streamURL = data.queue[0].url;
+            await music.updateOne({}, { $pop: { queue: -1 } });
+            // eslint-disable-next-line prefer-const
+            let stream = await play.stream(streamURL);
+            // eslint-disable-next-line prefer-const
+            let resource = createAudioResource(stream.stream, {
+                inputType: stream.type,
+            });
+            connection.subscribe(player);
+            player.play(resource);
+            client.channels.cache.find(c => c.id === '832219569501241385').send(`現正播放 \`${data.queue[0].title}\``);
+            await misc.updateOne({ key: 'nowplay' }, {
+                $set: {
+                    value_object: data.queue[0],
+                },
+            });
+        }
+    });
 
+    client.login(process.env.DISCORD_TOKEN);
 };
 
 init();

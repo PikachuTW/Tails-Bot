@@ -63,7 +63,7 @@ exports.run = async (client, message, args) => {
     const kickEmbed = new MessageEmbed()
         .setTitle('你已經被禁言!')
         .setColor('#ffae00')
-        .setDescription(`你被禁言了 ${ms(ms(time), { long: true })}\n原因: ${reason}`)
+        .setDescription(`你被禁言了 ${ms(ms(time), { long: true })}\n原因: ${reason}\n管理者:${message.author}`)
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
     target.send({ embeds: [kickEmbed] });
     const ReasonEmbed = new MessageEmbed()

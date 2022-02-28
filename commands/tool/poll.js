@@ -1,7 +1,8 @@
 exports.run = async (client, message, args) => {
     const question = args.slice(0).join(' ');
     if (!question) return message.reply('請提供問題');
-    message.channel.send({ content: `**[投票 By ${message.author.tag}]** ${question}`, allowedMentions: { parse: [] } }).then(replyMessage => {
+    message.delete();
+    message.channel.send({ content: `**[投票]** ${question}`, allowedMentions: { parse: [] } }).then(replyMessage => {
         replyMessage.react('✅');
         replyMessage.react('❌');
     });
@@ -11,7 +12,7 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: [],
-    permLevel: 'Heiegg',
+    permLevel: 'Tails',
 };
 
 exports.help = {

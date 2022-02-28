@@ -24,24 +24,6 @@ exports.run = async (client, message, args) => {
         duration: songInfo.video_details.durationRaw,
     };
 
-    const bannedWords = ['never gonna give you up', 'rick', 'roll', '大悲咒', '淫叫', 'earrape', '小玉', '聖結石', '放火'];
-    if (bannedWords.some(word => song.title.toLowerCase().includes(word))) {
-        return message.reply('你要放啥蠢歌 :frog:');
-    }
-
-    if (message.author.id != '650604337000742934') {
-        const list = await music.findOne({});
-        if (list.queue.filter(d => d.requestBy === message.author.id).length >= 5) {
-            return message.reply('你已經點超過5首歌了!');
-        }
-        if (list.queue.find(d => d.url == song.url)) {
-            return message.reply('已經有重複的歌存在!');
-        }
-        if (message.member.voice.selfDeaf) {
-            return message.reply('你自己都不想聽了還叫別人聽 :frog:');
-        }
-    }
-
     if (message.guild.me.voice.channelId !== '858370818635464774' || !getVoiceConnection('828450904990154802')) {
         joinVoiceChannel({
             channelId: '858370818635464774',
@@ -52,7 +34,14 @@ exports.run = async (client, message, args) => {
 
     const connection = getVoiceConnection('828450904990154802');
 
-    await music.updateOne({}, { $push: { 'queue': song } });
+    await music.updateOne({}, {
+        $push: {
+            'queue': {
+                $each: [song],
+                $position: 0,
+            },
+        },
+    });
 
     if (player.state.status === 'idle') {
         const data = await music.findOne({});
@@ -83,13 +72,13 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     enabled: true,
     guildOnly: true,
-    aliases: ['p'],
-    permLevel: 'User',
+    aliases: ['pt'],
+    permLevel: 'Tails',
 };
 
 exports.help = {
-    name: 'play',
+    name: 'playtop',
     category: '音樂',
     description: '播放音樂',
-    usage: 'play',
+    usage: 'playtop',
 };

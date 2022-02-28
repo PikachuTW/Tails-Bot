@@ -1,6 +1,6 @@
 module.exports = {
-    number: '1.12.0',
-    tag: '修補性更新',
-    important: '<@&892235277823799367>',
-    description: '1. 大幅改善代碼品質\n2. 修復部分Bug',
+    number: '1.13.0',
+    tag: '功能性更新',
+    important: '@everyone',
+    description: '1. 全面推出音樂系統',
 };

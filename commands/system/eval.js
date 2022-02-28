@@ -1,4 +1,5 @@
 const { codeBlock } = require('@discordjs/builders');
+const os = require('os');
 
 /*
   MESSAGE CLEAN FUNCTION
