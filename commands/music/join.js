@@ -22,7 +22,6 @@ exports.run = async (client, message) => {
     if (player.state.status === 'idle') {
         const data = await music.findOne({});
         if (!data.queue[0]) return message.reply('現在沒有任何歌曲');
-        console.log(`streamURL: ${data.queue[0].url}`);
         await music.updateOne({}, { $pop: { queue: -1 } });
         // eslint-disable-next-line prefer-const
         let stream = await play.stream(data.queue[0].url);
@@ -32,7 +31,7 @@ exports.run = async (client, message) => {
         });
         connection.subscribe(player);
         player.play(resource);
-        client.channels.cache.find(c => c.id === '832219569501241385').send(`現正播放 \`${data.queue[0].title}\``);
+        client.channels.cache.find(c => c.id === '948178858610405426').send(`現正播放 \`${data.queue[0].title}\``);
         await misc.updateOne({ key: 'skip' }, { $set: { value_arr: [] } });
         await misc.updateOne({ key: 'nowplay' }, {
             $set: {

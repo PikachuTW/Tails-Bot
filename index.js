@@ -53,7 +53,7 @@ const init = async () => {
         for (const file of cmds) {
             try {
                 const code = require(`./commands/${folder}/${file}`);
-                logger.log(`CMD ${code.help.name} 已被載入 ✔`, 'log');
+                logger.log(`CMD ${code.help.name} 已被載入 ✅`, 'log');
                 client.container.commands.set(code.help.name, code);
                 code.conf.aliases.forEach(alias => {
                     client.container.aliases.set(alias, code.help.name);
@@ -69,7 +69,7 @@ const init = async () => {
     for (const file of eventFiles) {
         try {
             const eventName = file.split('.')[0];
-            logger.log(`EVENT ${eventName} 已被載入 ✔`, 'log');
+            logger.log(`EVENT ${eventName} 已被載入 ✅`, 'log');
             const event = require(`./events/${file}`);
             client.on(eventName, event.bind(null, client));
         }
@@ -81,7 +81,6 @@ const init = async () => {
     client.on('threadCreate', (thread) => thread.join());
 
     player.on('stateChange', async (oldState, newState) => {
-        console.log(`${oldState.status} => ${newState.status}`);
         const connection = getVoiceConnection('828450904990154802');
         if (newState.status == 'idle' && connection._state.status == 'ready') {
             const data = await music.findOne({});
@@ -96,7 +95,7 @@ const init = async () => {
             });
             connection.subscribe(player);
             player.play(resource);
-            client.channels.cache.find(c => c.id === '832219569501241385').send(`現正播放 \`${data.queue[0].title}\``);
+            client.channels.cache.find(c => c.id === '948178858610405426').send(`現正播放 \`${data.queue[0].title}\``);
             await misc.updateOne({ key: 'nowplay' }, {
                 $set: {
                     value_object: data.queue[0],

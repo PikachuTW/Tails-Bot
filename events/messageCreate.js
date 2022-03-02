@@ -60,7 +60,7 @@ module.exports = async (client, message) => {
         }
     }
 
-    if (['832219569501241385', '832219589046829086', '859245756737388544'].indexOf(message.channel.id) != -1 || message.author.id == '650604337000742934') {
+    if (['948178858610405426', '832219589046829086', '859245756737388544'].indexOf(message.channel.id) != -1 || message.author.id == '650604337000742934') {
         let levelData = await level.findOne({ 'discordid': message.author.id });
         if (!levelData) {
             levelData = await level.create({
