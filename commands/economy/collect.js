@@ -90,7 +90,7 @@ exports.run = async (client, message) => {
             .setColor('#ffae00')
             .setTitle(`${message.author.tag} 的Tails幣投資系統出資!`)
             .setDescription(`已經出資 \`${giveamount} x ${benefitsdata.investMulti[totemdata.investMulti]} x 2\` Tails幣`)
-            .setThumbnail(message.author.displayAvatarURL({ format: 'png' }))
+            .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true }))
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
         message.reply({ embeds: [exampleEmbed] });
@@ -102,7 +102,7 @@ exports.run = async (client, message) => {
             .setColor('#ffae00')
             .setTitle(`${message.author.tag} 的Tails幣投資系統出資!`)
             .setDescription(`已經出資 \`${giveamount} x ${benefitsdata.investMulti[totemdata.investMulti]}\` Tails幣`)
-            .setThumbnail(message.author.displayAvatarURL({ format: 'png' }))
+            .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true }))
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
         message.reply({ embeds: [exampleEmbed] });

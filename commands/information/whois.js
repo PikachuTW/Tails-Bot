@@ -42,12 +42,12 @@ exports.run = async (client, message, args) => {
 
     if (!mee6data) {
         const exampleEmbed = new MessageEmbed()
-            .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png' }) })
+            .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
             .setDescription(`<@${target.id}>`)
-            .setThumbnail(target.displayAvatarURL({ format: 'png' }))
+            .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
             .addField('加入日期', `\`\`\`${target.joinedAt.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}\`\`\``, true)
             .addField('創建日期', `\`\`\`${target.user.createdAt.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}\`\`\``, true)
-        // .addField('\u200B', '\u200B', true)
+            // .addField('\u200B', '\u200B', true)
             .addField('林天天幣', `\`\`\`${lttdata}\`\`\``, true)
             .addField('林天天幣排名', `\`\`\`${unbdata.rank}\`\`\``, true)
             .addField('Tails幣', `\`\`\`${tcdata}\`\`\``, true)
@@ -61,12 +61,12 @@ exports.run = async (client, message, args) => {
 
 
     const exampleEmbed = new MessageEmbed()
-        .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png' }) })
+        .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
         .setDescription(`<@${target.id}>`)
-        .setThumbnail(target.displayAvatarURL({ format: 'png' }))
+        .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
         .addField('加入日期', `\`\`\`${target.joinedAt.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}\`\`\``, true)
         .addField('創建日期', `\`\`\`${target.user.createdAt.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}\`\`\``, true)
-    // .addField('\u200B', '\u200B', true)
+        // .addField('\u200B', '\u200B', true)
         .addField('Mee6等級', `\`\`\`${mee6data.level}\`\`\``, true)
         .addField('Mee6總Xp數', `\`\`\`${mee6data.xp.totalXp}\`\`\``, true)
         .addField('Mee6排名', `\`\`\`${mee6data.rank}\`\`\``, true)

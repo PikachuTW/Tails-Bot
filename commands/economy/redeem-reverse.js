@@ -29,7 +29,7 @@ exports.run = async (client, message, args) => {
     if (data.tails_credit < reamount) {
         const notenoughEmbed = new MessageEmbed()
             .setColor('#ffae00')
-            .setDescription(`你的金額似乎不足，你需要 \`${reamount}\` Tails幣才能兌換 \`${new Intl.NumberFormat('en-US').format(reamount * 10000000)}\` 枚Tails幣`);
+            .setDescription(`你的金額似乎不足，你需要 \`${reamount}\` Tails幣才能兌換 \`${new Intl.NumberFormat('en-US').format(reamount * 10000000)}\` 枚林天天幣`);
         message.reply({ embeds: [notenoughEmbed] });
         return;
     }

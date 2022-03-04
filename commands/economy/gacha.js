@@ -97,7 +97,7 @@ exports.run = async (client, message, args) => {
         .addField('指令花費金額', `\`${a_res[2]}\``, true)
         .addField('贈與金錢稅金', `\`${a_res[3]}\``, true)
         .addField('雙倍金額機會', `\`${a_res[4]}\``, true)
-        .setThumbnail(message.author.displayAvatarURL({ format: 'png' }))
+        .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true }))
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     message.reply({ embeds: [newEmbed] });

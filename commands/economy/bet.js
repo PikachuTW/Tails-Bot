@@ -66,7 +66,7 @@ exports.run = async (client, message) => {
             .setColor('#ffae00')
             .setTitle(`${message.author.tag} 的Tails幣賭博結果`)
             .setDescription(`花了 \`5\` 得到 \`${give}\`\n餘額由 \`${before}\` 變為 \`${before - 5 + give}\``)
-            .setThumbnail(message.author.displayAvatarURL({ format: 'png' }))
+            .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true }))
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
         message.reply({ embeds: [exampleEmbed] });

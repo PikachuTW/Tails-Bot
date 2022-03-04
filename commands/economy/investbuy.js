@@ -76,7 +76,7 @@ exports.run = async (client, message, args) => {
         .setColor('#ffae00')
         .setTitle(`${message.author.tag} 購買了新的投資!`)
         .setDescription(`價錢${price[parseInt(args[0]) - 1]} 出資${payout[parseInt(args[0]) - 1]} 已被購買!`)
-        .setThumbnail(message.author.displayAvatarURL({ format: 'png' }))
+        .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true }))
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     message.reply({ embeds: [exampleEmbed] });

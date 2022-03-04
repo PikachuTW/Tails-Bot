@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
                 new MessageEmbed()
                     .setColor('#ffae00')
                     .setTitle(`${target.user.tag} 的訊息資料`)
-                    .setThumbnail(target.displayAvatarURL({ format: 'png' }))
+                    .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
                     .addFields([
                         { name: '今日訊息量', value: '`0`', inline: true },
                         { name: '兩日訊息量', value: '`0`', inline: true },
@@ -131,7 +131,7 @@ exports.run = async (client, message, args) => {
                 new MessageEmbed()
                     .setColor('#ffae00')
                     .setTitle(`${target.user.tag} 的訊息資料`)
-                    .setThumbnail(target.displayAvatarURL({ format: 'png' }))
+                    .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
                     .addFields([
                         { name: '今日訊息量', value: `\`${today}\``, inline: true },
                         { name: '兩日訊息量', value: `\`${s_active}\``, inline: true },

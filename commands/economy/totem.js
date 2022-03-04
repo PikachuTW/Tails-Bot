@@ -41,7 +41,7 @@ exports.run = async (client, message, args) => {
         .addField('指令花費金額', `\`${benefitsdisplay.commandCost[data.commandCost]}\``, true)
         .addField('贈與金錢稅金', `\`${benefitsdisplay.giveTax[data.giveTax]}\``, true)
         .addField('雙倍金額機會', `\`${benefitsdisplay.doubleChance[data.doubleChance]}\``, true)
-        .setThumbnail(target.displayAvatarURL({ format: 'png' }))
+        .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     message.reply({ embeds: [exampleEmbed] });

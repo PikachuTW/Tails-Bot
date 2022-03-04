@@ -30,7 +30,7 @@ exports.run = async (client, message, args) => {
 
     const warningembed = new MessageEmbed()
         .setColor('#ffae00')
-        .setAuthor({ name: `${target.user.tag} 目前有 ${warntotal.length} 則警告`, iconURL: target.displayAvatarURL({ format: 'png' }) })
+        .setAuthor({ name: `${target.user.tag} 目前有 ${warntotal.length} 則警告`, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     for (let i = 0; i < warnres.length; i++) {

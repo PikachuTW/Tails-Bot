@@ -16,7 +16,7 @@ module.exports = async (client, oldMessage, newMessage) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setAuthor({ name: newMessage.author.tag, iconURL: newMessage.author.displayAvatarURL({ format: 'png' }), url: newMessage.url })
+                .setAuthor({ name: newMessage.author.tag, iconURL: newMessage.member.displayAvatarURL({ format: 'png', dynamic: true }), url: newMessage.url })
                 .addField('修改前', oldMessage.content || '`空`')
                 .addField('修改後', newMessage.content || '`空`')
                 .setImage(oldMessage.attachments.first() ? oldMessage.attachments.first().proxyURL : null)

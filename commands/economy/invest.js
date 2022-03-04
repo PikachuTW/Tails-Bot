@@ -61,7 +61,7 @@ exports.run = async (client, message, args) => {
         .setColor('#ffae00')
         .setTitle(`${target.user.tag} 的Tails幣投資系統狀態`)
         .setDescription(re)
-        .setThumbnail(target.displayAvatarURL({ format: 'png' }))
+        .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     message.reply({ embeds: [exampleEmbed] });

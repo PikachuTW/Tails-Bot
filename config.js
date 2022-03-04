@@ -109,18 +109,18 @@ const config = {
             },
         },
 
-        // {
-        //     level: 7,
-        //     name: 'Dodo',
-        //     check: (message) => {
-        //         try {
-        //             if (message.member.roles.cache.has('886670168594477106')) return true;
-        //         }
-        //         catch (e) {
-        //             return false;
-        //         }
-        //     },
-        // },
+        {
+            level: 7,
+            name: 'kanmingli',
+            check: (message) => {
+                try {
+                    if (message.member.roles.cache.has('886670168594477106')) return true;
+                }
+                catch (e) {
+                    return false;
+                }
+            },
+        },
 
         {
             level: 9,
