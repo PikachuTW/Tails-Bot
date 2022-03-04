@@ -27,7 +27,6 @@ exports.conf = {
 
 exports.help = {
     name: 'verify',
-    category: '資訊',
     description: '驗證',
     usage: 'verify',
 };

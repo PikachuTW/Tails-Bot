@@ -22,7 +22,6 @@ exports.conf = {
 
 exports.help = {
     name: 'reload',
-    category: '系統',
     description: '重新載入命令',
     usage: 'reload [command]',
 };

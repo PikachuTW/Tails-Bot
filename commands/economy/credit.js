@@ -40,7 +40,6 @@ exports.conf = {
 
 exports.help = {
     name: 'credit',
-    category: 'Tails幣',
     description: '查看你的Tails幣餘額',
     usage: 'credit',
 };

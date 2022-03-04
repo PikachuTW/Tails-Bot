@@ -15,7 +15,6 @@ exports.conf = {
 
 exports.help = {
     name: 'avatar',
-    category: '資訊',
     description: '獲取你的頭像',
     usage: 'avatar',
 };

@@ -14,7 +14,6 @@ exports.conf = {
 
 exports.help = {
     name: 'sync',
-    category: '系統',
     description: '同步成員計數',
     usage: 'sync',
 };

@@ -56,7 +56,6 @@ exports.conf = {
 
 exports.help = {
     name: 'totem',
-    category: 'Tails幣',
     description: '查看你的Totem',
     usage: 'totem',
 };

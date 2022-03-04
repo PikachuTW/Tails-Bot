@@ -32,7 +32,6 @@ exports.conf = {
 
 exports.help = {
     name: 'queue',
-    category: '音樂',
     description: '查看目前播放清單',
     usage: 'queue',
 };

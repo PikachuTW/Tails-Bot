@@ -88,7 +88,6 @@ exports.conf = {
 
 exports.help = {
     name: 'play',
-    category: '音樂',
     description: '播放音樂',
     usage: 'play',
 };

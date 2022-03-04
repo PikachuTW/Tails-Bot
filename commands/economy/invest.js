@@ -76,7 +76,6 @@ exports.conf = {
 
 exports.help = {
     name: 'invest',
-    category: 'Tails幣',
     description: '查看你的資金投資列表',
     usage: 'invest',
 };

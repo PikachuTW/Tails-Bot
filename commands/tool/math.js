@@ -15,7 +15,6 @@ exports.conf = {
 
 exports.help = {
     name: 'math',
-    category: '工具',
     description: '計算',
     usage: 'math',
 };

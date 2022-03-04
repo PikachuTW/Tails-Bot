@@ -22,7 +22,6 @@ exports.conf = {
 
 exports.help = {
     name: 'rolelist',
-    category: '資訊',
     description: '身分組中成員列表',
     usage: 'rolelist [身分組id]',
 };

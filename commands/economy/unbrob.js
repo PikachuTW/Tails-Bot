@@ -77,7 +77,6 @@ exports.conf = {
 
 exports.help = {
     name: 'unbrob',
-    category: '工具',
     description: '偷他人的林天天幣',
     usage: 'unbrob',
 };

@@ -42,7 +42,6 @@ exports.conf = {
 
 exports.help = {
     name: 'activeleaderboard',
-    category: '訊息',
     description: '三日訊息量排行榜',
     usage: 'activeleaderboard',
 };

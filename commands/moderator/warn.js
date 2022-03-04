@@ -46,7 +46,6 @@ exports.conf = {
 
 exports.help = {
     name: 'warn',
-    category: '管理',
     description: '警告成員',
     usage: 'warn',
 };

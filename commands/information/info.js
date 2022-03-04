@@ -35,7 +35,6 @@ exports.conf = {
 
 exports.help = {
     name: 'info',
-    category: '資訊',
     description: '回傳機器人數據',
     usage: 'info',
 };

@@ -50,7 +50,6 @@ exports.conf = {
 
 exports.help = {
     name: 'join',
-    category: '音樂',
     description: '加入語音頻道',
     usage: 'join',
 };

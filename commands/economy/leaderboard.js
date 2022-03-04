@@ -30,7 +30,6 @@ exports.conf = {
 
 exports.help = {
     name: 'leaderboard',
-    category: 'Tails幣',
     description: 'Tails幣排行榜',
     usage: 'leaderboard',
 };

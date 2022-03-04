@@ -33,7 +33,6 @@ exports.conf = {
 
 exports.help = {
     name: 'warningsleaderboard',
-    category: '管理',
     description: '警告排行榜',
     usage: 'warningsleaderboard',
 };

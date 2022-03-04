@@ -118,7 +118,6 @@ exports.conf = {
 
 exports.help = {
     name: 'collect',
-    category: 'Tails幣',
     description: '領取Tails幣資金',
     usage: 'collect',
 };

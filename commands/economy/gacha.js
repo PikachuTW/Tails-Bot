@@ -164,7 +164,6 @@ exports.conf = {
 
 exports.help = {
     name: 'gacha',
-    category: 'Tails幣',
     description: '購買Totem',
     usage: 'gacha',
 };

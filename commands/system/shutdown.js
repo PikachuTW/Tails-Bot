@@ -12,7 +12,6 @@ exports.conf = {
 
 exports.help = {
     name: 'shutdown',
-    category: '系統',
     description: '關閉機器人',
     usage: 'shutdown',
 };

@@ -63,7 +63,6 @@ exports.conf = {
 
 exports.help = {
     name: 'role',
-    category: '管理',
     description: '給予成員身分組',
     usage: 'role',
 };

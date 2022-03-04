@@ -44,7 +44,6 @@ exports.conf = {
 
 exports.help = {
     name: 'eval',
-    category: '系統',
     description: '執行任何 javascript 程式碼',
     usage: 'eval [...code]',
 };

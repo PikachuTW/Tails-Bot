@@ -66,7 +66,6 @@ exports.conf = {
 
 exports.help = {
     name: 'ban',
-    category: '管理',
     description: '禁止成員',
     usage: 'ban <@成員> <原因>',
 };

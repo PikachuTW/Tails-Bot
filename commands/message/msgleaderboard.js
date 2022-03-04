@@ -86,7 +86,6 @@ exports.conf = {
 
 exports.help = {
     name: 'msgleaderboard',
-    category: '訊息',
     description: '總訊息量排行榜',
     usage: 'msgleaderboard',
 };

@@ -91,7 +91,6 @@ exports.conf = {
 
 exports.help = {
     name: 'whois',
-    category: '資訊',
     description: '獲取成員的數據',
     usage: 'whois',
 };

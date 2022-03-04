@@ -53,7 +53,6 @@ exports.conf = {
 
 exports.help = {
     name: 'rolelist2',
-    category: '資訊',
     description: '兩個身分組中共同成員列表',
     usage: 'rolelist2 [身分組id1] [身分組id2]',
 };

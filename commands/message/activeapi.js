@@ -157,7 +157,6 @@ exports.conf = {
 
 exports.help = {
     name: 'activeapi',
-    category: '訊息',
     description: '獲取你的訊息量',
     usage: 'activeapi',
 };

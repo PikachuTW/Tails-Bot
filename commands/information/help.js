@@ -39,7 +39,6 @@ exports.conf = {
 
 exports.help = {
     name: 'help',
-    category: '資訊',
     description: '顯示所有指令列表',
     usage: 'help',
 };

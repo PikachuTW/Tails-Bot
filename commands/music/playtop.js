@@ -77,7 +77,6 @@ exports.conf = {
 
 exports.help = {
     name: 'playtop',
-    category: '音樂',
     description: '播放音樂',
     usage: 'playtop',
 };

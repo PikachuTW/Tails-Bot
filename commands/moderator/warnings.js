@@ -49,7 +49,6 @@ exports.conf = {
 
 exports.help = {
     name: 'warnings',
-    category: '管理',
     description: '查看成員的警告',
     usage: 'warnings',
 };

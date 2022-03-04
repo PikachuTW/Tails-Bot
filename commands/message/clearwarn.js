@@ -30,7 +30,6 @@ exports.conf = {
 
 exports.help = {
     name: 'clearwarn',
-    category: '管理',
     description: '清除成員的警告',
     usage: 'clearwarn',
 };

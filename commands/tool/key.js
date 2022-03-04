@@ -14,7 +14,6 @@ exports.conf = {
 
 exports.help = {
     name: 'key',
-    category: '資訊',
     description: '獲取你的Key',
     usage: 'key',
 };

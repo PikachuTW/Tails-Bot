@@ -50,7 +50,6 @@ exports.conf = {
 
 exports.help = {
     name: 'kick',
-    category: '管理',
     description: '踢出成員',
     usage: 'kick <@成員> <原因>',
 };

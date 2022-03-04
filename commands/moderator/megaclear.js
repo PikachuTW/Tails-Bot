@@ -18,7 +18,6 @@ exports.conf = {
 
 exports.help = {
     name: 'megaclear',
-    category: '管理',
     description: '屏蔽許多訊息',
     usage: 'clear',
 };

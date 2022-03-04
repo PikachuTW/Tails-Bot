@@ -39,7 +39,6 @@ exports.conf = {
 
 exports.help = {
     name: 'skip',
-    category: '音樂',
     description: '跳過音樂',
     usage: 'skip',
 };

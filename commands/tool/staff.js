@@ -27,7 +27,6 @@ exports.conf = {
 
 exports.help = {
     name: 'staff',
-    category: '資訊',
     description: '回傳管理人員階級列表',
     usage: 'staff',
 };

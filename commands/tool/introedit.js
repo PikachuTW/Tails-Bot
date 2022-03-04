@@ -43,7 +43,6 @@ exports.conf = {
 
 exports.help = {
     name: 'introedit',
-    category: '資訊',
     description: '修改你的個人資料',
     usage: 'introedit',
 };

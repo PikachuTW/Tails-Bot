@@ -14,7 +14,6 @@ exports.conf = {
 
 exports.help = {
     name: 'ping',
-    category: '系統',
     description: '傳送延遲值',
     usage: 'ping',
 };

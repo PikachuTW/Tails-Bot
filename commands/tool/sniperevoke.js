@@ -62,7 +62,6 @@ exports.conf = {
 
 exports.help = {
     name: 'sniperevoke',
-    category: '訊息',
     description: '屏蔽Snipe訊息',
     usage: 'sniperevoke',
 };

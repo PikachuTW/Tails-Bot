@@ -13,7 +13,6 @@ exports.conf = {
 
 exports.help = {
     name: 'send',
-    category: '訊息',
     description: '傳送任何訊息',
     usage: 'send',
 };

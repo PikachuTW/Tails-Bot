@@ -16,7 +16,6 @@ exports.conf = {
 
 exports.help = {
     name: 'permlevel',
-    category: '資訊',
     description: '回傳你目前的權限等級',
     usage: 'permlevel',
 };

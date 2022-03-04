@@ -19,7 +19,6 @@ exports.conf = {
 
 exports.help = {
     name: 'youtube',
-    category: '資訊',
     description: '觀看Youtube影片',
     usage: 'youtube',
 };

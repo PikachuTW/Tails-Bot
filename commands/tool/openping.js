@@ -15,7 +15,6 @@ exports.conf = {
 
 exports.help = {
     name: 'openping',
-    category: '管理',
     description: '開啟小粉紅提及權限',
     usage: 'openping',
 };

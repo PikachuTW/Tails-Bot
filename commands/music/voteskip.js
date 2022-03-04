@@ -49,7 +49,6 @@ exports.conf = {
 
 exports.help = {
     name: 'voteskip',
-    category: '音樂',
     description: '投票跳過音樂',
     usage: 'voteskip',
 };
