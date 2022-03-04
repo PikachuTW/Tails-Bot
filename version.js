@@ -1,6 +1,6 @@
 module.exports = {
-    number: '1.13.0',
+    number: '1.13.2',
     tag: '功能性更新',
-    important: '@everyone',
-    description: '1. 全面推出音樂系統',
+    important: '<@&892235277823799367>',
+    description: '1. 重新製作新 t!help 指令',
 };

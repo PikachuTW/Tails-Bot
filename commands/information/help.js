@@ -1,23 +1,46 @@
 const { codeBlock } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { permlevel } = require('../../modules/functions.js');
+const logger = require('../../modules/Logger.js');
+const { readdirSync } = require('fs');
 
 exports.run = async (client, message, args) => {
     const level = permlevel(message);
     const { container } = client;
 
     if (!args[0]) {
+
+        const list = new Map([
+            ['economy', '經濟'],
+            ['information', '資訊'],
+            ['message', '訊息'],
+            ['moderator', '管理'],
+            ['music', '音樂'],
+            ['system', '系統'],
+            ['tool', '工具'],
+        ]);
+
         const exampleEmbed = new MessageEmbed()
             .setColor('#ffae00')
             .setTitle('指令列表')
             .setThumbnail('https://i.imgur.com/MTWQbeh.png')
-            .addField('**管理**', '`t!mute` `t!unmute` `t!kick` `t!ban` `t!softban` `t!demote` `t!nickname` `t!openping` `t!lockping` `t!clear` `t!warn` `t!warnings` `t!role` `t!megaclear`')
-            .addField('系統', '`t!eval` `t!reload` `t!shutdown` `t!sync`')
-            .addField('訊息', '`t!send` `t!snipe` `t!rsnipe` `t!rank` `t!msglb` `t!activelb`')
-            .addField('工具', '`t!tw` `t!hk` `t!rob` `t!math`')
-            .addField('Tails幣', '`t!bal` `t!add` `t!bet` `t!give` `t!invest` `t!collect` `t!buy` `t!lb` `t!redeem` `t!redeem-reverse` `t!totem` `t!gacha`')
-            .addField('資訊', '`t!help` `t!key` `t!permlevel` `t!rolelist` `t!rolelist2` `t!youtube` `t!verify` `t!whois` `t!introedit` `t!staff` `t!ping`')
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
+
+        const folders = readdirSync('./commands/');
+        for (const folder of folders) {
+            const cmds = readdirSync(`./commands/${folder}/`).filter(file => file.endsWith('.js'));
+            let res = '';
+            for (const file of cmds) {
+                try {
+                    const code = require(`../${folder}/${file}`);
+                    res += `\`t!${code.help.name}\` `;
+                }
+                catch (error) {
+                    logger.log(`${error}`, 'error');
+                }
+            }
+            exampleEmbed.addField(`${list.get(folder)}`, res);
+        }
         message.reply({ embeds: [exampleEmbed] });
     }
     else {
