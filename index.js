@@ -11,6 +11,7 @@ const { createAudioPlayer, NoSubscriberBehavior, createAudioResource, getVoiceCo
 const music = require('./models/music.js');
 const misc = require('./models/misc.js');
 const play = require('play-dl');
+const functions = require('./modules/functions.js');
 
 const commands = new Collection();
 const aliases = new Collection();
@@ -44,6 +45,8 @@ client.container = {
     levelCache,
     player,
 };
+
+client.fn = functions;
 
 const init = async () => {
 

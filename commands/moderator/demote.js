@@ -4,7 +4,7 @@ exports.run = async (client, message, args) => {
 
     if (!message.member.roles.cache.has('856377783163944970') && message.author.id != '650604337000742934') return message.reply('你不能使用demote!! :joy:');
 
-    const target = targetGet(message, args[0]);
+    const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
     if (message.member.roles.highest.comparePositionTo(target.roles.highest) <= 0) return message.reply('你身分組並沒有比他高 :weary:');
 

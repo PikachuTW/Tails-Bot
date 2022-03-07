@@ -1,17 +1,18 @@
-const { cyan, red, magenta, gray, yellow, white, green } = require('colorette');
+/* eslint-disable indent */
 const moment = require('moment-timezone');
 
 exports.log = (content, type = 'log') => {
-    const timestamp = `[${cyan(moment().tz('Asia/Taipei').format('YYYY-MM-DD HH:mm:ss'))}]:`;
+    const timestamp = `[${moment().tz('Asia/Taipei').format('YYYY-MM-DD HH:mm:ss')}]:`;
 
     switch (type) {
-    case 'log': return console.log(`${timestamp} ${gray(type.toUpperCase())} ${content} `);
-    case 'warn': return console.log(`${timestamp} ${yellow(type.toUpperCase())} ${content} `);
-    case 'error': return console.log(`${timestamp} ${red(type.toUpperCase())} ${content} `);
-    case 'debug': return console.log(`${timestamp} ${magenta(type.toUpperCase())} ${content} `);
-    case 'cmd': return console.log(`${timestamp} ${white(type.toUpperCase())} ${content}`);
-    case 'ready': return console.log(`${timestamp} ${green(type.toUpperCase())} ${content}`);
-    default: throw new TypeError('Logger type must be either warn, debug, log, ready, cmd or error.');
+        case 'log': return console.log(`${timestamp} LOG ${content} `);
+        case 'warn': return console.log(`${timestamp} WARN ${content} `);
+        case 'error': return console.log(`${timestamp} ERROR ${content} `);
+        case 'debug': return console.log(`${timestamp} DEBUG ${content} `);
+        case 'cmd': return console.log(`${timestamp} CMD ${content}`);
+        case 'ready': return console.log(`${timestamp} READY ${content}`);
+        case 'eval': return console.log(`${timestamp} EVAL ${content}`);
+        default: throw new TypeError('Logger type must be either warn, debug, log, ready, cmd or error.');
     }
 };
 

@@ -4,7 +4,7 @@ const { MessageEmbed, MessageAttachment } = require('discord.js');
 const QuickChart = require('quickchart-js');
 
 exports.run = async (client, message, args) => {
-    const target = targetGet(message, args[0]) || message.member;
+    const target = targetGet(message, args) || message.member;
 
     let today, s_active, active, week, total;
 

@@ -3,7 +3,7 @@ const credit = require('../../models/credit.js');
 const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
-    const target = targetGet(message, args[0]);
+    const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
 
     const amount = parseInt(args[1]);

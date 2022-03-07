@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = async (client, oldMessage, newMessage) => {
     if (newMessage.guildId !== '828450904990154802') return;
-    if (!newMessage.author) return;
+    if (!newMessage.member) return;
 
     const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite'];
 

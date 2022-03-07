@@ -56,7 +56,8 @@
       }
     ],
     "no-console": "off",
-    "no-empty-function": "warn",
+    "no-empty-function": "off",
+    "no-empty": "off",
     "no-floating-decimal": "warn",
     "no-inline-comments": "warn",
     "no-lonely-if": "warn",

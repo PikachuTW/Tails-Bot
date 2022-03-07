@@ -3,7 +3,7 @@ const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
 
-    const target = targetGet(message, args[0]);
+    const target = targetGet(message, args);
 
     const reason = args.slice(1).join(' ');
     if (!reason) return message.reply('請提供禁止的原因');

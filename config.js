@@ -4,10 +4,6 @@ const config = {
         prefix: 't!',
     },
 
-    whitelist: {
-        leader: ['650604337000742934', '831915586555740181', '886967562867449856'],
-    },
-
     benefitsdisplay: {
         cooldownReduce: ['無', '-30s', '-1min', '-1min 40s', '-2min 30s', '-3min 30s', '-5min', '-6min'],
         investMulti: ['無', 'x1.1', 'x1.2', 'x1.4', 'x1.75', 'x2', 'x2.5', 'x3'],
@@ -34,9 +30,9 @@ const config = {
         {
             level: 1,
             name: 'Staff',
-            check: (message) => {
+            check: (member) => {
                 try {
-                    if (message.member.roles.cache.has('832213672695693312')) return true;
+                    if (member.roles.cache.has('832213672695693312')) return true;
                 }
                 catch (e) {
                     return false;
@@ -47,9 +43,9 @@ const config = {
         {
             level: 2,
             name: 'Mod',
-            check: (message) => {
+            check: (member) => {
                 try {
-                    if (message.member.roles.cache.has('854959385901531137')) return true;
+                    if (member.roles.cache.has('854959385901531137')) return true;
                 }
                 catch (e) {
                     return false;
@@ -60,9 +56,9 @@ const config = {
         {
             level: 3,
             name: 'Admin',
-            check: (message) => {
+            check: (member) => {
                 try {
-                    if (message.member.roles.cache.has('856377783163944970')) return true;
+                    if (member.roles.cache.has('856377783163944970')) return true;
                 }
                 catch (e) {
                     return false;
@@ -73,9 +69,9 @@ const config = {
         {
             level: 4,
             name: 'Co-Owner',
-            check: (message) => {
+            check: (member) => {
                 try {
-                    if (message.member.roles.cache.has('854957401362268162')) return true;
+                    if (member.roles.cache.has('854957401362268162')) return true;
                 }
                 catch (e) {
                     return false;
@@ -86,9 +82,9 @@ const config = {
         {
             level: 5,
             name: 'Leader',
-            check: (message) => {
+            check: (member) => {
                 try {
-                    if (message.member.roles.cache.has('926781326202388480')) return true;
+                    if (member.roles.cache.has('926781326202388480')) return true;
                 }
                 catch (e) {
                     return false;
@@ -99,9 +95,9 @@ const config = {
         {
             level: 6,
             name: 'Owner',
-            check: (message) => {
+            check: (member) => {
                 try {
-                    if (message.member.roles.cache.has('870741338960830544')) return true;
+                    if (member.roles.cache.has('870741338960830544')) return true;
                 }
                 catch (e) {
                     return false;
@@ -112,9 +108,9 @@ const config = {
         {
             level: 7,
             name: 'kanmingli',
-            check: (message) => {
+            check: (member) => {
                 try {
-                    if (message.member.roles.cache.has('886670168594477106')) return true;
+                    if (member.roles.cache.has('886670168594477106')) return true;
                 }
                 catch (e) {
                     return false;
@@ -125,13 +121,13 @@ const config = {
         {
             level: 9,
             name: 'Xi',
-            check: (message) => message.author.id === '839123456523763784' || message.author.id === '917380616725594132',
+            check: (member) => member.id === '839123456523763784' || member.id === '917380616725594132',
         },
 
         {
             level: 10,
             name: 'Tails',
-            check: (message) => message.author.id === '650604337000742934',
+            check: (member) => member.id === '650604337000742934',
         },
     ],
 };

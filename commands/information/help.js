@@ -5,7 +5,7 @@ const logger = require('../../modules/Logger.js');
 const { readdirSync } = require('fs');
 
 exports.run = async (client, message, args) => {
-    const level = permlevel(message);
+    const level = permlevel(message.member);
     const { container } = client;
 
     if (!args[0]) {

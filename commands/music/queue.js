@@ -6,7 +6,13 @@ exports.run = async (client, message) => {
     let res = '';
     const np = await misc.findOne({ key: 'nowplay' });
     const q = await music.findOne({});
-    res += `\`now\` [${np.value_object.title}](${np.value_object.url}) | ${np.value_object.duration} ${client.users.cache.find(u => u.id === np.value_object.requestBy).tag}\n`;
+    if (client.container.player.state.status == 'idle') {
+        res += '`now` 沒有正在播放的歌曲'
+    }
+    else {
+        res += `\`now\` [${np.value_object.title}](${np.value_object.url}) | ${np.value_object.duration} ${client.users.cache.find(u => u.id === np.value_object.requestBy).tag}\n`;
+    }
+
     const len = q.queue.length < 9 ? q.queue.length : 9;
     for (let i = 0; i < len; i++) {
         res += `\`${i + 1}\` [${q.queue[i].title}](${q.queue[i].url}) | ${q.queue[i].duration} ${client.users.cache.find(u => u.id === q.queue[i].requestBy).tag}\n`;

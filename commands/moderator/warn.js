@@ -28,13 +28,16 @@ exports.run = async (client, message, args) => {
         ],
     });
 
-    target.send({
-        embeds: [
-            new MessageEmbed()
-                .setColor('#ffae00')
-                .setDescription(`**你被 ${message.author.tag} 警告了，原因: ${reason}**`),
-        ],
-    });
+    try {
+        target.send({
+            embeds: [
+                new MessageEmbed()
+                    .setColor('#ffae00')
+                    .setDescription(`**你被 ${message.author.tag} 警告了，原因: ${reason}**`),
+            ],
+        });
+    }
+    catch { }
 };
 
 exports.conf = {

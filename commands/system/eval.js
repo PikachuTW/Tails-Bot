@@ -1,14 +1,6 @@
 const { codeBlock } = require('@discordjs/builders');
-const os = require('os');
+const logger = require('../../modules/Logger.js');
 
-/*
-  MESSAGE CLEAN FUNCTION
-
-  "Clean" removes @everyone pings, as well as tokens, and makes code blocks
-  escaped so they're shown more easily. As a bonus it resolves promises
-  and stringifies objects!
-  This is mostly only used by the Eval and Exec commands.
-*/
 async function clean(client, text) {
     if (text && text.constructor.name == 'Promise') { text = await text; }
     if (typeof text !== 'string') { text = require('util').inspect(text, { depth: 1 }); }
@@ -29,9 +21,11 @@ exports.run = async (client, message, args) => {
         const cleaned = await clean(client, evaled);
         if (cleaned.startsWith('<ref *1>')) return;
         message.channel.send(codeBlock('js', cleaned));
+        logger.log(`${cleaned}`, 'eval');
     }
     catch (err) {
         message.channel.send(codeBlock('js', err));
+        logger.log(`${err}`, 'error');
     }
 };
 

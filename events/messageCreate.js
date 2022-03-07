@@ -30,7 +30,7 @@ module.exports = async (client, message) => {
     if (message.content.toLowerCase().startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
-        const permlevelGet = permlevel(message);
+        const permlevelGet = permlevel(message.member);
         const cmd = container.commands.get(command) || container.commands.get(container.aliases.get(command));
         if (!cmd) return;
         if (!cmd.conf.enabled) return;

@@ -1,14 +1,13 @@
 const config = require('../config.js');
-const { whitelist } = require('../config.js');
 
-function permlevel(message) {
+function permlevel(target) {
     let permlvl = 0;
 
     const permOrder = config.permLevels.slice(0).sort((p, c) => p.level < c.level ? 1 : -1);
 
     while (permOrder.length) {
         const currentLevel = permOrder.shift();
-        if (currentLevel.check(message)) {
+        if (currentLevel.check(target)) {
             permlvl = currentLevel.level;
             break;
         }
@@ -16,17 +15,8 @@ function permlevel(message) {
     return permlvl;
 }
 
-function leaderCheck(target) {
-    if (whitelist.leader.indexOf(target.id) != -1) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-function targetGet(message, arg) {
-    return message.mentions.members.first() || message.guild.members.cache.find(member => member.id === arg);
+function targetGet(message, args) {
+    return message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
 }
 
 // async function awaitReply(message, question, limit = 60000) {
@@ -73,4 +63,4 @@ function targetGet(message, arg) {
 // });
 
 
-module.exports = { permlevel, leaderCheck, targetGet };
+module.exports = { permlevel, targetGet };
