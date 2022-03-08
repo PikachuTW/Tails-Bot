@@ -33,11 +33,9 @@ module.exports = async (client, message) => {
         const permlevelGet = permlevel(message.member);
         const cmd = container.commands.get(command) || container.commands.get(container.aliases.get(command));
         if (!cmd) return;
-        if (!cmd.conf.enabled) return;
         if (permlevelGet < container.levelCache[cmd.conf.permLevel]) {
             return message.channel.send(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${config.permLevels.find(l => l.level === permlevelGet).name})\n你需要權限等級 ${container.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`);
         }
-        message.author.permLevel = permlevelGet;
         try {
             let data = await cooldown.findOne({ discordid: message.author.id });
             if (!data) {

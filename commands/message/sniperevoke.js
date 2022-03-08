@@ -54,8 +54,6 @@ exports.run = async (client, message) => {
 };
 
 exports.conf = {
-    enabled: true,
-    guildOnly: true,
     aliases: ['rs', 'rsnipe', 'sr'],
     permLevel: 'User',
 };

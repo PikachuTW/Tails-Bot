@@ -1,4 +1,3 @@
-const { codeBlock } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { permlevel } = require('../../modules/functions.js');
 const logger = require('../../modules/Logger.js');
@@ -48,14 +47,24 @@ exports.run = async (client, message, args) => {
         if (container.commands.has(command)) {
             command = container.commands.get(command);
             if (level < container.levelCache[command.conf.permLevel]) return;
-            message.channel.send(codeBlock('asciidoc', `= ${command.help.name} = \n${command.help.description}\n用法:: ${command.help.usage}\n別名:: ${command.conf.aliases.join(', ')}`));
+            message.channel.send({
+                embeds: [
+                    new MessageEmbed()
+                        .setTitle(command.help.name)
+                        .setColor('#ffae00')
+                        .setDescription(command.help.description)
+                        .addFields([
+                            { name: '用法', value: command.help.usage ? command.help.usage : '無' },
+                            { name: '別名', value: command.conf.aliases.length > 0 ? command.conf.aliases.join(', ') : '無' },
+                        ])
+                        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+                ],
+            });
         }
     }
 };
 
 exports.conf = {
-    enabled: true,
-    guildOnly: true,
     aliases: ['h'],
     permLevel: 'User',
 };

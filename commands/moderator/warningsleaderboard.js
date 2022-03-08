@@ -25,8 +25,6 @@ exports.run = async (client, message) => {
 };
 
 exports.conf = {
-    enabled: true,
-    guildOnly: true,
     aliases: ['wlb', 'warnlb', 'warningslb'],
     permLevel: 'User',
 };

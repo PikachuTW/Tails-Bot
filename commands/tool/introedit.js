@@ -35,8 +35,6 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    enabled: true,
-    guildOnly: true,
     aliases: ['editintro'],
     permLevel: 'User',
 };

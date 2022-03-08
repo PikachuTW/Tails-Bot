@@ -7,7 +7,7 @@ module.exports = async (client, message) => {
     if (message.guildId != '828450904990154802') return;
     if (!message.author) return;
 
-    const currentdate = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+    const currentdate = new Date(message.createdTimestamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
 
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
@@ -44,7 +44,16 @@ module.exports = async (client, message) => {
         }
         return;
     }
-    if (message.content == 't!rs') return;
+    if (message.content.toLowerCase() == 't!rs') return;
 
-    await snipedata.updateOne({ 'channelid': message.channel.id }, { $set: { 'snipemsg': message.content, 'snipesender': message.author.id, 'snipetime': currentdate, 'snipeatt': message.attachments.first() ? message.attachments.first().proxyURL : null } });
+    await snipedata.updateOne({
+        'channelid': message.channel.id,
+    }, {
+        $set: {
+            'snipemsg': message.content,
+            'snipesender': message.author.id,
+            'snipetime': currentdate,
+            'snipeatt': message.attachments.first() ? message.attachments.first().proxyURL : null,
+        },
+    });
 };

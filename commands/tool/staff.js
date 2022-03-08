@@ -19,8 +19,6 @@ exports.run = async (client, message) => {
 //  && member.roles.cache.find(role => role == Role2) == undefined).map(member => member.user).join(`\n`);
 
 exports.conf = {
-    enabled: true,
-    guildOnly: true,
     aliases: [],
     permLevel: 'Staff',
 };

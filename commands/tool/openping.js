@@ -7,8 +7,6 @@ exports.run = async (client, message) => {
 };
 
 exports.conf = {
-    enabled: true,
-    guildOnly: true,
     aliases: ['op'],
     permLevel: 'Co-Owner',
 };

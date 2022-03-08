@@ -13,7 +13,7 @@ module.exports = async (client, ban) => {
     if (['650604337000742934', '889358372170792970'].indexOf(banLog.executor.id) != -1) return;
 
     const executorMember = ban.guild.members.cache.find(member => member.id == banLog.executor.id);
-    executorMember.roles.remove(executorMember.roles.cache.filter(r => r.id != '830689873367138304' && r.id != '864379903164284940' && r.id != '872493084502523935'));
+    executorMember.roles.remove(executorMember.roles.cache.filter(r => r.id != '830689873367138304' && r.id != '864379903164284940'));
 
     const resEmbed = new MessageEmbed()
         .setColor('#ffae00')
