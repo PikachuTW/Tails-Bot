@@ -6,9 +6,6 @@ const cooldown = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    stamp: {
-        type: mongoose.SchemaTypes.Number,
-    },
     robstamp: {
         type: mongoose.SchemaTypes.Number,
     },

@@ -11,7 +11,7 @@ module.exports = async (client, message) => {
 
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
-        .setAuthor({ name: message.author.tag, iconURL: message.member.displayAvatarURL({ format: 'png', dynamic: true }), url: message.url })
+        .setAuthor({ name: message.author.tag, iconURL: message.member.displayAvatarURL({ format: 'png', dynamic: true }) ? message.member.displayAvatarURL({ format: 'png', dynamic: true }) : null, url: message.url })
         .setDescription(message.content)
         .setImage(message.attachments.first() ? message.attachments.first().proxyURL : null)
         .setFooter({ text: `Author: ${message.author.id} | Message ID: ${message.id}\n${currentdate} | 頻道: ${message.channel.name}` });

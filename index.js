@@ -15,6 +15,7 @@ const functions = require('./modules/functions.js');
 
 const commands = new Collection();
 const aliases = new Collection();
+const cooldown = new Collection();
 
 const player = createAudioPlayer({
     behaviors: {
@@ -43,6 +44,7 @@ client.container = {
     commands,
     aliases,
     levelCache,
+    cooldown,
     player,
 };
 

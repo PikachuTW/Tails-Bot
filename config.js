@@ -81,7 +81,7 @@ const config = {
 
         {
             level: 5,
-            name: 'Leader',
+            name: 'Chief',
             check: (member) => {
                 try {
                     if (member.roles.cache.has('926781326202388480')) return true;
@@ -107,10 +107,10 @@ const config = {
 
         {
             level: 7,
-            name: 'kanmingli',
+            name: 'Top',
             check: (member) => {
                 try {
-                    if (member.roles.cache.has('886670168594477106')) return true;
+                    if (member.roles.cache.has('952197467095572491')) return true;
                 }
                 catch (e) {
                     return false;
@@ -119,13 +119,13 @@ const config = {
         },
 
         {
-            level: 9,
+            level: 8,
             name: 'Xi',
             check: (member) => member.id === '839123456523763784' || member.id === '917380616725594132',
         },
 
         {
-            level: 10,
+            level: 9,
             name: 'Tails',
             check: (member) => member.id === '650604337000742934',
         },
