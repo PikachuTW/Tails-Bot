@@ -1,6 +1,6 @@
 {
   "name": "tails-bot",
-  "version": "1.13.3",
+  "version": "1.13.4",
   "description": "Tails Bot",
   "main": "index.js",
   "dependencies": {
