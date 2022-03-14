@@ -6,9 +6,6 @@ const level = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    timestamp: {
-        type: mongoose.SchemaTypes.Number,
-    },
     daily: {
         type: mongoose.SchemaTypes.Array,
     },

@@ -61,13 +61,13 @@ module.exports = async (client, message) => {
         if (!levelData) {
             levelData = await level.create({
                 discordid: message.author.id,
-                timestamp: 0,
                 daily: [],
             });
         }
+        const stamp = client.container.msgCooldown.get(message.author.id);
         const nowMS = Date.now();
-        if (nowMS - levelData.timetamp < 1000 && message.author.id != '650604337000742934') return;
-        await level.updateOne({ 'discordid': message.author.id }, { $set: { 'timestamp': nowMS } });
+        if (stamp && nowMS - stamp < 1000 && message.author.id != '650604337000742934') return;
+        client.container.msgCooldown.set(message.author.id, nowMS);
         const nowStamp = Math.floor((nowMS + 28800000) / 86400000);
         const check = await levelData.daily.find(d => d.date == nowStamp);
         if (!check) {
@@ -79,12 +79,12 @@ module.exports = async (client, message) => {
         const active = levelData.daily.filter(d => d.date >= nowStamp - 2).map(d => d.count).reduce((a, b) => a + b, 0);
         const s_active = levelData.daily.filter(d => d.date >= nowStamp - 1).map(d => d.count).reduce((a, b) => a + b, 0);
         if (active > 100) {
-            if (!message.member.roles.cache.find(r => r.id == '856808847251734559')) {
+            if (!message.member.roles.cache.get('856808847251734559')) {
                 message.member.roles.add('856808847251734559');
             }
         }
         if (s_active > 300) {
-            if (!message.member.roles.cache.find(r => r.id == '861459068789850172')) {
+            if (!message.member.roles.cache.get('861459068789850172')) {
                 message.member.roles.add('861459068789850172');
             }
         }
