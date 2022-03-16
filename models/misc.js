@@ -18,6 +18,9 @@ const misc = new mongoose.Schema({
     value_object: {
         type: mongoose.SchemaTypes.Mixed,
     },
+    value_map: {
+        type: mongoose.SchemaTypes.Map,
+    },
 });
 
 module.exports = mongoose.model('misc', misc);
