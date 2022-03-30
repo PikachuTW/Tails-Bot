@@ -32,7 +32,7 @@ exports.run = async (client, message) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Top',
+    permLevel: 'Tails',
 };
 
 exports.help = {

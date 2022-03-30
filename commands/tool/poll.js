@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Top',
+    permLevel: 'Tails',
 };
 
 exports.help = {

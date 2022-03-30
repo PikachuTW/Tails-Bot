@@ -17,7 +17,6 @@ exports.run = async (client, message, args) => {
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
         return message.reply({ embeds: [successembed] });
     }
-
     let text = '';
     for (let i = 0; i < res.length; i++) {
         text += `\`${i + 1}\` ${res[i]}\n`;
@@ -56,7 +55,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Xi',
+    permLevel: 'Tails',
 };
 
 exports.help = {

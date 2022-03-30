@@ -10,6 +10,8 @@ exports.run = async (client, message, args) => {
     if (!target) return message.reply('請給予目標!');
     if (!amount) return message.reply('請給予數目!');
 
+    if (message.author.id == '939044439773564949' && target.id != '650604337000742934') return message.reply('晨晨你不能這樣做! :angry:');
+
     let levelData = await level.findOne({ 'discordid': target.id });
     if (!levelData) {
         levelData = await level.create({

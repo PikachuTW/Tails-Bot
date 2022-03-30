@@ -12,7 +12,7 @@ module.exports = async client => {
     logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
     client.user.setActivity(`${settings.prefix}help | Made By Tails`, { type: 'PLAYING' });
 
-    client.channels.cache.find(c => c.id == '948178858610405426').send('機器人已經重新開機!');
+    // client.channels.cache.find(c => c.id == '948178858610405426').send('機器人已經重新開機!');
     const versionDate = await misc.findOne({ 'key': 'version' });
     if (version.number != versionDate.value_string) {
         const Embed1 = new MessageEmbed()

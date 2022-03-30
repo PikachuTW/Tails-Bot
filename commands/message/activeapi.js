@@ -83,6 +83,15 @@ exports.run = async (client, message, args) => {
             }
         }
 
+        let forData = res[res.length - 1].daily.date + 1;
+
+        if (nowStamp - check + 1 != res.length) {
+            for (let i = 0; i < nowStamp - check + 1 - res.length; i++) {
+                res.push({ daily: { date: forData, count: 0 } });
+                forData++;
+            }
+        }
+
         const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
         const chart = new QuickChart();

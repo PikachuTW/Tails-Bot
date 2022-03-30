@@ -106,26 +106,7 @@ const config = {
         },
 
         {
-            level: 7,
-            name: 'Top',
-            check: (member) => {
-                try {
-                    if (member.roles.cache.has('952197467095572491')) return true;
-                }
-                catch (e) {
-                    return false;
-                }
-            },
-        },
-
-        {
             level: 8,
-            name: 'Xi',
-            check: (member) => member.id === '839123456523763784' || member.id === '917380616725594132',
-        },
-
-        {
-            level: 9,
             name: 'Tails',
             check: (member) => member.id === '650604337000742934',
         },

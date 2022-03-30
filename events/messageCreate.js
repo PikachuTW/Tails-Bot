@@ -42,8 +42,8 @@ module.exports = async (client, message) => {
             }
         }
     }
-    const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite'];
-    if (bannedWords.some(word => message.content.toLowerCase().includes(word)) && message.author.id != '650604337000742934' && message.author.id != '889358372170792970' && message.channel.id != '869948348285722654') {
+    const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
+    if (bannedWords.some(word => message.content.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970', '939044439773564949'].indexOf(message.author.id) == -1 && message.channel.id != '869948348285722654') {
         try {
             message.delete();
             return message.channel.send(`:x: ${message.author} 你不允許發送邀請連結!!`);

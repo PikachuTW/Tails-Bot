@@ -1,6 +1,7 @@
+const Discord = require('discord.js');
 const config = require('../config.js');
 
-function permlevel(target) {
+const permlevel = (target) => {
     let permlvl = 0;
 
     const permOrder = config.permLevels.slice(0).sort((p, c) => p.level < c.level ? 1 : -1);
@@ -13,11 +14,17 @@ function permlevel(target) {
         }
     }
     return permlvl;
-}
+};
 
-function targetGet(message, args) {
-    return message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
-}
+const targetGet = (message, args) => {
+    if (!args[0]) return undefined;
+    if (args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value) {
+        return message.guild.members.cache.get(args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value[1]);
+    }
+    else {
+        return message.guild.members.cache.get(args[0]);
+    }
+};
 
 // async function awaitReply(message, question, limit = 60000) {
 //     const filter = m => m.author.id === message.author.id;

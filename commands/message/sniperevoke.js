@@ -31,8 +31,8 @@ exports.run = async (client, message) => {
 
     const before = data.tails_credit;
 
-    if (before >= Math.round(15 * benefitsdata.commandCost[totemdata.commandCost])) {
-        await credit.findOneAndUpdate({ 'discordid': message.author.id }, { $inc: { 'tails_credit': -1 * Math.round(15 * benefitsdata.commandCost[totemdata.commandCost]) } });
+    if (before >= Math.round(75 * benefitsdata.commandCost[totemdata.commandCost])) {
+        await credit.findOneAndUpdate({ 'discordid': message.author.id }, { $inc: { 'tails_credit': -1 * Math.round(75 * benefitsdata.commandCost[totemdata.commandCost]) } });
 
         const sdata = await snipedata.findOne({ channelid: message.channel.id });
         if (!sdata) {
@@ -49,7 +49,7 @@ exports.run = async (client, message) => {
         await snipedata.findOneAndUpdate({ 'channelid': message.channel.id }, { $set: { 'snipemsg': '```已屏蔽```', 'snipetime': '屏蔽了🙈', 'snipeatt': null } });
     }
     else {
-        message.member.send(`你似乎沒有足夠的tails幣呢(收費${Math.round(15 * benefitsdata.commandCost[totemdata.commandCost])}枚) :joy: :pinching_hand:`);
+        message.member.send(`你似乎沒有足夠的tails幣呢(收費${Math.round(75 * benefitsdata.commandCost[totemdata.commandCost])}枚) :joy: :pinching_hand:`);
     }
 };
 

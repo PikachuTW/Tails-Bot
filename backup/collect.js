@@ -1,17 +1,16 @@
 const { MessageEmbed } = require('discord.js');
 const credit = require('../../models/credit.js');
-const economy = require('../../models/economy.js');
+const invest = require('../../models/invest.js');
 const totem = require('../../models/totem.js');
 const { benefitsdata } = require('../../config.js');
 
 exports.run = async (client, message) => {
-
-    let data = await economy.findOne({ discordid: message.member.id });
+    let data = await invest.findOne({ discordid: message.author.id });
     if (!data) {
-        data = await economy.create({
-            discordid: message.member.id,
-            level: 0,
-            cooldown: 0,
+        data = await invest.create({
+            discordid: message.author.id,
+            savedata: 0,
+            claimcooldown: 0,
         });
     }
 
@@ -36,8 +35,8 @@ exports.run = async (client, message) => {
         });
     }
 
-    if (Date.now() - data.cooldown < 600000 - benefitsdata.cooldownReduce[totemdata.cooldownReduce]) {
-        const second = Math.round(((600000 - benefitsdata.cooldownReduce[totemdata.cooldownReduce] - Date.now() + data.cooldown) / 1000));
+    if (Date.now() - data.claimcooldown < 600000 - benefitsdata.cooldownReduce[totemdata.cooldownReduce]) {
+        const second = Math.round(((600000 - benefitsdata.cooldownReduce[totemdata.cooldownReduce] - Date.now() + data.claimcooldown) / 1000));
         if (second < 60) {
             return message.reply(`你還要再${second}秒才能領取!`);
         }
@@ -46,9 +45,42 @@ exports.run = async (client, message) => {
         }
     }
 
-    await economy.updateOne({ 'discordid': message.author.id }, { $set: { 'cooldown': Date.now() } });
+    await invest.updateOne({ 'discordid': message.author.id }, { $set: { 'claimcooldown': Date.now() } });
 
-    const giveamount = Math.round(Math.pow(data.level, 1.225));
+    const payout = [1, 2, 4, 6, 8, 12, 16, 25, 36, 45, 66, 90,
+    ];
+
+    let giveamount = 0;
+
+    const judge = new Array(12);
+
+    let savething = data.savedata;
+
+    let i;
+    let p;
+
+    if (savething != 0) {
+        for (i = 11; i >= 0; i--) {
+            if (savething >= Math.pow(2, i)) {
+                savething -= Math.pow(2, i);
+                judge[i] = true;
+            }
+            else {
+                judge[i] = false;
+            }
+        }
+    }
+    else {
+        for (i = 11; i >= 0; i--) {
+            judge[i] = false;
+        }
+    }
+
+    for (p = 0; p <= 11; p++) {
+        if (judge[p] == true) {
+            giveamount += payout[p];
+        }
+    }
 
     const doubleRandom = Math.random();
     if (doubleRandom < benefitsdata.doubleChance[totemdata.doubleChance]) {
