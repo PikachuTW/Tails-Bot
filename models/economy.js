@@ -11,7 +11,7 @@ const economy = new mongoose.Schema({
     },
     cooldown: {
         type: mongoose.SchemaTypes.Number,
-    }
+    },
 });
 
 module.exports = mongoose.model('economy', economy);

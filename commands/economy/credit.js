@@ -3,7 +3,6 @@ const credit = require('../../models/credit.js');
 const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
-
     const target = targetGet(message, args) || message.member;
 
     let data = await credit.findOne({ discordid: target.id });
@@ -16,10 +15,10 @@ exports.run = async (client, message, args) => {
     }
 
     if (data.tails_credit < 0) {
-        await credit.findOneAndUpdate({ 'discordid': target.id }, { $set: { 'tails_credit': 0 } });
+        await credit.findOneAndUpdate({ discordid: target.id }, { $set: { tails_credit: 0 } });
     }
 
-    const creditrank = await credit.find({ 'tails_credit': { $gte: data.tails_credit } });
+    const creditrank = await credit.find({ tails_credit: { $gte: data.tails_credit } });
 
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')

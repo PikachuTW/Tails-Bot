@@ -1,13 +1,14 @@
 const { MessageEmbed } = require('discord.js');
 const Mee6LevelsApi = require('mee6-levels-api');
 const { Client } = require('unb-api');
+
 const unb = new Client(process.env.UNB);
 const { millify } = require('millify');
 const credit = require('../../models/credit.js');
 const introduction = require('../../models/introduction.js');
 
 exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
 
     const mee6data = await Mee6LevelsApi.getUserXp('828450904990154802', target.id);
@@ -34,11 +35,11 @@ exports.run = async (client, message, args) => {
         introdata = await introduction.findOne({ discordid: target.id });
     }
 
-    const creditrank = await credit.find({ 'tails_credit': { $gte: creditdata.tails_credit } });
+    const creditrank = await credit.find({ tails_credit: { $gte: creditdata.tails_credit } });
 
-    const tcdata = creditdata.tails_credit == Infinity ? Infinity : millify(creditdata.tails_credit);
+    const tcdata = creditdata.tails_credit === Infinity ? Infinity : millify(creditdata.tails_credit);
 
-    const lttdata = unbdata.total == Infinity ? Infinity : millify(unbdata.total);
+    const lttdata = unbdata.total === Infinity ? Infinity : millify(unbdata.total);
 
     if (!mee6data) {
         const exampleEmbed = new MessageEmbed()
@@ -59,7 +60,6 @@ exports.run = async (client, message, args) => {
         return message.reply({ embeds: [exampleEmbed] });
     }
 
-
     const exampleEmbed = new MessageEmbed()
         .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
         .setDescription(`<@${target.id}>`)
@@ -79,7 +79,6 @@ exports.run = async (client, message, args) => {
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     message.reply({ embeds: [exampleEmbed] });
-
 };
 
 exports.conf = {

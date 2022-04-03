@@ -1,6 +1,6 @@
 module.exports = {
-    number: '1.14.0',
+    number: '1.15.0',
     tag: '功能性更新',
     important: '@everyone',
-    description: '1. 投資系統重新製作',
+    description: '1. 製作應用程式命令: 翻譯功能',
 };

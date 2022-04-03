@@ -2,8 +2,8 @@ const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message, args) => {
     const roleid = args[0];
-    const Role = message.guild.roles.cache.find(role => role.id == roleid);
-    const Members = message.guild.members.cache.filter(member => member.roles.cache.find(role => role == Role)).map(d => d).join('\n');
+    const Role = message.guild.roles.cache.get(roleid);
+    const Members = message.guild.members.cache.filter((member) => member.roles.cache.get(Role.id)).map((d) => d).join('\n');
 
     const Embed1 = new MessageEmbed()
         .setColor('#ffae00')

@@ -2,7 +2,6 @@ const invest = require('../../models/invest.js');
 const credit = require('../../models/credit.js');
 
 exports.run = async (client, message) => {
-
     const data = await invest.findOne({ discordid: message.member.id });
     if (!data) return message.reply('傻逼你的舊投資目前為空，無法退費 :frog:');
 
@@ -19,31 +18,30 @@ exports.run = async (client, message) => {
 
     let re = 0;
 
-    let i, p;
+    let i; let
+        p;
 
     const judge = new Array(12);
 
     let savething = data.savedata;
 
-    if (savething != 0) {
+    if (savething !== 0) {
         for (i = 11; i >= 0; i--) {
-            if (savething >= Math.pow(2, i)) {
-                savething -= Math.pow(2, i);
+            if (savething >= 2 ** i) {
+                savething -= 2 ** i;
                 judge[i] = true;
-            }
-            else {
+            } else {
                 judge[i] = false;
             }
         }
-    }
-    else {
+    } else {
         for (i = 11; i >= 0; i--) {
             judge[i] = false;
         }
     }
 
     for (p = 0; p <= 11; p++) {
-        if (judge[p] == true) {
+        if (judge[p] === true) {
             re += price[p];
         }
     }

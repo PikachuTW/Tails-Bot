@@ -5,9 +5,9 @@ const { benefitsdata } = require('../../config.js');
 const { benefitsdisplay } = require('../../config.js');
 
 exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
-    const amount = parseInt(args[1]);
+    const amount = parseInt(args[1], 10);
 
     if (!amount) {
         return message.reply('請提供數值');
@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
         return message.reply('請給予大於0的數值!');
     }
 
-    if (target.id == message.author.id) {
+    if (target.id === message.author.id) {
         return message.reply('不能給自己 :joy: :pinching_hand:');
     }
 
@@ -61,17 +61,17 @@ exports.run = async (client, message, args) => {
         return message.reply('你的錢似乎無法負荷這樣的金額 <:thinking_cute:852936219515551754>');
     }
 
-    await credit.findOneAndUpdate({ 'discordid': target.id }, { $inc: { 'tails_credit': Math.floor(amount * (1 - benefitsdata.giveTax[totemdata.giveTax])) } });
+    await credit.findOneAndUpdate({ discordid: target.id }, { $inc: { tails_credit: Math.floor(amount * (1 - benefitsdata.giveTax[totemdata.giveTax])) } });
 
-    await credit.findOneAndUpdate({ 'discordid': message.author.id }, { $inc: { 'tails_credit': amount * -1 } });
+    await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { tails_credit: amount * -1 } });
 
     const logEmbed = new MessageEmbed()
         .setColor('#ffae00')
         .setTitle(`${message.author.tag} 給予 ${target.user.tag} ${amount} Tails幣!`)
-        .setDescription(`${message.author} 的餘額已經從 \`${sendercredit}\` 變為 \`${sendercredit - amount}\`\n${target} 的餘額已經從 \`${targetcredit}\` 變為 \`${Math.floor(targetcredit + amount * (1 - benefitsdata.giveTax[totemdata.giveTax]))}\` (${benefitsdisplay.giveTax[totemdata.giveTax] != '無' ? benefitsdisplay.giveTax[totemdata.giveTax] : '10%'}稅率)`);
+        .setDescription(`${message.author} 的餘額已經從 \`${sendercredit}\` 變為 \`${sendercredit - amount}\`\n${target} 的餘額已經從 \`${targetcredit}\` 變為 \`${Math.floor(targetcredit + amount * (1 - benefitsdata.giveTax[totemdata.giveTax]))}\` (${benefitsdisplay.giveTax[totemdata.giveTax] !== '無' ? benefitsdisplay.giveTax[totemdata.giveTax] : '10%'}稅率)`);
 
     message.reply({ embeds: [logEmbed] });
-    client.channels.cache.find(channel => channel.id === '934885945113739355').send({ embeds: [logEmbed] });
+    client.channels.cache.find((channel) => channel.id === '934885945113739355').send({ embeds: [logEmbed] });
 };
 
 exports.conf = {

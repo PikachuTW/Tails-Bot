@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message, args) => {
-
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
     const reason = args.slice(1).join(' ');
     if (!reason) return message.reply('請提供踢出的原因');
@@ -32,7 +31,7 @@ exports.run = async (client, message, args) => {
     await target.send({ embeds: [kickEmbed] });
     target.ban({ days: 7, reason: `${message.author.username}#${message.author.discriminator} - ${reason} (softban)` });
     message.guild.members.unban(target.id);
-    client.channels.cache.find(channel => channel.id === '936299461779542086').send({ embeds: [reasonEmbed] });
+    client.channels.cache.find((channel) => channel.id === '936299461779542086').send({ embeds: [reasonEmbed] });
 };
 
 exports.conf = {

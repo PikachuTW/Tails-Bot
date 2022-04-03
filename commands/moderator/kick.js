@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
-
     const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
     const reason = args.slice(1).join(' ');
@@ -33,12 +32,11 @@ exports.run = async (client, message, args) => {
     message.reply({ embeds: [reasonEmbed] });
     try {
         await target.send({ embeds: [kickEmbed] });
-    }
-    catch (e) {
+    } catch (e) {
         message.reply('機器人無法私訊此用戶');
     }
     target.kick(`${message.author.username}#${message.author.discriminator} - ${reason}`);
-    client.channels.cache.find(channel => channel.id === '936299461779542086').send({ embeds: [reasonEmbed] });
+    client.channels.cache.find((channel) => channel.id === '936299461779542086').send({ embeds: [reasonEmbed] });
 };
 
 exports.conf = {

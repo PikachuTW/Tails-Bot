@@ -4,7 +4,7 @@ const config = require('../config.js');
 const permlevel = (target) => {
     let permlvl = 0;
 
-    const permOrder = config.permLevels.slice(0).sort((p, c) => p.level < c.level ? 1 : -1);
+    const permOrder = config.permLevels.slice(0).sort((p, c) => (p.level < c.level ? 1 : -1));
 
     while (permOrder.length) {
         const currentLevel = permOrder.shift();
@@ -21,9 +21,7 @@ const targetGet = (message, args) => {
     if (args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value) {
         return message.guild.members.cache.get(args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value[1]);
     }
-    else {
-        return message.guild.members.cache.get(args[0]);
-    }
+    return message.guild.members.cache.get(args[0]);
 };
 
 // async function awaitReply(message, question, limit = 60000) {
@@ -37,7 +35,6 @@ const targetGet = (message, args) => {
 //         return false;
 //     }
 // }
-
 
 /* MISCELLANEOUS NON-CRITICAL FUNCTIONS */
 
@@ -68,6 +65,5 @@ const targetGet = (message, args) => {
 //     logger.error(`Unhandled rejection: ${err}`);
 //     console.error(err);
 // });
-
 
 module.exports = { permlevel, targetGet };

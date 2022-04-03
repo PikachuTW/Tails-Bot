@@ -1,14 +1,13 @@
 const { MessageEmbed } = require('discord.js');
+const { readdirSync } = require('fs');
 const { permlevel } = require('../../modules/functions.js');
 const logger = require('../../modules/Logger.js');
-const { readdirSync } = require('fs');
 
 exports.run = async (client, message, args) => {
     const level = permlevel(message.member);
     const { container } = client;
 
     if (!args[0]) {
-
         const list = new Map([
             ['economy', '經濟'],
             ['information', '資訊'],
@@ -26,23 +25,21 @@ exports.run = async (client, message, args) => {
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
         const folders = readdirSync('./commands/');
-        for (const folder of folders) {
-            const cmds = readdirSync(`./commands/${folder}/`).filter(file => file.endsWith('.js'));
+        folders.forEach((folder) => {
+            const cmds = readdirSync(`./commands/${folder}/`).filter((file) => file.endsWith('.js'));
             let res = '';
-            for (const file of cmds) {
+            cmds.forEach((file) => {
                 try {
                     const code = require(`../${folder}/${file}`);
                     res += `\`t!${code.help.name}\` `;
-                }
-                catch (error) {
+                } catch (error) {
                     logger.log(`${error}`, 'error');
                 }
-            }
+            });
             exampleEmbed.addField(`${list.get(folder)}`, res);
-        }
+        });
         message.reply({ embeds: [exampleEmbed] });
-    }
-    else {
+    } else {
         let command = args[0];
         if (container.commands.has(command)) {
             command = container.commands.get(command);

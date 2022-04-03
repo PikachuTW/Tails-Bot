@@ -2,13 +2,12 @@ const { MessageEmbed } = require('discord.js');
 const warning = require('../../models/warning.js');
 
 exports.run = async (client, message, args) => {
-
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
 
-    const warntotal = await warning.find({ 'discordid': target.id });
+    const warntotal = await warning.find({ discordid: target.id });
 
-    if (warntotal.length == 0) {
+    if (warntotal.length === 0) {
         message.reply({
             embeds: [
                 new MessageEmbed()
@@ -22,10 +21,9 @@ exports.run = async (client, message, args) => {
     let warnres;
 
     if (warntotal.length > 10) {
-        warnres = await warning.find({ 'discordid': target.id }).sort({ 'warnstamp': 1 }).skip(warntotal.length - 10);
-    }
-    else {
-        warnres = await warning.find({ 'discordid': target.id }).sort({ 'warnstamp': 1 });
+        warnres = await warning.find({ discordid: target.id }).sort({ warnstamp: 1 }).skip(warntotal.length - 10);
+    } else {
+        warnres = await warning.find({ discordid: target.id }).sort({ warnstamp: 1 });
     }
 
     const warningembed = new MessageEmbed()
@@ -34,7 +32,8 @@ exports.run = async (client, message, args) => {
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     for (let i = 0; i < warnres.length; i++) {
-        warningembed.addField(`ID: ${warnres[i]['_id']} | 管理人員: ${client.users.cache.get(warnres[i].warnstaff).tag}`, `${warnres[i].warncontent} - ${new Date(warnres[i].warnstamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
+        // eslint-disable-next-line no-underscore-dangle
+        warningembed.addField(`ID: ${warnres[i]._id} | 管理人員: ${client.users.cache.get(warnres[i].warnstaff).tag}`, `${warnres[i].warncontent} - ${new Date(warnres[i].warnstamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
     }
 
     message.reply({ embeds: [warningembed] });

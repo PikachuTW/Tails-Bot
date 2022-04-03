@@ -2,8 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const warning = require('../../models/warning.js');
 
 exports.run = async (client, message, args) => {
-
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
 
     const reason = args.slice(1).join(' ');
@@ -36,8 +35,7 @@ exports.run = async (client, message, args) => {
                     .setDescription(`**你被 ${message.author.tag} 警告了，原因: ${reason}**`),
             ],
         });
-    }
-    catch { }
+    } catch { }
 };
 
 exports.conf = {

@@ -3,8 +3,7 @@ const snipedata = require('../models/snipedata.js');
 // const misc = require('../models/misc.js');
 
 module.exports = async (client, message) => {
-
-    if (message.guildId != '828450904990154802') return;
+    if (message.guildId !== '828450904990154802') return;
     if (!message.author) return;
 
     const currentdate = new Date(message.createdTimestamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
@@ -16,7 +15,7 @@ module.exports = async (client, message) => {
         .setImage(message.attachments.first() ? message.attachments.first().proxyURL : null)
         .setFooter({ text: `Author: ${message.author.id} | Message ID: ${message.id}\n${currentdate} | 頻道: ${message.channel.name}` });
 
-    client.channels.cache.find(channel => channel.id === '932974877630148658').send({ embeds: [exampleEmbed] });
+    client.channels.cache.find((channel) => channel.id === '932974877630148658').send({ embeds: [exampleEmbed] });
 
     // if (message.channel.id == '857947371631804437') {
     //     const now = await misc.findOne({ 'key': 'countChannel' });
@@ -38,22 +37,22 @@ module.exports = async (client, message) => {
         });
     }
 
-    if (message.author.id == '650604337000742934') {
+    if (message.author.id === '650604337000742934') {
         if (message.content.toLowerCase().startsWith('s?s')) {
-            await snipedata.updateOne({ 'channelid': message.channel.id }, { $set: { 'snipemsg': '```已屏蔽```', 'snipetime': '屏蔽了🙈', 'snipeatt': null } });
+            await snipedata.updateOne({ channelid: message.channel.id }, { $set: { snipemsg: '```已屏蔽```', snipetime: '屏蔽了🙈', snipeatt: null } });
         }
         return;
     }
-    if (message.content.toLowerCase() == 't!rs') return;
+    if (message.content.toLowerCase() === 't!rs') return;
 
     await snipedata.updateOne({
-        'channelid': message.channel.id,
+        channelid: message.channel.id,
     }, {
         $set: {
-            'snipemsg': message.content,
-            'snipesender': message.author.id,
-            'snipetime': currentdate,
-            'snipeatt': message.attachments.first() ? message.attachments.first().proxyURL : null,
+            snipemsg: message.content,
+            snipesender: message.author.id,
+            snipetime: currentdate,
+            snipeatt: message.attachments.first() ? message.attachments.first().proxyURL : null,
         },
     });
 };

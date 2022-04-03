@@ -1,22 +1,20 @@
 const { MessageEmbed } = require('discord.js');
 const { Client } = require('unb-api');
+
 const unb = new Client(process.env.UNB);
-const cooldown = require('../../models/cooldown.js');
 
 exports.run = async (client, message, args) => {
-
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
 
-    if (message.author.id == target.id) {
+    if (message.author.id === target.id) {
         return message.reply('不可以搶自己的劫 :joy:');
     }
 
     const selfdata = await unb.getUserBalance('828450904990154802', message.author.id);
-
     const targetdata = await unb.getUserBalance('828450904990154802', target.id);
 
-    if (targetdata.total == Infinity || selfdata.total == Infinity) {
+    if (targetdata.total === Infinity || selfdata.total === Infinity) {
         return message.reply('無限金錢者不能參與搶劫!!');
     }
 
@@ -28,22 +26,16 @@ exports.run = async (client, message, args) => {
         return message.reply('你的金錢小於0!');
     }
 
-    let robcd = await cooldown.findOne({ discordid: message.author.id });
-    if (!robcd) {
-        robcd = await cooldown.create({
-            discordid: message.author.id,
-            robstamp: 0,
-        });
+    const stamp = client.container.robCooldown.get(message.author.id) || 0;
+    const now = Date.now();
+    if (now - stamp < 30000 && message.author.id !== '650604337000742934') {
+        try {
+            return message.reply(`冷卻中! (${((30000 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
+        } catch { }
     }
-
-    if (Date.now() - robcd.robstamp < 30000) {
-        return message.reply(`搶劫還在冷卻中! (${((30000 - (Date.now() - robcd['robstamp'])) / 1000).toPrecision(2)}秒) 😱`);
-    }
-
-    await cooldown.findOneAndUpdate({ 'discordid': message.author.id }, { $set: { 'robstamp': Date.now() } });
+    client.container.robCooldown.set(message.author.id, now);
 
     if (Math.random() < (Math.abs(selfdata.total - targetdata.cash) / 2 + targetdata.cash / 2.5) / (selfdata.total + targetdata.cash)) {
-
         const loseembed = new MessageEmbed()
             .setColor('#ffae00')
             .setTitle('你搶失敗了 :joy: :pinching_hand:')
@@ -52,9 +44,8 @@ exports.run = async (client, message, args) => {
 
         message.reply({ embeds: [loseembed] });
 
-        unb.editUserBalance('828450904990154802', message.author.id, { 'cash': selfdata.total * (0.3 + Math.random() / 2) * -1, 'bank': 0 }, 'rob lose');
-    }
-    else {
+        unb.editUserBalance('828450904990154802', message.author.id, { cash: selfdata.total * (0.3 + Math.random() / 2) * -1, bank: 0 }, 'rob lose');
+    } else {
         const winembed = new MessageEmbed()
             .setColor('#ffae00')
             .setTitle('你搶成功了 :sob: :thumbsup:')
@@ -63,8 +54,8 @@ exports.run = async (client, message, args) => {
 
         message.reply({ embeds: [winembed] });
 
-        unb.editUserBalance('828450904990154802', message.author.id, { 'cash': targetdata.cash * (0.4 + Math.random() / 2), 'bank': 0 }, 'rob win');
-        unb.editUserBalance('828450904990154802', target.id, { 'cash': targetdata.cash * (0.4 + Math.random() / 2) * -1, 'bank': 0 }, 'get robbed');
+        unb.editUserBalance('828450904990154802', message.author.id, { cash: targetdata.cash * (0.4 + Math.random() / 2), bank: 0 }, 'rob win');
+        unb.editUserBalance('828450904990154802', target.id, { cash: targetdata.cash * (0.4 + Math.random() / 2) * -1, bank: 0 }, 'get robbed');
     }
 };
 

@@ -5,8 +5,7 @@ const { benefitsdata } = require('../../config.js');
 const credit = require('../../models/credit.js');
 
 exports.run = async (client, message, args) => {
-
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]);
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
     if (!target) return message.reply('請給予有效目標!');
     const time = args[1];
     const reason = args.slice(2).join(' ');
@@ -46,13 +45,12 @@ exports.run = async (client, message, args) => {
 
     const before = data.tails_credit;
 
-    if (message.author.id != '650604337000742934' && milliseconds > 600000) {
+    if (message.author.id !== '650604337000742934' && milliseconds > 600000) {
         if (before < Math.round((milliseconds / 1000) - 600 * benefitsdata.commandCost[totemdata.commandCost])) {
             return message.reply(`你需要 \`${Math.round((milliseconds / 1000) - 600 * benefitsdata.commandCost[totemdata.commandCost])}\` Tails幣才能mute此用戶 <:frog4:931773626057912420>`);
         }
-        else {
-            await credit.findOneAndUpdate({ 'discordid': message.author.id }, { $inc: { 'tails_credit': -1 * Math.round((milliseconds / 1000) - 600 * benefitsdata.commandCost[totemdata.commandCost]) } });
-        }
+
+        await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { tails_credit: -1 * Math.round((milliseconds / 1000) - 600 * benefitsdata.commandCost[totemdata.commandCost]) } });
     }
 
     target.timeout(milliseconds, `${message.author.username}#${message.author.discriminator} - ${reason}`);
@@ -75,7 +73,7 @@ exports.run = async (client, message, args) => {
         .addField('管理者', `${message.author}`, false)
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
     message.reply({ embeds: [ReasonEmbed] });
-    client.channels.cache.find(channel => channel.id === '907969972893020201').send({ embeds: [ReasonEmbed] });
+    client.channels.cache.find((channel) => channel.id === '907969972893020201').send({ embeds: [ReasonEmbed] });
 };
 
 exports.conf = {

@@ -5,7 +5,6 @@ const totem = require('../../models/totem.js');
 const { benefitsdata } = require('../../config.js');
 
 exports.run = async (client, message) => {
-
     let data = await economy.findOne({ discordid: message.member.id });
     if (!data) {
         data = await economy.create({
@@ -41,18 +40,17 @@ exports.run = async (client, message) => {
         if (second < 60) {
             return message.reply(`你還要再${second}秒才能領取!`);
         }
-        else {
-            return message.reply(`你還要再${Math.floor(second / 60)}分${second % 60}秒才能領取!`);
-        }
+
+        return message.reply(`你還要再${Math.floor(second / 60)}分${second % 60}秒才能領取!`);
     }
 
-    await economy.updateOne({ 'discordid': message.author.id }, { $set: { 'cooldown': Date.now() } });
+    await economy.updateOne({ discordid: message.author.id }, { $set: { cooldown: Date.now() } });
 
-    const giveamount = Math.round(Math.pow(data.level, 1.225));
+    const giveamount = Math.round(data.level ** 1.225);
 
     const doubleRandom = Math.random();
     if (doubleRandom < benefitsdata.doubleChance[totemdata.doubleChance]) {
-        await credit.updateOne({ 'discordid': message.author.id }, { $inc: { 'tails_credit': Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti] * 2) } });
+        await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti] * 2) } });
 
         const exampleEmbed = new MessageEmbed()
             .setColor('#ffae00')
@@ -62,9 +60,8 @@ exports.run = async (client, message) => {
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
         message.reply({ embeds: [exampleEmbed] });
-    }
-    else {
-        await credit.updateOne({ 'discordid': message.author.id }, { $inc: { 'tails_credit': Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti]) } });
+    } else {
+        await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti]) } });
 
         const exampleEmbed = new MessageEmbed()
             .setColor('#ffae00')

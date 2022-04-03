@@ -2,28 +2,29 @@ const { codeBlock } = require('@discordjs/builders');
 const logger = require('../../modules/Logger.js');
 
 async function clean(client, text) {
-    if (text && text.constructor.name == 'Promise') { text = await text; }
-    if (typeof text !== 'string') { text = require('util').inspect(text, { depth: 1 }); }
+    let value = text;
+    if (value && value.constructor.name === 'Promise') { value = await value; }
+    if (typeof value !== 'string') { value = require('util').inspect(value, { depth: 1 }); }
 
-    text = text
-        .replace(/`/g, '`' + String.fromCharCode(8203))
-        .replace(/@/g, '@' + String.fromCharCode(8203));
+    value = value
+        .replace(/`/g, `\`${String.fromCharCode(8203)}`)
+        .replace(/@/g, `@${String.fromCharCode(8203)}`);
 
-    text = text.replaceAll(client.token, '[REDACTED]');
+    value = value.replaceAll(client.token, '[REDACTED]');
 
-    return text;
+    return value;
 }
 
 exports.run = async (client, message, args) => {
     const code = args.join(' ');
     try {
+        // eslint-disable-next-line no-eval
         const evaled = eval(code);
         const cleaned = await clean(client, evaled);
         if (cleaned.startsWith('<ref *1>')) return;
         message.channel.send(codeBlock('js', cleaned));
         logger.log(`${cleaned}`, 'eval');
-    }
-    catch (err) {
+    } catch (err) {
         message.channel.send(codeBlock('js', err));
         logger.log(`${err}`, 'error');
     }
@@ -37,5 +38,5 @@ exports.conf = {
 exports.help = {
     name: 'eval',
     description: '執行任何 javascript 程式碼',
-    usage: 'eval [...code]',
+    usage: 'eval [程式碼]',
 };

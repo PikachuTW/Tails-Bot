@@ -33,8 +33,7 @@ const config = {
             check: (member) => {
                 try {
                     if (member.roles.cache.has('832213672695693312')) return true;
-                }
-                catch (e) {
+                } catch (e) {
                     return false;
                 }
             },
@@ -46,8 +45,7 @@ const config = {
             check: (member) => {
                 try {
                     if (member.roles.cache.has('854959385901531137')) return true;
-                }
-                catch (e) {
+                } catch (e) {
                     return false;
                 }
             },
@@ -59,8 +57,7 @@ const config = {
             check: (member) => {
                 try {
                     if (member.roles.cache.has('856377783163944970')) return true;
-                }
-                catch (e) {
+                } catch (e) {
                     return false;
                 }
             },
@@ -72,8 +69,7 @@ const config = {
             check: (member) => {
                 try {
                     if (member.roles.cache.has('854957401362268162')) return true;
-                }
-                catch (e) {
+                } catch (e) {
                     return false;
                 }
             },
@@ -85,8 +81,7 @@ const config = {
             check: (member) => {
                 try {
                     if (member.roles.cache.has('926781326202388480')) return true;
-                }
-                catch (e) {
+                } catch (e) {
                     return false;
                 }
             },
@@ -98,8 +93,7 @@ const config = {
             check: (member) => {
                 try {
                     if (member.roles.cache.has('870741338960830544')) return true;
-                }
-                catch (e) {
+                } catch (e) {
                     return false;
                 }
             },

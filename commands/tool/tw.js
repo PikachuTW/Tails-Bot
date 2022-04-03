@@ -7,9 +7,9 @@ exports.run = async (client, message, args) => {
         return message.reply('請給予你要翻譯的訊息!');
     }
 
-    translate(input, { from: 'auto', to: 'zh-TW' }).then(res => {
+    translate(input, { from: 'auto', to: 'zh-TW' }).then((res) => {
         message.reply(`**[翻譯]** ${res.text}`);
-    }).catch(err => {
+    }).catch((err) => {
         console.error(err);
     });
 };

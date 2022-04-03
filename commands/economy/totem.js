@@ -1,11 +1,10 @@
 const { MessageEmbed } = require('discord.js');
-const totem = require('../../models/totem.js');
 const roman = require('romans');
+const totem = require('../../models/totem.js');
 const { benefitsdisplay } = require('../../config.js');
 
 exports.run = async (client, message, args) => {
-
-    const target = message.mentions.members.first() || message.guild.members.cache.find(member => member.id === args[0]) || message.member;
+    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]) || message.member;
 
     let data = await totem.findOne({ discordid: target.id });
     if (!data) {
@@ -24,11 +23,9 @@ exports.run = async (client, message, args) => {
     let totemrank;
     if (target.id === '650604337000742934') {
         totemrank = 'Tails';
-    }
-    else if (data.rank == 0) {
+    } else if (data.rank === 0) {
         totemrank = '無';
-    }
-    else {
+    } else {
         totemrank = `${roman.romanize(data.rank)}`;
     }
 

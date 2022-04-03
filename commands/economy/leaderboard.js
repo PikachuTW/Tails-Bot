@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const credit = require('../../models/credit.js');
 
 exports.run = async (client, message) => {
-
     const res = await credit.find({}).sort({ tails_credit: -1 }).limit(10);
 
     let co = '';

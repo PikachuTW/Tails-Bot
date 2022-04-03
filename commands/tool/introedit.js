@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const introduction = require('../../models/introduction.js');
 
 exports.run = async (client, message, args) => {
-
     const introinput = args.slice(0).join(' ');
 
     if (!introinput) {
@@ -23,7 +22,7 @@ exports.run = async (client, message, args) => {
         return message.reply('給予的字元數必須小於等於100!');
     }
 
-    await introduction.findOneAndUpdate({ 'discordid': message.member.id }, { $set: { 'intro': introinput } });
+    await introduction.findOneAndUpdate({ discordid: message.member.id }, { $set: { intro: introinput } });
 
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
@@ -31,7 +30,7 @@ exports.run = async (client, message, args) => {
         .setDescription(`<@${message.member.id}>的暱稱已經從 \`${introdata.intro}\` 改成 \`${introinput}\``);
 
     message.reply({ embeds: [exampleEmbed] });
-    client.channels.cache.find(channel => channel.id === '935773294278365184').send({ embeds: [exampleEmbed] });
+    client.channels.cache.find((channel) => channel.id === '935773294278365184').send({ embeds: [exampleEmbed] });
 };
 
 exports.conf = {

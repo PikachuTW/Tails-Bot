@@ -1,9 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 const { MessageEmbed, MessageAttachment } = require('discord.js');
-const level = require('../../models/level.js');
 const QuickChart = require('quickchart-js');
+const level = require('../../models/level.js');
 
 exports.run = async (client, message) => {
-
     const res = await level.aggregate([
         { $unwind: '$daily' },
         {
@@ -37,13 +37,13 @@ exports.run = async (client, message) => {
     chart.setConfig({
         type: 'line',
         data: {
-            labels: chartRes.map(d => `${new Date((d._id) * 86400000).getMonth() + 1}/${new Date((d._id) * 86400000).getDate()}(${weekDays[new Date((d._id) * 86400000).getDay()]})`),
+            labels: chartRes.map((d) => `${new Date((d._id) * 86400000).getMonth() + 1}/${new Date((d._id) * 86400000).getDate()}(${weekDays[new Date((d._id) * 86400000).getDay()]})`),
             datasets: [{
                 label: '訊息量',
                 fill: false,
                 borderColor: '#ffae00',
                 pointBackgroundColor: '#ffae00',
-                data: chartRes.map(d => d.total),
+                data: chartRes.map((d) => d.total),
             }],
         },
         options: {
@@ -58,7 +58,6 @@ exports.run = async (client, message) => {
     });
 
     const imageGen = new MessageAttachment(chart.getUrl(), 'server_chart.png');
-
 
     let co = '';
 

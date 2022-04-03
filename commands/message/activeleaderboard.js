@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const level = require('../../models/level.js');
 
 exports.run = async (client, message) => {
-
     const nowStamp = Math.floor((Date.now() + 28800000) / 86400000);
     const res = await level.aggregate([
         { $unwind: '$daily' },
@@ -20,6 +19,7 @@ exports.run = async (client, message) => {
     let co = '';
 
     for (let i = 0; i < 10; i++) {
+        // eslint-disable-next-line no-underscore-dangle
         co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`;
     }
 

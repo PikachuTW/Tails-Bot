@@ -1,7 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message) => {
-
     if (message.member.roles.cache.has('931777599544361023')) {
         const exampleEmbed2 = new MessageEmbed()
             .setColor('GREEN')
