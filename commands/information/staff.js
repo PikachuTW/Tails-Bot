@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message) => {
     const all = message.guild.members.cache.filter((member) => member.roles.cache.find((role) => role.id === '832213672695693312'));
-    const staff = all.filter((member) => !member.roles.cache.find((role) => role.id === '856377783163944970'));
+    const staff = all.filter((member) => !member.roles.cache.find((role) => role.id === '856377783163944970' || role.id === '870741338960830544'));
     const admin = all.filter((member) => !member.roles.cache.find((role) => role.id === '870741338960830544') && member.roles.cache.find((role) => role.id === '856377783163944970'));
     const owner = all.filter((member) => member.roles.cache.find((role) => role.id === '870741338960830544'));
 

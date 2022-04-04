@@ -6,6 +6,9 @@ const { readdirSync } = require('fs');
 const play = require('play-dl');
 const mongoose = require('mongoose');
 const express = require('express');
+const bodyParser = require('body-parser');
+
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const {
     createAudioPlayer, NoSubscriberBehavior, createAudioResource, getVoiceConnection,
@@ -115,7 +118,20 @@ client.fn = functions;
 })();
 
 app.get('/', (req, res) => {
-    res.send('Bot Running!');
+    res.sendFile('./html/index.html', { root: __dirname });
+});
+
+app.get('/console', (req, res) => {
+    res.sendFile('./html/console.html', { root: __dirname });
+});
+
+app.post('/console', urlencodedParser, (req, res) => {
+    console.log(req.body);
+    res.sendFile('./html/console.html', { root: __dirname });
+});
+
+app.get('*', (req, res) => {
+    res.send('404 not found');
 });
 
 app.listen(3000, () => {

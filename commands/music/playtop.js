@@ -6,6 +6,7 @@ const misc = require('../../models/misc.js');
 exports.run = async (client, message, args) => {
     const { player } = client.container;
     if (!message.member.voice.channelId) return message.reply('你不在 <#858370818635464774>!');
+    if (['650604337000742934', '763047430178471968'].indexOf(message.author.id) === -1) return message.reply('你不是DJ!');
 
     // if (message.guild.me.voice.channelId && message.member.voice.channelId !== message.guild.me.voice.channelId) return message.reply('請加入 <#858370818635464774>!');
     const link = args.slice(0).join(' ');
@@ -66,7 +67,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
     aliases: ['pt'],
-    permLevel: 'Tails',
+    permLevel: 'User',
 };
 
 exports.help = {

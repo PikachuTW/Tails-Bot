@@ -6,6 +6,7 @@ const misc = require('../../models/misc.js');
 exports.run = async (client, message) => {
     const { player } = client.container;
     if (!message.member.voice.channelId) return message.reply('你不在 <#858370818635464774>!');
+    if (['650604337000742934', '763047430178471968'].indexOf(message.author.id) === -1) return message.reply('你不是DJ!');
 
     if (message.guild.me.voice.channelId !== '858370818635464774' || !getVoiceConnection('828450904990154802')) {
         return message.reply('我現在沒有在播放歌曲!');
@@ -30,7 +31,7 @@ exports.run = async (client, message) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Tails',
+    permLevel: 'User',
 };
 
 exports.help = {

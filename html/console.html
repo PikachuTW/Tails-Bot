@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <Title>機器人後端控制台</Title>
+    <style>
+        h2 {
+            text-align: center;
+        }
+
+        div {
+            width: 400px;
+            margin: 10px auto;
+        }
+
+        label {
+            width: 100%;
+            display: inline-block;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            display: inline-block;
+        }
+
+        #send {
+            margin: 40px auto 0 auto;
+            display: block;
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form1" method="post" action="./console">
+        <div><textarea name="code" id="code"></textarea></div>
+        <div><label for="key">Key: </label><input type="text" name="key" id="code"></div>
+        <input id="send" type="submit" value="執行">
+    </form>
+</body>

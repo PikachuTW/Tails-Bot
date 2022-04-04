@@ -28,7 +28,7 @@ exports.run = async (client, message, args) => {
         return message.reply('你要放啥蠢歌 :frog:');
     }
 
-    if (message.author.id !== '650604337000742934') {
+    if (['763047430178471968', '650604337000742934'].indexOf(message.author.id) === -1) {
         const list = await music.findOne({});
         if (list.queue.filter((d) => d.requestBy === message.author.id).length >= 5) {
             return message.reply('你已經點超過5首歌了!');
