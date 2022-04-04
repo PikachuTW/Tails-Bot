@@ -60,7 +60,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'redeem',
     description: '從林天天幣兌換你的Tails幣 (費率為50M林天天幣=1 Tails幣)',
     usage: 'redeem',
 };

@@ -44,7 +44,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'warn',
     description: '警告成員',
     usage: 'warn',
 };

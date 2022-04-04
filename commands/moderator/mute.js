@@ -82,7 +82,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'mute',
     description: '禁言成員',
     usage: 'mute <@成員> <時間> <原因>',
 };

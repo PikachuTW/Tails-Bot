@@ -23,7 +23,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'verify',
     description: '驗證',
     usage: 'verify',
 };

@@ -69,7 +69,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'bet',
     description: '賭注tails幣',
     usage: 'bet',
 };

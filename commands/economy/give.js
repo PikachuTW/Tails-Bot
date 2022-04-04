@@ -80,7 +80,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'give',
     description: '給予你的Tails幣餘額給他人',
     usage: 'give',
 };

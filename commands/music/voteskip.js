@@ -44,7 +44,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'voteskip',
     description: '投票跳過音樂',
     usage: 'voteskip',
 };

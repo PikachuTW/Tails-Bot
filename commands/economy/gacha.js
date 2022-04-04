@@ -148,7 +148,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'gacha',
     description: '購買Totem',
     usage: 'gacha',
 };

@@ -5,17 +5,30 @@ const { Client, Collection } = require('discord.js');
 const { readdirSync } = require('fs');
 const play = require('play-dl');
 const mongoose = require('mongoose');
+const express = require('express');
+
 const {
     createAudioPlayer, NoSubscriberBehavior, createAudioResource, getVoiceConnection,
 } = require('@discordjs/voice');
 const { permLevels } = require('./config.js');
 const logger = require('./modules/Logger.js');
-
 const music = require('./models/music.js');
 const misc = require('./models/misc.js');
 const functions = require('./modules/functions.js');
 
 const client = new Client({ intents: 32767, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'] });
+client.login(process.env.DISCORD_TOKEN);
+const app = express();
+
+mongoose
+    .connect(process.env.MONGO, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log('已經連線到資料庫');
+    })
+    .catch((err) => console.log(err));
 
 const commands = new Collection();
 const aliases = new Collection();
@@ -29,16 +42,6 @@ const player = createAudioPlayer({
         noSubscriber: NoSubscriberBehavior.Pause,
     },
 });
-
-mongoose
-    .connect(process.env.MONGO, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log('已經連線到資料庫');
-    })
-    .catch((err) => console.log(err));
 
 const levelCache = {};
 for (let i = 0; i < permLevels.length; i++) {
@@ -56,7 +59,6 @@ client.container = {
     robCooldown,
     player,
 };
-
 client.fn = functions;
 
 (async () => {
@@ -66,11 +68,13 @@ client.fn = functions;
         cmds.forEach((file) => {
             try {
                 const code = require(`./commands/${folder}/${file}`);
-                logger.log(`CMD ${code.help.name} 已被載入 ✅`, 'log');
-                client.container.commands.set(code.help.name, code);
+                const cmdName = file.split('.')[0];
+                code.help.name = cmdName;
+                client.container.commands.set(cmdName, code);
                 code.conf.aliases.forEach((alias) => {
-                    client.container.aliases.set(alias, code.help.name);
+                    client.container.aliases.set(alias, cmdName);
                 });
+                logger.log(`CMD ${cmdName} 已被載入 ✅`, 'log');
             } catch (error) {
                 logger.log(`${error}`, 'error');
             }
@@ -94,15 +98,13 @@ client.fn = functions;
         if (newState.status === 'idle' && connection.state.status === 'ready') {
             const data = await music.findOne({});
             if (!data.queue[0]) return;
-            const streamURL = data.queue[0].url;
             await music.updateOne({}, { $pop: { queue: -1 } });
-            const stream = await play.stream(streamURL);
-            const resource = createAudioResource(stream.stream, {
-                inputType: stream.type,
-            });
+            const stream = await play.stream(data.queue[0].url);
             connection.subscribe(player);
-            player.play(resource);
-            client.channels.cache.find((c) => c.id === '948178858610405426').send(`現正播放 \`${data.queue[0].title}\``);
+            player.play(createAudioResource(stream.stream, {
+                inputType: stream.type,
+            }));
+            client.channels.cache.get('948178858610405426').send(`現正播放 \`${data.queue[0].title}\``);
             await misc.updateOne({ key: 'nowplay' }, {
                 $set: {
                     value_object: data.queue[0],
@@ -110,6 +112,12 @@ client.fn = functions;
             });
         }
     });
-
-    client.login(process.env.DISCORD_TOKEN);
 })();
+
+app.get('/', (req, res) => {
+    res.send('Bot Running!');
+});
+
+app.listen(3000, () => {
+    console.log('Listening!');
+});

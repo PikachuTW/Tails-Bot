@@ -20,7 +20,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'tw',
     description: '翻譯任何語言到到中文(自動偵測)',
     usage: 'tw',
 };

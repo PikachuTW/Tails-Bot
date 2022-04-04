@@ -32,7 +32,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'info',
     description: '回傳機器人數據',
     usage: 'info',
 };

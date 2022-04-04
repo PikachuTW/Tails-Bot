@@ -11,7 +11,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'key',
     description: '獲取你的Key',
     usage: 'key',
 };

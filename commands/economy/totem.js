@@ -50,7 +50,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'totem',
     description: '查看你的Totem',
     usage: 'totem',
 };

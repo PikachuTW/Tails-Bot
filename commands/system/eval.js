@@ -1,10 +1,12 @@
 const { codeBlock } = require('@discordjs/builders');
+// eslint-disable-next-line no-unused-vars
+const got = require('got');
 const logger = require('../../modules/Logger.js');
 
-async function clean(client, text) {
+const clean = async (client, text) => {
     let value = text;
     if (value && value.constructor.name === 'Promise') { value = await value; }
-    if (typeof value !== 'string') { value = require('util').inspect(value, { depth: 1 }); }
+    if (typeof value !== 'string') { value = require('util').inspect(value, { depth: 3 }); }
 
     value = value
         .replace(/`/g, `\`${String.fromCharCode(8203)}`)
@@ -13,7 +15,7 @@ async function clean(client, text) {
     value = value.replaceAll(client.token, '[REDACTED]');
 
     return value;
-}
+};
 
 exports.run = async (client, message, args) => {
     const code = args.join(' ');
@@ -36,7 +38,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'eval',
     description: '執行任何 javascript 程式碼',
     usage: 'eval [程式碼]',
 };

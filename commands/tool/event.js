@@ -43,7 +43,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'event',
     description: '進行活動',
     usage: 'event',
 };

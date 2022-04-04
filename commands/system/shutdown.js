@@ -9,7 +9,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'shutdown',
     description: '關閉機器人',
     usage: 'shutdown',
 };

@@ -6,20 +6,12 @@ exports.run = async (client, message, args) => {
     if (message.member.roles.highest.comparePositionTo(target.roles.highest) <= 0) return message.reply('你身分組並沒有比他高 :weary:');
 
     const list = [
-        // dodo
-        '886670168594477106',
         // owner
         '901861966585413683',
         '870741338960830544',
-        // coowner
-        '879001672410599485',
-        '854957401362268162',
         // admin
         '879001952510423040',
         '856377783163944970',
-        // mod
-        '879002165077757964',
-        '854959385901531137',
         // staff
         '879002443793448960',
         '832213672695693312',
@@ -38,7 +30,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'demote',
     description: '降職管理人員',
     usage: 'demote <@成員>',
 };

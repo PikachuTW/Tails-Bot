@@ -37,7 +37,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'addmessage',
     description: '增加訊息量',
     usage: 'addmessage',
 };

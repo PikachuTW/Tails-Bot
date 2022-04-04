@@ -25,7 +25,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'nickname',
     description: '更改暱稱',
     usage: 'nickname <@成員>',
 };

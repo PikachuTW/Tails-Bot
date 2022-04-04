@@ -40,7 +40,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'softban',
     description: '踢出成員+屏蔽所有消息',
     usage: 'softban <@成員> <原因>',
 };

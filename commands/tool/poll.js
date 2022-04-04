@@ -14,7 +14,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'poll',
     description: '創建投票',
     usage: 'poll',
 };

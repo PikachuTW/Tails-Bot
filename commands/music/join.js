@@ -44,7 +44,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'join',
     description: '加入語音頻道',
     usage: 'join',
 };

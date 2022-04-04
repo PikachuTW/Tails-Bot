@@ -34,7 +34,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'queue',
     description: '查看目前播放清單',
     usage: 'queue',
 };

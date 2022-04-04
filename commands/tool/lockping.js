@@ -14,7 +14,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'lockping',
     description: '關閉小粉紅提及權限',
     usage: 'lockping',
 };

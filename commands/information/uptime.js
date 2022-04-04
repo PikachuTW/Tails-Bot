@@ -12,7 +12,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'uptime',
     description: '回傳機器人上線時間',
     usage: 'uptime',
 };

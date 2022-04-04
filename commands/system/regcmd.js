@@ -37,7 +37,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'regcmd',
     description: '上傳應用程式命令',
     usage: 'regcmd',
 };

@@ -11,7 +11,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'avatar',
     description: '獲取你的頭像',
     usage: 'avatar',
 };

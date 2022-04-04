@@ -39,7 +39,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'introedit',
     description: '修改你的個人資料',
     usage: 'introedit',
 };

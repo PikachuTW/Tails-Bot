@@ -20,7 +20,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'hk',
     description: '翻譯廣東話到中文',
     usage: 'hk',
 };

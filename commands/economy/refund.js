@@ -58,7 +58,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'refund',
     description: '退費',
     usage: 'refund',
 };

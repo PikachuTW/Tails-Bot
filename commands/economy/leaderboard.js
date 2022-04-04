@@ -26,7 +26,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'leaderboard',
     description: 'Tails幣排行榜',
     usage: 'leaderboard',
 };

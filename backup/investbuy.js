@@ -88,7 +88,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'investbuy',
     description: '購買投資',
     usage: 'investbuy',
 };

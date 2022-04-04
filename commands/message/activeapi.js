@@ -160,7 +160,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'activeapi',
     description: '獲取你的訊息量',
     usage: 'activeapi',
 };

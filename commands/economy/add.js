@@ -49,7 +49,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'add',
     description: '增加你的Tails幣餘額',
     usage: 'add',
 };

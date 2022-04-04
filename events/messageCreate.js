@@ -1,11 +1,8 @@
 const logger = require('../modules/Logger.js');
 const { permlevel } = require('../modules/functions.js');
 const config = require('../config.js');
-const { settings } = require('../config.js');
-// const cooldown = require('../models/cooldown.js');
+const { settings: { prefix } } = require('../config.js');
 const level = require('../models/level.js');
-// const misc = require('../models/misc.js');
-const { prefix } = settings;
 
 module.exports = async (client, message) => {
     if (message.guildId !== '828450904990154802') return;
@@ -29,7 +26,6 @@ module.exports = async (client, message) => {
                     } else {
                         await cmd.run(client, message, args);
                         client.container.cooldown.set(message.author.id, now);
-                        client.channels.cache.find((channel) => channel.id === '891011360413057075').send(`${config.permLevels.find((l) => l.level === permlevelGet).name} ${message.author.id} ${message.author.tag} ran command ${cmd.help.name}`, 'cmd');
                         logger.log(`${config.permLevels.find((l) => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.help.name}`, 'cmd');
                     }
                 } catch (e) {

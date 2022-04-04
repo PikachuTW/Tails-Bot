@@ -14,7 +14,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'clear',
     description: '屏蔽訊息',
     usage: 'clear',
 };

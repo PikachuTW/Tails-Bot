@@ -19,7 +19,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'react',
     description: '投票新增表情符號',
     usage: 'react',
 };

@@ -10,7 +10,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'ping',
     description: '傳送延遲值',
     usage: 'ping',
 };

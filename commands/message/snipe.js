@@ -84,7 +84,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'snipe',
     description: 'Snipe訊息',
     usage: 'snipe',
 };

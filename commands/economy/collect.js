@@ -80,7 +80,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'collect',
     description: '領取Tails幣資金',
     usage: 'collect',
 };

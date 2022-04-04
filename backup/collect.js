@@ -40,12 +40,11 @@ exports.run = async (client, message) => {
         if (second < 60) {
             return message.reply(`你還要再${second}秒才能領取!`);
         }
-        else {
-            return message.reply(`你還要再${Math.floor(second / 60)}分${second % 60}秒才能領取!`);
-        }
+
+        return message.reply(`你還要再${Math.floor(second / 60)}分${second % 60}秒才能領取!`);
     }
 
-    await invest.updateOne({ 'discordid': message.author.id }, { $set: { 'claimcooldown': Date.now() } });
+    await invest.updateOne({ discordid: message.author.id }, { $set: { claimcooldown: Date.now() } });
 
     const payout = [1, 2, 4, 6, 8, 12, 16, 25, 36, 45, 66, 90,
     ];
@@ -61,16 +60,14 @@ exports.run = async (client, message) => {
 
     if (savething != 0) {
         for (i = 11; i >= 0; i--) {
-            if (savething >= Math.pow(2, i)) {
-                savething -= Math.pow(2, i);
+            if (savething >= 2 ** i) {
+                savething -= 2 ** i;
                 judge[i] = true;
-            }
-            else {
+            } else {
                 judge[i] = false;
             }
         }
-    }
-    else {
+    } else {
         for (i = 11; i >= 0; i--) {
             judge[i] = false;
         }
@@ -84,7 +81,7 @@ exports.run = async (client, message) => {
 
     const doubleRandom = Math.random();
     if (doubleRandom < benefitsdata.doubleChance[totemdata.doubleChance]) {
-        await credit.updateOne({ 'discordid': message.author.id }, { $inc: { 'tails_credit': Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti] * 2) } });
+        await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti] * 2) } });
 
         const exampleEmbed = new MessageEmbed()
             .setColor('#ffae00')
@@ -94,9 +91,8 @@ exports.run = async (client, message) => {
             .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
         message.reply({ embeds: [exampleEmbed] });
-    }
-    else {
-        await credit.updateOne({ 'discordid': message.author.id }, { $inc: { 'tails_credit': Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti]) } });
+    } else {
+        await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: Math.round(giveamount * benefitsdata.investMulti[totemdata.investMulti]) } });
 
         const exampleEmbed = new MessageEmbed()
             .setColor('#ffae00')
@@ -115,7 +111,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'collect',
     description: '領取Tails幣資金',
     usage: 'collect',
 };

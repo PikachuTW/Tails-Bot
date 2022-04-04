@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const snipedata = require('../models/snipedata.js');
-// const misc = require('../models/misc.js');
 
 module.exports = async (client, message) => {
     if (message.guildId !== '828450904990154802') return;
@@ -16,13 +15,6 @@ module.exports = async (client, message) => {
         .setFooter({ text: `Author: ${message.author.id} | Message ID: ${message.id}\n${currentdate} | 頻道: ${message.channel.name}` });
 
     client.channels.cache.find((channel) => channel.id === '932974877630148658').send({ embeds: [exampleEmbed] });
-
-    // if (message.channel.id == '857947371631804437') {
-    //     const now = await misc.findOne({ 'key': 'countChannel' });
-    //     if (message.content == now.value_num - 1) {
-    //         client.channels.cache.find(channel => channel.id == '857947371631804437').send(`${message.author} ${message.content}`);
-    //     }
-    // }
 
     if (message.author.bot) return;
 

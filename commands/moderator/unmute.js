@@ -69,7 +69,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'unmute',
     description: '解除禁言成員',
     usage: 'unmute <@成員>',
 };

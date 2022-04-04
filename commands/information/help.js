@@ -30,8 +30,7 @@ exports.run = async (client, message, args) => {
             let res = '';
             cmds.forEach((file) => {
                 try {
-                    const code = require(`../${folder}/${file}`);
-                    res += `\`t!${code.help.name}\` `;
+                    res += `\`t!${file.split('.')[0]}\` `;
                 } catch (error) {
                     logger.log(`${error}`, 'error');
                 }
@@ -67,7 +66,6 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'help',
     description: '顯示所有指令列表',
     usage: 'help',
 };
