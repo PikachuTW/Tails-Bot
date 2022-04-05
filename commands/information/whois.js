@@ -67,6 +67,7 @@ exports.run = async (client, message, args) => {
                 embeds: [
                     new MessageEmbed()
                         .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
+                        .setColor('#ffae00')
                         .setDescription(`<@${target.id}>`)
                         .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
                         .addField('加入日期', `\`\`\`${target.joinedAt.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}\`\`\``, true)
@@ -84,6 +85,7 @@ exports.run = async (client, message, args) => {
                 embeds: [
                     new MessageEmbed()
                         .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
+                        .setColor('#ffae00')
                         .setDescription(`<@${target.id}>`)
                         .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
                         .addField('加入日期', `\`\`\`${target.joinedAt.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}\`\`\``, true)

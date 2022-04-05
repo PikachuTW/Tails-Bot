@@ -19,9 +19,9 @@ module.exports = async (client, message) => {
                 try {
                     const stamp = client.container.cooldown.get(message.author.id) || 0;
                     const now = Date.now();
-                    if (now - stamp < 3000 && message.author.id !== '650604337000742934') {
+                    if (now - stamp < 2000 && message.author.id !== '650604337000742934') {
                         try {
-                            message.reply(`指令還在冷卻中! (${((3000 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
+                            message.reply(`指令還在冷卻中! (${((2000 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
                         } catch { }
                     } else {
                         await cmd.run(client, message, args);

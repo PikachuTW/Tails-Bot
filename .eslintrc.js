@@ -19,6 +19,7 @@ module.exports = {
         'consistent-return': 'off',
         'import/no-dynamic-require': 'off',
         'global-require': 'off',
+        'no-nested-ternary': 'off',
         indent: ['warn', 4],
         'no-plusplus': ['warn', { allowForLoopAfterthoughts: true }],
     },

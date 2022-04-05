@@ -2,9 +2,9 @@ module.exports = async (client, interaction) => {
     if (interaction.guildId !== '828450904990154802') return;
     const stamp = client.container.interactionCooldown.get(interaction.member.id) || 0;
     const now = Date.now();
-    if (now - stamp < 3000 && interaction.member.id !== '650604337000742934') {
+    if (now - stamp < 2000 && interaction.member.id !== '650604337000742934') {
         try {
-            await interaction.reply({ content: `冷卻中! (${((3000 - (now - stamp)) / 1000).toPrecision(2)}秒)`, ephemeral: true });
+            await interaction.reply({ content: `冷卻中! (${((2000 - (now - stamp)) / 1000).toPrecision(2)}秒)`, ephemeral: true });
             return;
         } catch { }
     }
