@@ -22,9 +22,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['nick'],
     permLevel: 'Admin',
-};
-
-exports.help = {
     description: '更改暱稱',
     usage: 'nickname <@成員>',
 };

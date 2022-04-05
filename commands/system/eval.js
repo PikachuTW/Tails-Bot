@@ -35,9 +35,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '執行任何 javascript 程式碼',
     usage: 'eval [程式碼]',
 };

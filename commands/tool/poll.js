@@ -11,9 +11,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '創建投票',
     usage: 'poll',
 };

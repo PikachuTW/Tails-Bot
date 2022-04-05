@@ -47,9 +47,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '查看你的Totem',
     usage: 'totem',
 };

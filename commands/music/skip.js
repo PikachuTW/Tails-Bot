@@ -32,9 +32,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '跳過音樂',
     usage: 'skip',
 };

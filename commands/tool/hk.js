@@ -17,9 +17,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '翻譯廣東話到中文',
     usage: 'hk',
 };

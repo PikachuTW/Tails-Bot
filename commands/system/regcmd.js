@@ -34,9 +34,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '上傳應用程式命令',
     usage: 'regcmd',
 };

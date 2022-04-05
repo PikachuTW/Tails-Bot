@@ -79,9 +79,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['msglb'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '總訊息量排行榜',
     usage: 'msgleaderboard',
 };

@@ -16,9 +16,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '投票新增表情符號',
     usage: 'react',
 };

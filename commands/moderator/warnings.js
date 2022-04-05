@@ -42,9 +42,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Staff',
-};
-
-exports.help = {
     description: '查看成員的警告',
     usage: 'warnings',
 };

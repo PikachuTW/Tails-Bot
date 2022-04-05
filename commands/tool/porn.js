@@ -189,9 +189,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '色情',
     usage: 'porn',
 };

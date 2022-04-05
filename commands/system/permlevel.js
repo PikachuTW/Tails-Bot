@@ -11,9 +11,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['perm'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '回傳你目前的權限等級',
     usage: 'permlevel',
 };

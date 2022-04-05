@@ -11,9 +11,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['c', 'purge'],
     permLevel: 'Owner',
-};
-
-exports.help = {
     description: '屏蔽訊息',
     usage: 'clear',
 };

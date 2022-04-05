@@ -145,9 +145,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '購買Totem',
     usage: 'gacha',
 };

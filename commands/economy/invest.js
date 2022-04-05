@@ -31,9 +31,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '查看你的資金投資列表',
     usage: 'invest',
 };

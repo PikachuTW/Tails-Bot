@@ -8,9 +8,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '同步成員計數',
     usage: 'sync',
 };

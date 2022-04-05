@@ -66,9 +66,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '賭注tails幣',
     usage: 'bet',
 };

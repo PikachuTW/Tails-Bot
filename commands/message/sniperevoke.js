@@ -53,9 +53,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['rs', 'rsnipe', 'sr'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '屏蔽Snipe訊息',
     usage: 'sniperevoke',
 };

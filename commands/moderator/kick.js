@@ -42,9 +42,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Admin',
-};
-
-exports.help = {
     description: '踢出成員',
     usage: 'kick <@成員> <原因>',
 };

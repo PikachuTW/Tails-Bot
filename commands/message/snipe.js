@@ -81,9 +81,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['s'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: 'Snipe訊息',
     usage: 'snipe',
 };

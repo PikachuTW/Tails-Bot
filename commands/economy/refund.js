@@ -55,9 +55,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '退費',
     usage: 'refund',
 };

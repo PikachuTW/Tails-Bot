@@ -34,9 +34,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['addmsg', 'msgadd'],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '增加訊息量',
     usage: 'addmessage',
 };

@@ -66,9 +66,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Staff',
-};
-
-exports.help = {
     description: '解除禁言成員',
     usage: 'unmute <@成員>',
 };

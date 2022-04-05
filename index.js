@@ -1,14 +1,12 @@
-if (Number(process.version.slice(1).split('.')[0]) < 17) throw new Error('Node 的等級必須要大於 17.x ，請進行更新');
+if (Number(process.version.slice(1).split('.')[0]) < 17) throw new Error('Node.js 的等級必須要大於等於 17 ，請進行更新');
 
-require('dotenv').config();
+const dotenv = require('dotenv');
 const { Client, Collection } = require('discord.js');
 const { readdirSync } = require('fs');
 const play = require('play-dl');
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const {
     createAudioPlayer, NoSubscriberBehavior, createAudioResource, getVoiceConnection,
@@ -19,10 +17,10 @@ const music = require('./models/music.js');
 const misc = require('./models/misc.js');
 const functions = require('./modules/functions.js');
 
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+dotenv.config();
 const client = new Client({ intents: 32767, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'] });
 client.login(process.env.DISCORD_TOKEN);
-const app = express();
-
 mongoose
     .connect(process.env.MONGO, {
         useNewUrlParser: true,
@@ -39,13 +37,11 @@ const cooldown = new Collection();
 const msgCooldown = new Collection();
 const interactionCooldown = new Collection();
 const robCooldown = new Collection();
-
 const player = createAudioPlayer({
     behaviors: {
         noSubscriber: NoSubscriberBehavior.Pause,
     },
 });
-
 const levelCache = {};
 for (let i = 0; i < permLevels.length; i++) {
     const thisLevel = permLevels[i];
@@ -72,7 +68,7 @@ client.fn = functions;
             try {
                 const code = require(`./commands/${folder}/${file}`);
                 const cmdName = file.split('.')[0];
-                code.help.name = cmdName;
+                code.conf.name = cmdName;
                 client.container.commands.set(cmdName, code);
                 code.conf.aliases.forEach((alias) => {
                     client.container.aliases.set(alias, cmdName);
@@ -115,25 +111,27 @@ client.fn = functions;
             });
         }
     });
+
+    const app = express();
+
+    app.get('/', (req, res) => {
+        res.sendFile('./html/index.html', { root: __dirname });
+    });
+
+    app.get('/console', (req, res) => {
+        res.sendFile('./html/console.html', { root: __dirname });
+    });
+
+    app.post('/console', urlencodedParser, (req, res) => {
+        console.log(req.body);
+        res.sendFile('./html/console.html', { root: __dirname });
+    });
+
+    app.get('*', (req, res) => {
+        res.send('404 not found');
+    });
+
+    app.listen(3000, () => {
+        console.log('Listening!');
+    });
 })();
-
-app.get('/', (req, res) => {
-    res.sendFile('./html/index.html', { root: __dirname });
-});
-
-app.get('/console', (req, res) => {
-    res.sendFile('./html/console.html', { root: __dirname });
-});
-
-app.post('/console', urlencodedParser, (req, res) => {
-    console.log(req.body);
-    res.sendFile('./html/console.html', { root: __dirname });
-});
-
-app.get('*', (req, res) => {
-    res.send('404 not found');
-});
-
-app.listen(3000, () => {
-    console.log('Listening!');
-});

@@ -11,9 +11,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '搜尋歌詞',
     usage: 'lyrics',
 };

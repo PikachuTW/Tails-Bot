@@ -29,9 +29,6 @@ exports.run = (client, message) => {
 exports.conf = {
     aliases: ['botinfo'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '回傳機器人數據',
     usage: 'info',
 };

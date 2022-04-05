@@ -27,9 +27,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Owner',
-};
-
-exports.help = {
     description: '降職管理人員',
     usage: 'demote <@成員>',
 };

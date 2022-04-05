@@ -26,7 +26,7 @@ module.exports = async (client, message) => {
                     } else {
                         await cmd.run(client, message, args);
                         client.container.cooldown.set(message.author.id, now);
-                        logger.log(`${config.permLevels.find((l) => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.help.name}`, 'cmd');
+                        logger.log(`${config.permLevels.find((l) => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.conf.name}`, 'cmd');
                     }
                 } catch (e) {
                     message.channel.send({ content: `出現了些錯誤\n\`\`\`${e.message}\`\`\`` });

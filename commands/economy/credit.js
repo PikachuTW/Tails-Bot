@@ -33,9 +33,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['bal'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '查看你的Tails幣餘額',
     usage: 'credit',
 };

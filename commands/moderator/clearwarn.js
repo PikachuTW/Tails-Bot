@@ -23,9 +23,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Xi',
-};
-
-exports.help = {
     description: '清除成員的警告',
     usage: 'clearwarn',
 };

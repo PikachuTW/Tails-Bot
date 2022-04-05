@@ -157,9 +157,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['rank', 'r'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '獲取你的訊息量',
     usage: 'activeapi',
 };

@@ -27,9 +27,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['wlb', 'warnlb', 'warningslb'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '警告排行榜',
     usage: 'warningsleaderboard',
 };

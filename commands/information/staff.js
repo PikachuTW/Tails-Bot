@@ -18,9 +18,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Staff',
-};
-
-exports.help = {
     description: '回傳管理人員階級列表',
     usage: 'staff',
 };

@@ -8,9 +8,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '獲取你的Key',
     usage: 'key',
 };

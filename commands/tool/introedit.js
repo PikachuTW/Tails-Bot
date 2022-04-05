@@ -36,9 +36,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['editintro'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '修改你的個人資料',
     usage: 'introedit',
 };

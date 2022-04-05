@@ -9,9 +9,6 @@ exports.run = (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '回傳機器人上線時間',
     usage: 'uptime',
 };

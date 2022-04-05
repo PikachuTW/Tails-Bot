@@ -53,9 +53,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['redeem2'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '從Tails幣兌換你的林天天幣(費率為1 Tails幣=25M 林天天幣)',
     usage: 'redeem-reverse',
 };

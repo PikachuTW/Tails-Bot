@@ -41,9 +41,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '加入語音頻道',
     usage: 'join',
 };

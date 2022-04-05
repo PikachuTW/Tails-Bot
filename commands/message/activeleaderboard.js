@@ -36,9 +36,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['activelb'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '三日訊息量排行榜',
     usage: 'activeleaderboard',
 };

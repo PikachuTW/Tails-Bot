@@ -78,9 +78,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['p'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '播放音樂',
     usage: 'play',
 };

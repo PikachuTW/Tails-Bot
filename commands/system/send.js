@@ -7,9 +7,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['say'],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '傳送任何訊息',
     usage: 'send',
 };

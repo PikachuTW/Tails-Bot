@@ -7,9 +7,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '傳送延遲值',
     usage: 'ping',
 };

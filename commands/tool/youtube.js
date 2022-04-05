@@ -9,9 +9,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['yt'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '觀看Youtube影片',
     usage: 'youtube',
 };

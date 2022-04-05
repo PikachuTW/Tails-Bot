@@ -31,9 +31,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['q'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '查看目前播放清單',
     usage: 'queue',
 };

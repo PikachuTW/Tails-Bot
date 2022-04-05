@@ -46,9 +46,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '增加你的Tails幣餘額',
     usage: 'add',
 };

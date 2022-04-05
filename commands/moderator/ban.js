@@ -57,9 +57,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Co-Owner',
-};
-
-exports.help = {
     description: '禁止成員',
     usage: 'ban <@成員> <原因>',
 };

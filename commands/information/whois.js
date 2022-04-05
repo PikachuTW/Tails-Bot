@@ -108,9 +108,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: ['profile'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '獲取成員的數據',
     usage: 'whois',
 };

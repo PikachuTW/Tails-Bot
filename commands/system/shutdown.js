@@ -6,9 +6,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '關閉機器人',
     usage: 'shutdown',
 };

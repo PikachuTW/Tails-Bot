@@ -55,9 +55,6 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Tails',
-};
-
-exports.help = {
     description: '給予成員身分組',
     usage: 'role',
 };

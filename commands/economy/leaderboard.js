@@ -23,9 +23,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: ['lb'],
     permLevel: 'User',
-};
-
-exports.help = {
     description: 'Tails幣排行榜',
     usage: 'leaderboard',
 };

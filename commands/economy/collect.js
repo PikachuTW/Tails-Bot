@@ -77,9 +77,6 @@ exports.run = async (client, message) => {
 exports.conf = {
     aliases: [],
     permLevel: 'User',
-};
-
-exports.help = {
     description: '領取Tails幣資金',
     usage: 'collect',
 };
