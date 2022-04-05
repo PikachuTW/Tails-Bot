@@ -33,6 +33,9 @@ mongoose
 
 const commands = new Collection();
 const aliases = new Collection();
+const button = new Collection();
+const context = new Collection();
+const select = new Collection();
 const cooldown = new Collection();
 const msgCooldown = new Collection();
 const interactionCooldown = new Collection();
@@ -52,6 +55,11 @@ client.container = {
     commands,
     aliases,
     levelCache,
+    interactions: {
+        button,
+        context,
+        select,
+    },
     cooldown,
     msgCooldown,
     interactionCooldown,
@@ -90,6 +98,27 @@ client.fn = functions;
         } catch (error) {
             logger.log(`${error}`, 'error');
         }
+    });
+
+    const interactionFolder = readdirSync('./interactions/').filter((file) => !file.endsWith('.js'));
+    interactionFolder.forEach((folder) => {
+        const cmds = readdirSync(`./interactions/${folder}/`).filter((file) => file.endsWith('.js'));
+        cmds.forEach((file) => {
+            try {
+                const code = require(`./interactions/${folder}/${file}`);
+                const cmdName = file.split('.')[0];
+                if (folder === 'button') {
+                    client.container.interactions.button.set(cmdName, code);
+                } else if (folder === 'context') {
+                    client.container.interactions.context.set(cmdName, code);
+                } else if (folder === 'select') {
+                    client.container.interactions.select.set(cmdName, code);
+                }
+                logger.log(`INTERACTION ${cmdName} 已被載入 ✅`, 'log');
+            } catch (error) {
+                logger.log(`${error}`, 'error');
+            }
+        });
     });
 
     player.on('stateChange', async (oldState, newState) => {
