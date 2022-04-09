@@ -12,30 +12,33 @@ exports.run = async (client, message, args) => {
         return message.reply('```& | -```');
     }
 
-    if (mode === 1) {
+    if (mode === '1') {
         const Members = message.guild.members.cache.filter((member) => member.roles.cache.find((role) => role === Role1) && member.roles.cache.find((role) => role === Role2)).map((member) => member.user).join('\n');
 
-        const Embed1 = new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle(`${Role1.name} ${Role2.name} 共同身分組成員列表`)
-            .setDescription(Members);
-        message.channel.send({ embeds: [Embed1] });
-    } else if (mode === 2) {
+        message.channel.send({
+            embeds: [new MessageEmbed()
+                .setColor('#ffae00')
+                .setTitle(`${Role1.name} ${Role2.name} 共同身分組成員列表`)
+                .setDescription(Members)],
+        });
+    } else if (mode === '2') {
         const Members = message.guild.members.cache.filter((member) => member.roles.cache.find((role) => role === Role1) || member.roles.cache.find((role) => role === Role2)).map((member) => member.user).join('\n');
 
-        const Embed1 = new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle(`${Role1.name} ${Role2.name} 共同身分組成員列表`)
-            .setDescription(Members);
-        message.channel.send({ embeds: [Embed1] });
-    } else if (mode === 3) {
+        message.channel.send({
+            embeds: [new MessageEmbed()
+                .setColor('#ffae00')
+                .setTitle(`${Role1.name} ${Role2.name} 共同身分組成員列表`)
+                .setDescription(Members)],
+        });
+    } else if (mode === '3') {
         const Members = message.guild.members.cache.filter((member) => member.roles.cache.find((role) => role === Role1) && member.roles.cache.find((role) => role === Role2) === undefined).map((member) => member.user).join('\n');
 
-        const Embed1 = new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle(`${Role1.name} ${Role2.name} 差集身分組成員列表`)
-            .setDescription(Members);
-        message.channel.send({ embeds: [Embed1] });
+        message.channel.send({
+            embeds: [new MessageEmbed()
+                .setColor('#ffae00')
+                .setTitle(`${Role1.name} ${Role2.name} 差集身分組成員列表`)
+                .setDescription(Members)],
+        });
     } else {
         message.reply('沒有給予模式');
     }

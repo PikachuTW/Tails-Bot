@@ -32,8 +32,9 @@ exports.run = async (client, message, args) => {
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     for (let i = 0; i < warnres.length; i++) {
+        const mod = client.users.cache.get(warnres[i].warnstaff);
         // eslint-disable-next-line no-underscore-dangle
-        warningembed.addField(`ID: ${warnres[i]._id} | 管理人員: ${client.users.cache.get(warnres[i].warnstaff).tag}`, `${warnres[i].warncontent} - ${new Date(warnres[i].warnstamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
+        warningembed.addField(`ID: ${warnres[i]._id} | 管理人員: ${mod ? mod.tag : 'User Left'}`, `${warnres[i].warncontent} - ${new Date(warnres[i].warnstamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
     }
 
     message.reply({ embeds: [warningembed] });

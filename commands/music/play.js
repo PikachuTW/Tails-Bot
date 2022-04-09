@@ -23,9 +23,9 @@ exports.run = async (client, message, args) => {
         duration: songInfo.video_details.durationRaw,
     };
 
-    const bannedWords = ['never gonna give you up', 'rick', 'roll', '大悲咒', '淫叫', 'earrape', '小玉', '聖結石', '放火'];
+    const bannedWords = ['never gonna give you up', 'rick', 'roll', '大悲咒', '淫叫', 'earrape', '小玉', '聖結石', '放火', 'give you up', '有感筆電', '每週一三五', '每周一三五', '有感', 'gura', 'hololive', 'vtuber'];
     if (bannedWords.some((word) => song.title.toLowerCase().includes(word))) {
-        return message.reply('你要放啥蠢歌 :frog:');
+        return message.reply('你要播放的影片已經被系統給屏蔽了! 🙈');
     }
 
     if (['763047430178471968', '650604337000742934'].indexOf(message.author.id) === -1) {

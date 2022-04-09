@@ -25,5 +25,10 @@ module.exports = async (client, interaction) => {
         if (cmd) {
             cmd(client, interaction);
         }
+    } else if (interaction.isCommand()) {
+        const cmd = client.container.interactions.slash.get(interaction.commandName);
+        if (cmd) {
+            cmd(client, interaction);
+        }
     }
 };

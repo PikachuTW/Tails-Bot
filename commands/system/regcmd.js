@@ -1,8 +1,4 @@
-const { ContextMenuCommandBuilder } = require('@discordjs/builders');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v10');
-
-const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+const { ContextMenuCommandBuilder, SlashCommandBuilder } = require('@discordjs/builders');
 
 exports.run = async (client, message) => {
     const commands = [
@@ -10,25 +6,26 @@ exports.run = async (client, message) => {
             .setDefaultPermission(true)
             .setName('翻譯成中文')
             .setType(3),
+        new SlashCommandBuilder()
+            .setDefaultPermission(true)
+            .setName('ping')
+            .setDescription('回傳延遲值'),
+        new SlashCommandBuilder()
+            .setDefaultPermission(true)
+            .setName('test')
+            .setDescription('測試'),
     ]
         .map((command) => command.toJSON());
 
-    (async () => {
+    try {
+        message.guild.commands.set(commands);
+        message.reply('應用程式命令註冊成功!');
+    } catch (error) {
+        console.error(error);
         try {
-            console.log('開始註冊應用程式命令');
-            await rest.put(
-                Routes.applicationGuildCommands(client.user.id, message.guild.id),
-                { body: commands },
-            );
-            console.log('應用程式命令註冊成功');
-            message.reply('應用程式命令註冊成功!');
-        } catch (error) {
-            console.error(error);
-            try {
-                message.reply('應用程式命令註冊失敗 :frog:');
-            } catch {}
-        }
-    })();
+            message.reply('應用程式命令註冊失敗 :frog:');
+        } catch { }
+    }
 };
 
 exports.conf = {

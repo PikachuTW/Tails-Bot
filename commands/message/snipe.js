@@ -46,7 +46,7 @@ exports.run = async (client, message) => {
         }
 
         let msg = sdata.snipemsg;
-        const timeget = sdata.snipetime;
+        let timeget = sdata.snipetime;
         const senderid = sdata.snipesender;
         const senderatt = sdata.snipeatt;
 
@@ -62,6 +62,7 @@ exports.run = async (client, message) => {
 
         if (bannedWords.some((word) => msg.toLowerCase().includes(word)) && senderid !== '650604337000742934' && senderid !== '889358372170792970') {
             msg = '```已屏蔽```';
+            timeget = '屏蔽了🙈';
         }
 
         const getuser = client.users.cache.get(senderid);

@@ -1,11 +1,14 @@
 const { codeBlock } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { getVoiceConnection } = require('@discordjs/voice');
+const RssFeedEmitter = require('rss-feed-emitter');
 const logger = require('../modules/Logger.js');
 const { settings } = require('../config.js');
 const misc = require('../models/misc.js');
 const version = require('../version.js');
 const level = require('../models/level.js');
+
+const feeder = new RssFeedEmitter({ skipFirstLoad: true });
 
 module.exports = async (client) => {
     logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map((g) => g.memberCount).reduce((a, b) => a + b)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
@@ -48,4 +51,31 @@ module.exports = async (client) => {
             }
         });
     }, 120000);
+
+    feeder.add({
+        url: [
+            'https://news.ltn.com.tw/rss/politics.xml',
+            'https://news.ltn.com.tw/rss/opinion.xml',
+            'https://www.epochtimes.com/gb/nsc413.xml',
+            'https://news.pts.org.tw/xml/newsfeed.xml',
+            'http://www.people.com.cn/rss/politics.xml',
+            'http://www.people.com.cn/rss/haixia.xml',
+            'http://www.people.com.cn/rss/military.xml',
+            'http://www.people.com.cn/rss/world.xml',
+            'https://m.secretchina.com/news/gb/p1.xml',
+            'https://m.secretchina.com/news/gb/p2.xml',
+            'https://feeds.bbci.co.uk/zhongwen/trad/rss.xml',
+        ],
+        refresh: 2000,
+    });
+
+    feeder.on('new-item', (item) => {
+        try {
+            client.channels.cache.get('962232054878187530').send(
+                `**${item.title}**\n${item.link}`,
+            );
+        } catch (e) {
+            logger.error(e);
+        }
+    });
 };

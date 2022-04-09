@@ -36,6 +36,7 @@ const aliases = new Collection();
 const button = new Collection();
 const context = new Collection();
 const select = new Collection();
+const slash = new Collection();
 const cooldown = new Collection();
 const msgCooldown = new Collection();
 const interactionCooldown = new Collection();
@@ -59,6 +60,7 @@ client.container = {
         button,
         context,
         select,
+        slash,
     },
     cooldown,
     msgCooldown,
@@ -113,6 +115,8 @@ client.fn = functions;
                     client.container.interactions.context.set(cmdName, code);
                 } else if (folder === 'select') {
                     client.container.interactions.select.set(cmdName, code);
+                } else if (folder === 'slash') {
+                    client.container.interactions.slash.set(cmdName, code);
                 }
                 logger.log(`INTERACTION ${cmdName} 已被載入 ✅`, 'log');
             } catch (error) {
