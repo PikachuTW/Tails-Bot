@@ -1,7 +1,5 @@
 exports.run = async (client, message) => {
-    const ping = Date.now() - message.createdTimestamp;
-    const apiping = Math.round(client.ws.ping);
-    message.reply(`機器人延遲: \`${ping}\` ms\nApi延遲: \`${apiping}\` ms`);
+    message.reply(`機器人延遲: \`${Date.now() - message.createdTimestamp}\` ms\nApi延遲: \`${client.ws.ping}\` ms`);
 };
 
 exports.conf = {
