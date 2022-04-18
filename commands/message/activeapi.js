@@ -58,7 +58,7 @@ exports.run = async (client, message, args) => {
         }
 
         try {
-            total = levelData.daily.map((d) => d.count).reduce((a, b) => a + b);
+            total = levelData.daily.map((d) => d.count).reduce((a, b) => a + b, 0);
         } catch {
             total = 0;
         }

@@ -22,7 +22,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Xi',
+    permLevel: 'Tails',
     description: '清除成員的警告',
     usage: 'clearwarn',
 };

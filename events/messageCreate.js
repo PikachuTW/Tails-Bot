@@ -3,10 +3,12 @@ const { permlevel } = require('../modules/functions.js');
 const config = require('../config.js');
 const { settings: { prefix } } = require('../config.js');
 const level = require('../models/level.js');
+const afk = require('../models/afk.js');
 
 module.exports = async (client, message) => {
     if (message.guildId !== '828450904990154802') return;
     const { container } = client;
+    let cmdname2;
     if (!message.author.bot && message.content.toLowerCase().startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
@@ -27,6 +29,7 @@ module.exports = async (client, message) => {
                         await cmd.run(client, message, args);
                         client.container.cooldown.set(message.author.id, now);
                         logger.log(`${config.permLevels.find((l) => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.conf.name}`, 'cmd');
+                        cmdname2 = cmd.conf.name;
                     }
                 } catch (e) {
                     message.channel.send({ content: `出現了些錯誤\n\`\`\`${e.message}\`\`\`` });
@@ -38,15 +41,31 @@ module.exports = async (client, message) => {
     if (bannedWords.some((word) => message.content.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970'].indexOf(message.author.id) === -1 && message.channel.id !== '869948348285722654') {
         try {
             message.delete();
-            return message.channel.send(`:x: ${message.author} 你不允許發送邀請連結!!`);
+            message.channel.send(`:x: ${message.author} 你不允許發送邀請連結!!`);
         } catch { }
     }
+    if (message.author.bot) return;
     if (message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
         try {
             message.reply(`嗨! 機器人的前綴是 \`${prefix}\``);
         } catch { }
     }
-    if ((!message.author.bot && ['948178858610405426', '832219589046829086', '859245756737388544'].indexOf(message.channel.id) !== -1) || message.author.id === '650604337000742934') {
+
+    const afkData = await afk.find();
+    const afkList = afkData.map((d) => d.discordid);
+    let checkFor = false;
+    afkList.forEach((d) => {
+        if (message.mentions.members.map((m) => m.id).indexOf(d) !== -1 && checkFor === false) {
+            const { content } = afkData.find((a) => a.discordid === d);
+            message.channel.send({ content: `<@${d}> 正在afk: ${content}`, allowedMentions: { parse: [] } });
+            checkFor = true;
+        }
+    });
+    if (afkList.indexOf(message.author.id) !== -1 && cmdname2 !== 'afk') {
+        await afk.deleteOne({ discordid: message.author.id });
+        message.reply('已經解除你的afk!');
+    }
+    if ((['948178858610405426', '832219589046829086', '859245756737388544'].indexOf(message.channel.id) !== -1) || message.author.id === '650604337000742934') {
         let levelData = await level.findOne({ discordid: message.author.id });
         if (!levelData) {
             levelData = await level.create({

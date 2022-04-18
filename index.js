@@ -19,7 +19,7 @@ const functions = require('./modules/functions.js');
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 dotenv.config();
-const client = new Client({ intents: 32767, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'] });
+const client = new Client({ intents: 131071, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'] });
 client.login(process.env.DISCORD_TOKEN);
 mongoose
     .connect(process.env.MONGO, {
@@ -167,4 +167,10 @@ client.fn = functions;
     app.listen(3000, () => {
         console.log('Listening!');
     });
+
+    setInterval(() => {
+        if (Number.isNaN(client.ws.ping)) {
+            process.exit(0);
+        }
+    }, 60000);
 })();

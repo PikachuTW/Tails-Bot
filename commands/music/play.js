@@ -12,7 +12,7 @@ exports.run = async (client, message, args) => {
     if (!link) return message.reply('請提供你要搜尋的音樂!');
     let songInfo;
     try {
-        songInfo = await play.video_info(`${link}`);
+        songInfo = await play.video_basic_info(`${link}`);
     } catch {
         return message.reply('無法解析你要尋找的音樂!');
     }

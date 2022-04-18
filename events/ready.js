@@ -64,7 +64,7 @@ module.exports = async (client) => {
             'http://www.people.com.cn/rss/world.xml',
             'https://m.secretchina.com/news/gb/p1.xml',
             'https://m.secretchina.com/news/gb/p2.xml',
-            'https://feeds.bbci.co.uk/zhongwen/trad/rss.xml',
+            'https://www.cdc.gov.tw/RSS/RssXml/Hh094B49-DRwe2RR4eFfrQ?type=1',
         ],
         refresh: 2000,
     });

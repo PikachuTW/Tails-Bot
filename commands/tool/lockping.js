@@ -10,7 +10,7 @@ exports.run = async (client, message) => {
 
 exports.conf = {
     aliases: ['lp'],
-    permLevel: 'Co-Owner',
+    permLevel: 'Admin',
     description: '關閉小粉紅提及權限',
     usage: 'lockping',
 };

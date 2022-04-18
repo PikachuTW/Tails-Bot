@@ -8,7 +8,7 @@ exports.run = async (client, message) => {
 
 exports.conf = {
     aliases: ['op'],
-    permLevel: 'Co-Owner',
+    permLevel: 'Admin',
     description: '開啟小粉紅提及權限',
     usage: 'openping',
 };

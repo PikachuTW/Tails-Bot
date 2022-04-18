@@ -30,8 +30,14 @@ module.exports = async (client, message) => {
     }
 
     if (message.author.id === '650604337000742934') {
-        if (message.content.toLowerCase().startsWith('s?s')) {
-            // await snipedata.updateOne({ channelid: message.channel.id }, { $set: { snipemsg: '```已屏蔽```', snipetime: '屏蔽了🙈', snipeatt: null } });
+        if (data.snipemsg !== '```已屏蔽```') {
+            await snipedata.updateOne({
+                channelid: message.channel.id,
+            }, {
+                $set: {
+                    snipetime: currentdate,
+                },
+            });
         }
         return;
     }

@@ -41,18 +41,6 @@ const config = {
 
         {
             level: 2,
-            name: 'Mod',
-            check: (member) => {
-                try {
-                    if (member.roles.cache.has('854959385901531137')) return true;
-                } catch (e) {
-                    return false;
-                }
-            },
-        },
-
-        {
-            level: 3,
             name: 'Admin',
             check: (member) => {
                 try {
@@ -64,31 +52,7 @@ const config = {
         },
 
         {
-            level: 4,
-            name: 'Co-Owner',
-            check: (member) => {
-                try {
-                    if (member.roles.cache.has('854957401362268162')) return true;
-                } catch (e) {
-                    return false;
-                }
-            },
-        },
-
-        {
-            level: 5,
-            name: 'Chief',
-            check: (member) => {
-                try {
-                    if (member.roles.cache.has('926781326202388480')) return true;
-                } catch (e) {
-                    return false;
-                }
-            },
-        },
-
-        {
-            level: 6,
+            level: 3,
             name: 'Owner',
             check: (member) => {
                 try {
@@ -100,7 +64,7 @@ const config = {
         },
 
         {
-            level: 8,
+            level: 4,
             name: 'Tails',
             check: (member) => member.id === '650604337000742934',
         },
