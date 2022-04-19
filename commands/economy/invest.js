@@ -32,5 +32,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '查看你的資金投資列表',
-    usage: 'invest',
 };

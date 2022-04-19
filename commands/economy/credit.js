@@ -34,5 +34,4 @@ exports.conf = {
     aliases: ['bal'],
     permLevel: 'User',
     description: '查看你的Tails幣餘額',
-    usage: 'credit',
 };

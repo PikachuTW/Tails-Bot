@@ -31,5 +31,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '伺服器詳細資訊',
-    usage: 'serverinfo',
 };

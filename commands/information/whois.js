@@ -47,5 +47,4 @@ exports.conf = {
     aliases: ['profile'],
     permLevel: 'User',
     description: '獲取成員的數據',
-    usage: 'whois',
 };

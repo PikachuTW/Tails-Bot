@@ -24,5 +24,4 @@ exports.conf = {
     aliases: ['lb'],
     permLevel: 'User',
     description: 'Tails幣排行榜',
-    usage: 'leaderboard',
 };

@@ -24,5 +24,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '清除成員的警告',
-    usage: 'clearwarn',
 };

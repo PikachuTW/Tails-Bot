@@ -35,5 +35,4 @@ exports.conf = {
     aliases: ['addmsg', 'msgadd'],
     permLevel: 'Tails',
     description: '增加訊息量',
-    usage: 'addmessage',
 };

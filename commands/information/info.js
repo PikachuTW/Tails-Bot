@@ -30,5 +30,4 @@ exports.conf = {
     aliases: ['botinfo'],
     permLevel: 'User',
     description: '回傳機器人數據',
-    usage: 'info',
 };

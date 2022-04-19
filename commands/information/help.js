@@ -49,10 +49,7 @@ exports.run = async (client, message, args) => {
                         .setTitle(command.conf.name)
                         .setColor('#ffae00')
                         .setDescription(command.conf.description)
-                        .addFields([
-                            { name: '用法', value: command.conf.usage ? command.conf.usage : '無' },
-                            { name: '別名', value: command.conf.aliases.length > 0 ? command.conf.aliases.join(', ') : '無' },
-                        ])
+                        .addField({ name: '別名', value: command.conf.aliases.length > 0 ? command.conf.aliases.join(', ') : '無' })
                         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
                 ],
             });
@@ -64,5 +61,4 @@ exports.conf = {
     aliases: ['h'],
     permLevel: 'User',
     description: '顯示所有指令列表',
-    usage: 'help',
 };

@@ -10,5 +10,4 @@ exports.conf = {
     aliases: ['yt'],
     permLevel: 'User',
     description: '觀看Youtube影片',
-    usage: 'youtube',
 };

@@ -44,5 +44,4 @@ exports.conf = {
     aliases: ['buy'],
     permLevel: 'User',
     description: '購買投資',
-    usage: 'investbuy',
 };

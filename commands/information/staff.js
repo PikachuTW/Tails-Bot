@@ -19,5 +19,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Staff',
     description: '回傳管理人員階級列表',
-    usage: 'staff',
 };

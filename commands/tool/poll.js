@@ -12,5 +12,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '創建投票',
-    usage: 'poll',
 };

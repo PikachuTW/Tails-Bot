@@ -33,5 +33,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '跳過音樂',
-    usage: 'skip',
 };

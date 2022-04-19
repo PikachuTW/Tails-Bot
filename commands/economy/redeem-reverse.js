@@ -54,5 +54,4 @@ exports.conf = {
     aliases: ['redeem2'],
     permLevel: 'User',
     description: '從Tails幣兌換你的林天天幣(費率為1 Tails幣=25M 林天天幣)',
-    usage: 'redeem-reverse',
 };

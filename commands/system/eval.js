@@ -36,5 +36,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '執行任何 javascript 程式碼',
-    usage: 'eval [程式碼]',
 };

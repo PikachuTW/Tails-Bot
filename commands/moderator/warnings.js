@@ -44,5 +44,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Staff',
     description: '查看成員的警告',
-    usage: 'warnings',
 };

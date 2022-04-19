@@ -10,5 +10,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '計算',
-    usage: 'math',
 };

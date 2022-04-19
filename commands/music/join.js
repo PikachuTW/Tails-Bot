@@ -42,5 +42,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '加入語音頻道',
-    usage: 'join',
 };

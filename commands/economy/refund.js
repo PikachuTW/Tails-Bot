@@ -56,5 +56,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '退費',
-    usage: 'refund',
 };

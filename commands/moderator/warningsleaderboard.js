@@ -28,5 +28,4 @@ exports.conf = {
     aliases: ['wlb', 'warnlb', 'warningslb'],
     permLevel: 'User',
     description: '警告排行榜',
-    usage: 'warningsleaderboard',
 };

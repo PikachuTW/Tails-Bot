@@ -23,5 +23,4 @@ exports.conf = {
     aliases: ['nick'],
     permLevel: 'Admin',
     description: '更改暱稱',
-    usage: 'nickname <@成員>',
 };

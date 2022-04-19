@@ -48,5 +48,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '查看你的Totem',
-    usage: 'totem',
 };

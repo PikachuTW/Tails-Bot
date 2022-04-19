@@ -13,5 +13,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '屏蔽許多訊息',
-    usage: 'clear',
 };

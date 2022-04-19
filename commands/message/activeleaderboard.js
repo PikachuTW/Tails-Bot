@@ -37,5 +37,4 @@ exports.conf = {
     aliases: ['activelb'],
     permLevel: 'User',
     description: '三日訊息量排行榜',
-    usage: 'activeleaderboard',
 };

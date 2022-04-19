@@ -10,5 +10,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '回傳機器人上線時間',
-    usage: 'uptime',
 };

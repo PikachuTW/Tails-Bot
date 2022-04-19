@@ -38,5 +38,4 @@ exports.conf = {
     aliases: [''],
     permLevel: 'User',
     description: '搜尋維基百科',
-    usage: 'wiki',
 };

@@ -12,5 +12,4 @@ exports.conf = {
     aliases: ['lp'],
     permLevel: 'Admin',
     description: '關閉小粉紅提及權限',
-    usage: 'lockping',
 };

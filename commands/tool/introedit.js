@@ -37,5 +37,4 @@ exports.conf = {
     aliases: ['editintro'],
     permLevel: 'User',
     description: '修改你的個人資料',
-    usage: 'introedit',
 };

@@ -54,5 +54,4 @@ exports.conf = {
     aliases: ['rs', 'rsnipe', 'sr'],
     permLevel: 'User',
     description: '屏蔽Snipe訊息',
-    usage: 'sniperevoke',
 };

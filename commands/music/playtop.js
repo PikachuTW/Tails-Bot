@@ -69,5 +69,4 @@ exports.conf = {
     aliases: ['pt'],
     permLevel: 'User',
     description: '播放音樂',
-    usage: 'playtop',
 };

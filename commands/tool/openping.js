@@ -10,5 +10,4 @@ exports.conf = {
     aliases: ['op'],
     permLevel: 'Admin',
     description: '開啟小粉紅提及權限',
-    usage: 'openping',
 };

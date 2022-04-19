@@ -158,5 +158,4 @@ exports.conf = {
     aliases: ['rank', 'r'],
     permLevel: 'User',
     description: '獲取你的訊息量',
-    usage: 'activeapi',
 };

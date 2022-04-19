@@ -7,5 +7,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '關閉機器人',
-    usage: 'shutdown',
 };

@@ -41,5 +41,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '進行活動',
-    usage: 'event',
 };

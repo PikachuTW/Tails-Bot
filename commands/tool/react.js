@@ -17,5 +17,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '投票新增表情符號',
-    usage: 'react',
 };

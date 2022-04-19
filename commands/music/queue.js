@@ -32,5 +32,4 @@ exports.conf = {
     aliases: ['q'],
     permLevel: 'User',
     description: '查看目前播放清單',
-    usage: 'queue',
 };

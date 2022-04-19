@@ -67,5 +67,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '賭注tails幣',
-    usage: 'bet',
 };

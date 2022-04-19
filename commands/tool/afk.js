@@ -24,5 +24,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: 'afk',
-    usage: 'afk',
 };

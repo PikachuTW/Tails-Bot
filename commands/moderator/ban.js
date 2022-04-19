@@ -58,5 +58,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Admin',
     description: '禁止成員',
-    usage: 'ban <@成員> <原因>',
 };

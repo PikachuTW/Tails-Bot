@@ -9,5 +9,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '獲取你的頭像',
-    usage: 'avatar',
 };

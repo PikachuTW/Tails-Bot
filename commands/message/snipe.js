@@ -83,5 +83,4 @@ exports.conf = {
     aliases: ['s'],
     permLevel: 'User',
     description: 'Snipe訊息',
-    usage: 'snipe',
 };

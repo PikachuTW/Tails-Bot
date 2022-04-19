@@ -12,5 +12,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '搜尋歌詞',
-    usage: 'lyrics',
 };

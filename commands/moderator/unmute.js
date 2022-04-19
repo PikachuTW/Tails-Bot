@@ -67,5 +67,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Staff',
     description: '解除禁言成員',
-    usage: 'unmute <@成員>',
 };

@@ -80,5 +80,4 @@ exports.conf = {
     aliases: ['msglb'],
     permLevel: 'User',
     description: '總訊息量排行榜',
-    usage: 'msgleaderboard',
 };

@@ -32,5 +32,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '上傳應用程式命令',
-    usage: 'regcmd',
 };

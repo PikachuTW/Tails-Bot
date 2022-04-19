@@ -26,5 +26,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '搜尋影片',
-    usage: 'search',
 };

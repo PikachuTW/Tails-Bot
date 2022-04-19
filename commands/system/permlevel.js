@@ -12,5 +12,4 @@ exports.conf = {
     aliases: ['perm'],
     permLevel: 'User',
     description: '回傳你目前的權限等級',
-    usage: 'permlevel',
 };

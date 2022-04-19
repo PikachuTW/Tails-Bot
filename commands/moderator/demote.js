@@ -28,5 +28,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Owner',
     description: '降職管理人員',
-    usage: 'demote <@成員>',
 };

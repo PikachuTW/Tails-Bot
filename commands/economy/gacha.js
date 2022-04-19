@@ -146,5 +146,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '購買Totem',
-    usage: 'gacha',
 };

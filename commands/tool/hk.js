@@ -18,5 +18,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '翻譯廣東話到中文',
-    usage: 'hk',
 };

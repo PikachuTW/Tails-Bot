@@ -6,5 +6,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '傳送延遲值',
-    usage: 'ping',
 };

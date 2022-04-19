@@ -8,5 +8,4 @@ exports.conf = {
     aliases: ['say'],
     permLevel: 'Tails',
     description: '傳送任何訊息',
-    usage: 'send',
 };

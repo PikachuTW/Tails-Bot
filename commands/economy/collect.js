@@ -78,5 +78,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '領取Tails幣資金',
-    usage: 'collect',
 };

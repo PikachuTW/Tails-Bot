@@ -47,5 +47,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '增加你的Tails幣餘額',
-    usage: 'add',
 };

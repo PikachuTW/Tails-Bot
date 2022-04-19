@@ -12,5 +12,4 @@ exports.conf = {
     aliases: ['c', 'purge'],
     permLevel: 'Owner',
     description: '屏蔽訊息',
-    usage: 'clear',
 };

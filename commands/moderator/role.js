@@ -56,5 +56,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '給予成員身分組',
-    usage: 'role',
 };

@@ -9,5 +9,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'Tails',
     description: '同步成員計數',
-    usage: 'sync',
 };

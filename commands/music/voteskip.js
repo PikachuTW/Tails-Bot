@@ -42,5 +42,4 @@ exports.conf = {
     aliases: [],
     permLevel: 'User',
     description: '投票跳過音樂',
-    usage: 'voteskip',
 };
