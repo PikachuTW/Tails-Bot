@@ -18,12 +18,11 @@ exports.run = async (client, message, args) => {
 
     let data = await credit.findOne({ discordid: target.id });
     if (!data) {
-        await credit.create({
+        data = await credit.create({
             discordid: target.id,
             tails_credit: 0,
         });
     }
-    data = await credit.findOne({ discordid: target.id });
 
     const before = data.tails_credit;
 

@@ -1,47 +1,30 @@
-const { MessageEmbed } = require('discord.js');
-const roman = require('romans');
+const credit = require('../../models/credit.js');
 const totem = require('../../models/totem.js');
-const { benefitsdisplay } = require('../../config.js');
 
-exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]) || message.member;
+exports.run = async (client, message) => {
+    const price = [500, 1250, 2000, 3000, 5000, 7500, 12500, 20000, 35000, 50000, 100000, 200000];
 
-    let data = await totem.findOne({ discordid: target.id });
+    const data = await totem.findOne({ discordid: message.author.id });
     if (!data) {
-        await totem.create({
-            discordid: target.id,
-            rank: 0,
-            cooldownReduce: 0,
-            investMulti: 0,
-            commandCost: 0,
-            giveTax: 0,
-            doubleChance: 0,
+        return message.reply('你已經沒有圖騰!');
+    }
+
+    let creditData = await credit.findOne({ discordid: message.author.id });
+    if (!creditData) {
+        creditData = await credit.create({
+            discordid: message.author.id,
+            tails_credit: 0,
         });
-        data = await totem.findOne({ discordid: target.id });
     }
 
-    let totemrank;
-    if (target.id === '650604337000742934') {
-        totemrank = 'Tails';
-    } else if (data.rank === 0) {
-        totemrank = '無';
-    } else {
-        totemrank = `${roman.romanize(data.rank)}`;
+    if (data.rank === 0) {
+        await totem.deleteOne({ discordid: message.author.id });
+        return message.reply('你已經沒有圖騰!');
     }
 
-    const exampleEmbed = new MessageEmbed()
-        .setColor('#ffae00')
-        .setTitle(`${target.user.tag} 的Totem`)
-        .setDescription(`**圖騰等級** \`${totemrank}\``)
-        .addField('投資出資冷卻', `\`${benefitsdisplay.cooldownReduce[data.cooldownReduce]}\``, true)
-        .addField('投資出資乘數', `\`${benefitsdisplay.investMulti[data.investMulti]}\``, true)
-        .addField('指令花費金額', `\`${benefitsdisplay.commandCost[data.commandCost]}\``, true)
-        .addField('贈與金錢稅金', `\`${benefitsdisplay.giveTax[data.giveTax]}\``, true)
-        .addField('雙倍金額機會', `\`${benefitsdisplay.doubleChance[data.doubleChance]}\``, true)
-        .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
-        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
+    await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: price[data.rank - 1] * 2 } });
 
-    message.reply({ embeds: [exampleEmbed] });
+    message.reply(`已經退費 ${price[data.rank - 1] * 2} tails credits!`);
 };
 
 exports.conf = {

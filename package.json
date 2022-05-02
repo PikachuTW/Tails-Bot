@@ -44,7 +44,8 @@
     "rss-feed-emitter": "^3.2.3",
     "sodium": "^3.0.2",
     "unb-api": "^1.2.3",
-    "yt-search": "^2.10.3"
+    "yt-search": "^2.10.3",
+    "ytdl-core": "^4.11.0"
   },
   "peerDependencies": {
     "@discordjs/opus": "^0.5.0"

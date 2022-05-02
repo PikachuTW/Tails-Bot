@@ -50,7 +50,7 @@ module.exports = async (client) => {
                 targetGuild.members.cache.find((user) => user.id === data.discordid).roles.remove('861459068789850172');
             }
         });
-    }, 120000);
+    }, 60000);
 
     feeder.add({
         url: [

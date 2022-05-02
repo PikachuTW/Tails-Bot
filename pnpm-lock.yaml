@@ -42,6 +42,7 @@ specifiers:
   sodium: ^3.0.2
   unb-api: ^1.2.3
   yt-search: ^2.10.3
+  ytdl-core: ^4.11.0
 
 dependencies:
   '@discordjs/builders': 0.12.0
@@ -85,6 +86,7 @@ dependencies:
   sodium: 3.0.2
   unb-api: 1.2.3
   yt-search: 2.10.3
+  ytdl-core: 4.11.0
 
 packages:
 
@@ -2181,6 +2183,14 @@ packages:
       node-fetch: 2.6.7_encoding@0.1.13
     dev: false
 
+  /m3u8stream/0.8.6:
+    resolution: {integrity: sha512-LZj8kIVf9KCphiHmH7sbFQTVe4tOemb202fWwvJwR9W5ENW/1hxJN6ksAWGhQgSBSa3jyWhnjKU1Fw1GaOdbyA==}
+    engines: {node: '>=12'}
+    dependencies:
+      miniget: 4.2.2
+      sax: 1.2.4
+    dev: false
+
   /make-dir/3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
@@ -2269,6 +2279,11 @@ packages:
   /mimic-response/3.1.0:
     resolution: {integrity: sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==}
     engines: {node: '>=10'}
+    dev: false
+
+  /miniget/4.2.2:
+    resolution: {integrity: sha512-a7voNL1N5lDMxvTMExOkg+Fq89jM2vY8pAi9ZEWzZtfNmdfP6RXkvUtFnCAXoCv2T9k1v/fUJVaAEuepGcvLYA==}
+    engines: {node: '>=12'}
     dev: false
 
   /minimatch/3.0.8:
@@ -2901,6 +2916,10 @@ packages:
     resolution: {integrity: sha1-VjsZx8HeiS4Jv8Ty/DDjwn8JUrk=}
     dev: false
 
+  /sax/1.2.4:
+    resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
+    dev: false
+
   /seedrandom/3.0.5:
     resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
     dev: false
@@ -3462,6 +3481,15 @@ packages:
       jsonpath-plus: 5.0.7
       minimist: 1.2.6
       node-fzf: 0.5.3
+    dev: false
+
+  /ytdl-core/4.11.0:
+    resolution: {integrity: sha512-Q3hCLiUA9AOGQXzPvno14GN+HgF9wsO1ZBHlj0COTcyxjIyFpWvMfii0UC4/cAbVaIjEdbWB71GdcGuc4J1Lmw==}
+    engines: {node: '>=12'}
+    dependencies:
+      m3u8stream: 0.8.6
+      miniget: 4.2.2
+      sax: 1.2.4
     dev: false
 
   /zod/3.14.3:

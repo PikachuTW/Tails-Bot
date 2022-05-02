@@ -19,7 +19,7 @@ const functions = require('./modules/functions.js');
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 dotenv.config();
-const client = new Client({ intents: 131071, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'] });
+const client = new Client({ intents: 131071, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'GUILD_SCHEDULED_EVENT'] });
 client.login(process.env.DISCORD_TOKEN);
 mongoose
     .connect(process.env.MONGO, {
@@ -31,16 +31,6 @@ mongoose
     })
     .catch((err) => console.log(err));
 
-const commands = new Collection();
-const aliases = new Collection();
-const button = new Collection();
-const context = new Collection();
-const select = new Collection();
-const slash = new Collection();
-const cooldown = new Collection();
-const msgCooldown = new Collection();
-const interactionCooldown = new Collection();
-const robCooldown = new Collection();
 const player = createAudioPlayer({
     behaviors: {
         noSubscriber: NoSubscriberBehavior.Pause,
@@ -53,19 +43,19 @@ for (let i = 0; i < permLevels.length; i++) {
 }
 
 client.container = {
-    commands,
-    aliases,
+    commands: new Collection(),
+    aliases: new Collection(),
     levelCache,
     interactions: {
-        button,
-        context,
-        select,
-        slash,
+        button: new Collection(),
+        context: new Collection(),
+        select: new Collection(),
+        slash: new Collection(),
     },
-    cooldown,
-    msgCooldown,
-    interactionCooldown,
-    robCooldown,
+    cooldown: new Collection(),
+    msgCooldown: new Collection(),
+    interactionCooldown: new Collection(),
+    robCooldown: new Collection(),
     player,
 };
 client.fn = functions;

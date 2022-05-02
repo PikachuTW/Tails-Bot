@@ -1,8 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const credit = require('../../models/credit.js');
 const snipedata = require('../../models/snipedata.js');
-const totem = require('../../models/totem.js');
-const { benefitsdata } = require('../../config.js');
 
 exports.run = async (client, message) => {
     let data = await credit.findOne({ discordid: message.author.id });
@@ -14,35 +12,20 @@ exports.run = async (client, message) => {
         data = await credit.findOne({ discordid: message.author.id });
     }
 
-    let totemdata = await totem.findOne({ discordid: message.author.id });
-    if (!totemdata) {
-        await totem.create({
-            discordid: message.author.id,
-            rank: 0,
-            cooldownReduce: 0,
-            investMulti: 0,
-            commandCost: 0,
-            giveTax: 0,
-            doubleChance: 0,
-        });
-        totemdata = await totem.findOne({ discordid: message.author.id });
-    }
-
     const before = data.tails_credit;
 
-    if (before >= Math.round(75 * benefitsdata.commandCost[totemdata.commandCost])) {
-        await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { tails_credit: -1 * Math.round(75 * benefitsdata.commandCost[totemdata.commandCost]) } });
+    if (before >= 75) {
+        await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { tails_credit: -75 } });
 
         let sdata = await snipedata.findOne({ channelid: message.channel.id });
         if (!sdata) {
-            await snipedata.create({
+            sdata = await snipedata.create({
                 channelid: message.channel.id,
                 snipemsg: 'test',
                 snipesender: 123,
                 snipetime: 'test',
                 snipeatt: 'test',
             });
-            sdata = await snipedata.findOne({ channelid: message.channel.id });
         }
 
         let msg = sdata.snipemsg;
@@ -75,7 +58,7 @@ exports.run = async (client, message) => {
         if (senderatt) embed.setImage(senderatt);
         message.reply({ embeds: [embed] });
     } else {
-        message.reply(`你似乎沒有足夠的tails幣呢(收費${Math.round(75 * benefitsdata.commandCost[totemdata.commandCost])}枚) :joy: :pinching_hand:`);
+        message.reply('你似乎沒有足夠的tails幣呢(收費75枚) :joy: :pinching_hand:');
     }
 };
 

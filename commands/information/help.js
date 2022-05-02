@@ -49,7 +49,7 @@ exports.run = async (client, message, args) => {
                         .setTitle(command.conf.name)
                         .setColor('#ffae00')
                         .setDescription(command.conf.description)
-                        .addField({ name: '別名', value: command.conf.aliases.length > 0 ? command.conf.aliases.join(', ') : '無' })
+                        .addField('別名', command.conf.aliases.length > 0 ? command.conf.aliases.join(', ') : '無')
                         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
                 ],
             });

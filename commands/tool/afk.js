@@ -5,8 +5,16 @@ exports.run = async (client, message, args) => {
     if (!input) {
         return message.reply('請提供內容');
     }
-    if (input.length > 300) {
-        return message.reply('給予的字元數必須小於等於100!');
+    if (input.length > 150) {
+        return message.reply('給予的字元數必須小於等於150!');
+    }
+    const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
+    if (bannedWords.some((word) => input.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970'].indexOf(message.author.id) === -1) {
+        try {
+            message.delete();
+            message.channel.send(`:x: ${message.author} 你不允許發送邀請連結!!`);
+            return;
+        } catch { }
     }
 
     const data = await afk.findOne({ discordid: message.member.id });
