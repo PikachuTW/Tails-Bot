@@ -24,7 +24,6 @@ exports.run = async (client, message) => {
                 snipemsg: 'test',
                 snipesender: 123,
                 snipetime: 'test',
-                snipeatt: 'test',
             });
         }
 
@@ -51,11 +50,11 @@ exports.run = async (client, message) => {
         const getuser = client.users.cache.get(senderid);
         const embed = new MessageEmbed()
             .setAuthor({ name: getuser.tag })
-            .setDescription(`${msg}\n${senderatt}`)
+            .setDescription(`${msg}\n${senderatt ? senderatt.join(' ') : ''}`)
             .setFooter({ text: timeget })
             .setColor('F8DA07');
         if (senderatt == null) embed.setDescription(msg);
-        if (senderatt) embed.setImage(senderatt);
+        if (senderatt) embed.setImage(senderatt[0]);
         message.reply({ embeds: [embed] });
     } else {
         message.reply('你似乎沒有足夠的tails幣呢(收費75枚) :joy: :pinching_hand:');

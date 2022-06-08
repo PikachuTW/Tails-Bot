@@ -23,7 +23,6 @@ exports.run = async (client, message) => {
                 snipemsg: 'test',
                 snipesender: 123,
                 snipetime: 'test',
-                snipeatt: 'test',
             });
         }
 

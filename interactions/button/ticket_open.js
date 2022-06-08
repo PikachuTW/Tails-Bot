@@ -1,4 +1,4 @@
-const { Permissions, MessageActionRow, MessageButton } = require('discord.js');
+const { MessageActionRow, MessageButton } = require('discord.js');
 const ticket = require('../../models/ticket.js');
 const misc = require('../../models/misc.js');
 
@@ -13,11 +13,12 @@ module.exports = async (client, interaction) => {
             permissionOverwrites: [
                 {
                     id: '828450904990154802',
-                    deny: [Permissions.FLAGS.VIEW_CHANNEL],
+                    deny: ['VIEW_CHANNEL'],
                 },
                 {
                     id: interaction.member.id,
-                    allow: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.READ_MESSAGE_HISTORY],
+                    allow: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
+                    deny: ['MANAGE_CHANNELS', 'SEND_TTS_MESSAGES', 'MANAGE_MESSAGES'],
                 },
             ],
         });

@@ -36,23 +36,23 @@ exports.run = async (client, message, args) => {
         const nowStamp = Math.floor((Date.now() + 28800000) / 86400000);
 
         try {
-            week = levelData.daily.filter((d) => d.date >= nowStamp - 6).map((d) => d.count).reduce((a, b) => a + b);
+            week = levelData.daily.filter((d) => d.date >= nowStamp - 6).map((d) => d.count).reduce((a, b) => a + b, 0);
         } catch {
             week = 0;
         }
         try {
-            today = levelData.daily.filter((d) => d.date === nowStamp).map((d) => d.count).reduce((a, b) => a + b);
+            today = levelData.daily.filter((d) => d.date === nowStamp).map((d) => d.count).reduce((a, b) => a + b, 0);
         } catch {
             today = 0;
         }
         try {
-            sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b);
+            sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
         } catch {
             sActive = 0;
         }
 
         try {
-            active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b);
+            active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
         } catch {
             active = 0;
         }

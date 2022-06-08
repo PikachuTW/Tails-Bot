@@ -1,4 +1,4 @@
-const translate = require('@vitalets/google-translate-api');
+const translate = require('@iamtraction/google-translate');
 
 exports.run = async (client, message, args) => {
     const input = args.join(' ');
@@ -7,8 +7,8 @@ exports.run = async (client, message, args) => {
         return message.reply('請給予你要翻譯的訊息!');
     }
 
-    translate(input, { from: 'auto', to: 'zh-TW' }).then((res) => {
-        message.reply(`**[翻譯]** ${res.text}`);
+    translate(input, { to: 'zh-tw' }).then((res) => {
+        message.reply({ content: `**[翻譯]** ${res.text}`, allowedMentions: { parse: ['users'] } });
     }).catch((err) => {
         console.error(err);
     });

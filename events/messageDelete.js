@@ -7,16 +7,18 @@ module.exports = async (client, message) => {
 
     const currentdate = new Date(message.createdTimestamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
 
-    const exampleEmbed = new MessageEmbed()
-        .setColor('#ffae00')
-        .setAuthor({ name: message.author.tag, iconURL: message.member.displayAvatarURL({ format: 'png', dynamic: true }) ? message.member.displayAvatarURL({ format: 'png', dynamic: true }) : null, url: message.url })
-        .setDescription(message.content)
-        .setImage(message.attachments.first() ? message.attachments.first().proxyURL : null)
-        .setFooter({ text: `Author: ${message.author.id} | Message ID: ${message.id}\n${currentdate} | 頻道: ${message.channel.name}` });
+    client.channels.cache.find((channel) => channel.id === '932974877630148658').send({
+        embeds: [
+            new MessageEmbed()
+                .setColor('#ffae00')
+                .setAuthor({ name: message.author.tag, iconURL: message.member?.displayAvatarURL({ format: 'png', dynamic: true }) ? message.member.displayAvatarURL({ format: 'png', dynamic: true }) : null, url: message.url })
+                .setDescription(`${message.content}\n${message.attachments.map((m) => m.proxyURL).join(' ')}`)
+                .setImage(message.attachments.first() ? message.attachments.first().proxyURL : null)
+                .setFooter({ text: `Author: ${message.author.id} | Message ID: ${message.id}\n${currentdate} | 頻道: ${message.channel.name}` }),
+        ],
+    });
 
-    client.channels.cache.find((channel) => channel.id === '932974877630148658').send({ embeds: [exampleEmbed] });
-
-    if (message.author.bot) return;
+    if (message.author.bot && message.author.tag) return;
 
     const data = await snipedata.findOne({ channelid: message.channel.id });
     if (!data) {
@@ -25,7 +27,6 @@ module.exports = async (client, message) => {
             snipemsg: 'test',
             snipesender: 123,
             snipetime: 'test',
-            snipeatt: 'test',
         });
     }
 
@@ -41,7 +42,7 @@ module.exports = async (client, message) => {
         }
         return;
     }
-    if (message.content.toLowerCase() === 't!rs') return;
+    if (['t!rs', 's?s', 's?'].indexOf(message.content.toLowerCase()) !== -1) return;
 
     await snipedata.updateOne({
         channelid: message.channel.id,
@@ -50,7 +51,7 @@ module.exports = async (client, message) => {
             snipemsg: message.content,
             snipesender: message.author.id,
             snipetime: currentdate,
-            snipeatt: message.attachments.first() ? message.attachments.first().proxyURL : null,
+            snipeatt: message.attachments.size > 0 ? message.attachments.map((a) => a.proxyURL) : null,
         },
     });
 };

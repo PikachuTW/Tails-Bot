@@ -1,4 +1,4 @@
-const translate = require('@vitalets/google-translate-api');
+const translate = require('@iamtraction/google-translate');
 
 module.exports = async (client, interaction) => {
     try {
@@ -6,7 +6,7 @@ module.exports = async (client, interaction) => {
         if (!targetMessage.content) {
             await interaction.reply({ content: '無法翻譯!', ephemeral: false });
         }
-        const res = await translate(targetMessage.content, { from: 'auto', to: 'zh-TW' });
+        const res = await translate(targetMessage.content, { to: 'zh-tw' });
         await interaction.reply({ content: `**[翻譯]** ${res.text}`, ephemeral: false });
     } catch {
         try {

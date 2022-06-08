@@ -1,9 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 const ms = require('ms');
 const credit = require('../../models/credit.js');
+const { targetGet } = require('../../modules/functions');
 
 exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
+    const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
     const time = args[1];
     const reason = args.slice(2).join(' ');
@@ -38,17 +39,6 @@ exports.run = async (client, message, args) => {
 
     target.timeout(milliseconds, `${message.author.username}#${message.author.discriminator} - ${reason}`);
 
-    message.reply(`${target.user.username}#${target.user.discriminator} 已經被禁言 ${ms(ms(time), { long: true })} !`);
-
-    target.send({
-        embeds: [
-            new MessageEmbed()
-                .setTitle('你已經被禁言!')
-                .setColor('#ffae00')
-                .setDescription(`你被禁言了 ${ms(ms(time), { long: true })}\n原因: ${reason}\n管理者:${message.author}`)
-                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
-        ],
-    });
     const ReasonEmbed = new MessageEmbed()
         .setTitle('成員已被禁言!')
         .setColor('#ffae00')
@@ -59,6 +49,16 @@ exports.run = async (client, message, args) => {
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
     message.reply({ embeds: [ReasonEmbed] });
     client.channels.cache.find((channel) => channel.id === '907969972893020201').send({ embeds: [ReasonEmbed] });
+
+    target.send({
+        embeds: [
+            new MessageEmbed()
+                .setTitle('你已經被禁言!')
+                .setColor('#ffae00')
+                .setDescription(`你被禁言了 ${ms(ms(time), { long: true })}\n原因: ${reason}\n管理者:${message.author}`)
+                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+        ],
+    });
 };
 
 exports.conf = {

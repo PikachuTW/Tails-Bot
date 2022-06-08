@@ -1,6 +1,6 @@
 exports.run = async (client, message) => {
-    const lockchannel = message.guild.channels.cache.find((channel) => channel.id === '948178858610405426');
-    const lockrole = message.guild.roles.cache.find((role) => role.id === '881911118845587477');
+    const lockchannel = message.guild.channels.cache.get('948178858610405426');
+    const lockrole = message.guild.roles.cache.get('881911118845587477');
     lockchannel.permissionOverwrites.edit(lockrole, { MENTION_EVERYONE: true });
 
     message.reply('已經開啟小粉紅的提及所有人權限!');
@@ -8,6 +8,6 @@ exports.run = async (client, message) => {
 
 exports.conf = {
     aliases: ['op'],
-    permLevel: 'Admin',
+    permLevel: 'Staff',
     description: '開啟小粉紅提及權限',
 };

@@ -1,5 +1,7 @@
+const { targetGet } = require('../../modules/functions');
+
 exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
+    const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
     const nickname = args.slice(1).join(' ');
     if (!nickname) return message.reply('請提供暱稱!');
@@ -16,7 +18,7 @@ exports.run = async (client, message, args) => {
         return message.reply('暱稱過長!');
     }
 
-    message.reply(`${target} 的暱稱已經修改成 ${nickname}`);
+    message.reply({ content: `${target} 的暱稱已經修改成 ${nickname}`, allowedMentions: { parse: ['users'] } });
 };
 
 exports.conf = {

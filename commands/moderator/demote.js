@@ -18,10 +18,9 @@ exports.run = async (client, message, args) => {
     ];
 
     target.roles.remove(list);
-    // log
-    target.send(`${target} 已經被 ${message.author} 降職`);
     message.reply(`${target} 已經被 ${message.author} 降職`);
-    client.channels.cache.find((channel) => channel.id === '936311943143247974').send(`${target} 已經被 ${message.author} 降職`);
+    client.channels.resolve('936311943143247974').send({ content: `${target} 已經被 ${message.author} 降職`, allowedMentions: { parse: ['users'] } });
+    target.send(`${target} 已經被 ${message.author} 降職`);
 };
 
 exports.conf = {

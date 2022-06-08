@@ -19,9 +19,28 @@ const permlevel = (target) => {
 const targetGet = (message, args) => {
     if (!args[0]) return undefined;
     if (args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value) {
-        return message.guild.members.cache.get(args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value[1]);
+        return message.guild.members.resolve(args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value[1]);
     }
-    return message.guild.members.cache.get(args[0]);
+    return message.guild.members.resolve(args[0]);
+};
+
+const timeConvert = (num) => {
+    const totalSec = Math.round(num / 1000);
+    const sec = totalSec % 60;
+    const min = Math.floor((totalSec / 60)) % 60;
+    const hour = Math.floor((totalSec / 3600)) % 24;
+    const day = Math.floor(totalSec / 86400);
+    let res;
+    if (day > 0) {
+        res = `${day}日${hour}時${min}分${sec}秒`;
+    } else if (hour > 0) {
+        res = `${hour}時${min}分${sec}秒`;
+    } else if (min > 0) {
+        res = `${min}分${sec}秒`;
+    } else {
+        res = `${sec}秒`;
+    }
+    return res;
 };
 
 // async function awaitReply(message, question, limit = 60000) {
@@ -66,4 +85,4 @@ const targetGet = (message, args) => {
 //     console.error(err);
 // });
 
-module.exports = { permlevel, targetGet };
+module.exports = { permlevel, targetGet, timeConvert };

@@ -17,8 +17,8 @@ exports.run = async (client, message) => {
         });
     }
 
+    await totem.deleteOne({ discordid: message.author.id });
     if (data.rank === 0) {
-        await totem.deleteOne({ discordid: message.author.id });
         return message.reply('你已經沒有圖騰!');
     }
 

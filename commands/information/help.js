@@ -1,10 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 const { readdirSync } = require('fs');
-const { permlevel } = require('../../modules/functions.js');
 const logger = require('../../modules/Logger.js');
 
 exports.run = async (client, message, args) => {
-    const level = permlevel(message.member);
     const { container } = client;
 
     if (!args[0]) {
@@ -16,6 +14,7 @@ exports.run = async (client, message, args) => {
             ['music', '音樂'],
             ['system', '系統'],
             ['tool', '工具'],
+            ['misc', '雜項'],
         ]);
 
         const exampleEmbed = new MessageEmbed()
@@ -39,17 +38,17 @@ exports.run = async (client, message, args) => {
         });
         message.reply({ embeds: [exampleEmbed] });
     } else {
-        let command = args[0];
-        if (container.commands.has(command)) {
-            command = container.commands.get(command);
-            if (level < container.levelCache[command.conf.permLevel]) return;
+        const command = args[0];
+        const cmd = container.commands.get(command) || container.commands.get(container.aliases.get(command));
+        if (cmd) {
             message.channel.send({
                 embeds: [
                     new MessageEmbed()
-                        .setTitle(command.conf.name)
+                        .setTitle(cmd.conf.name)
                         .setColor('#ffae00')
-                        .setDescription(command.conf.description)
-                        .addField('別名', command.conf.aliases.length > 0 ? command.conf.aliases.join(', ') : '無')
+                        .setDescription(cmd.conf.description)
+                        .addField('別名', cmd.conf.aliases.length > 0 ? cmd.conf.aliases.join(', ') : '無')
+                        .addField('權限等級', cmd.conf.permLevel)
                         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
                 ],
             });

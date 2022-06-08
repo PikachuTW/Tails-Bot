@@ -1,8 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 const warning = require('../../models/warning.js');
+const { targetGet } = require('../../modules/functions');
 
 exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
+    const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
     if (target.communicationDisabledUntilTimestamp - Date.now() > 0) return message.reply('此用戶早就已經被禁言了! :joy:');
     if (message.member.roles.highest.comparePositionTo(target.roles.highest) <= 0) return message.reply('你的身分組沒有比他高欸!你怎麼可以說他cmd in chat :weary:');

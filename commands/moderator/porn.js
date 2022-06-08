@@ -1,27 +1,27 @@
 const { MessageEmbed } = require('discord.js');
 const warning = require('../../models/warning.js');
-const { targetGet } = require('../../modules/functions.js');
+const { targetGet } = require('../../modules/functions');
 
 exports.run = async (client, message, args) => {
     const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
     if (target.communicationDisabledUntilTimestamp - Date.now() > 0) return message.reply('此用戶早就已經被禁言了! :joy:');
-    if (message.member.roles.highest.comparePositionTo(target.roles.highest) <= 0) return message.reply('你的身分組沒有比他高欸!你怎麼可以說他spam :weary:');
+    if (message.member.roles.highest.comparePositionTo(target.roles.highest) <= 0) return message.reply('你的身分組沒有比他高欸!你怎麼可以說他porn :weary:');
 
     await warning.create({
         discordid: target.id,
         warnstamp: Date.now(),
-        warncontent: 'spam',
+        warncontent: 'porn',
         warnstaff: message.author.id,
     });
 
-    target.timeout(60000, `${message.author.username}#${message.author.discriminator} - spam`);
+    target.timeout(60000, `${message.author.username}#${message.author.discriminator} - porn`);
 
     message.reply({
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setDescription(`**:white_check_mark:  ${target.user.tag} 已被警告+禁言一分鐘 | spam**`),
+                .setDescription(`**:white_check_mark:  ${target.user.tag} 已被警告+禁言一分鐘 | porn**`),
         ],
     });
 
@@ -30,7 +30,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setDescription(`**你被 ${message.author.tag} 警告+禁言一分鐘了，原因: spam**`),
+                    .setDescription(`**你被 ${message.author.tag} 警告+禁言一分鐘了，原因: porn**`),
             ],
         });
     } catch { }
@@ -39,5 +39,5 @@ exports.run = async (client, message, args) => {
 exports.conf = {
     aliases: [],
     permLevel: 'Staff',
-    description: '對於用戶spam進行處分',
+    description: '對於用戶porn進行處分',
 };

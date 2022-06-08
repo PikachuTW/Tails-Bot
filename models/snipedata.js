@@ -19,7 +19,7 @@ const snipedata = new mongoose.Schema({
         required: true,
     },
     snipeatt: {
-        type: mongoose.SchemaTypes.String,
+        type: mongoose.SchemaTypes.Array,
         required: true,
     },
 });

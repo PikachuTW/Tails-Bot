@@ -17,11 +17,6 @@ exports.run = async (client, message, args) => {
 
     if (!target.kickable) return message.reply('我無法踢出這位用戶');
 
-    const kickEmbed = new MessageEmbed()
-        .setTitle('你已經被踢出林天天伺服器!')
-        .setColor('#ffae00')
-        .setDescription(`原因: ${reason}\n若你想要回來，可以點擊邀請連結 https://discord.gg/HswZaneNjQ`)
-        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
     const reasonEmbed = new MessageEmbed()
         .setTitle('成員已被踢出!')
         .setColor('#ffae00')
@@ -31,12 +26,20 @@ exports.run = async (client, message, args) => {
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
     message.reply({ embeds: [reasonEmbed] });
     try {
-        await target.send({ embeds: [kickEmbed] });
+        await target.send({
+            embeds: [
+                new MessageEmbed()
+                    .setTitle('你已經被踢出林天天伺服器!')
+                    .setColor('#ffae00')
+                    .setDescription(`原因: ${reason}\n若你想要回來，可以點擊邀請連結 https://discord.gg/HswZaneNjQ`)
+                    .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+            ],
+        });
     } catch (e) {
         message.reply('機器人無法私訊此用戶');
     }
     target.kick(`${message.author.username}#${message.author.discriminator} - ${reason}`);
-    client.channels.cache.find((channel) => channel.id === '936299461779542086').send({ embeds: [reasonEmbed] });
+    client.channels.resolve('936299461779542086').send({ embeds: [reasonEmbed] });
 };
 
 exports.conf = {

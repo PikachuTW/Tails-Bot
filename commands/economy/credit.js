@@ -14,9 +14,9 @@ exports.run = async (client, message, args) => {
         data = await credit.findOne({ discordid: target.id });
     }
 
-    if (data.tails_credit < 0) {
-        await credit.findOneAndUpdate({ discordid: target.id }, { $set: { tails_credit: 0 } });
-    }
+    // if (data.tails_credit < 0) {
+    //     await credit.findOneAndUpdate({ discordid: target.id }, { $set: { tails_credit: 0 } });
+    // }
 
     const creditrank = await credit.find({ tails_credit: { $gte: data.tails_credit } });
 

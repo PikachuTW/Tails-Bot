@@ -10,11 +10,7 @@ exports.run = async (client, message, args) => {
     }
     const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
     if (bannedWords.some((word) => input.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970'].indexOf(message.author.id) === -1) {
-        try {
-            message.delete();
-            message.channel.send(`:x: ${message.author} 你不允許發送邀請連結!!`);
-            return;
-        } catch { }
+        return;
     }
 
     const data = await afk.findOne({ discordid: message.member.id });

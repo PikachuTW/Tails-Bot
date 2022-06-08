@@ -1,8 +1,11 @@
 const got = require('got');
 const { MessageEmbed } = require('discord.js');
+const OpenCC = require('opencc');
+
+const converter = new OpenCC('tw2sp.json');
 
 exports.run = async (client, message, args) => {
-    const input = args.join(' ');
+    let input = args.join(' ');
 
     if (!input) {
         return message.reply('請給予你要查詢的關鍵字!');
@@ -17,7 +20,16 @@ exports.run = async (client, message, args) => {
             },
         }).json();
     } catch (err) {
-        return message.reply('無法搜尋結果!');
+        try {
+            input = await converter.convertPromise(input);
+            data = await got.get(`https://zh.wikipedia.org/api/rest_v1/page/summary/${input}`, {
+                Headers: {
+                    'Accept-Language': 'zh-tw',
+                },
+            }).json();
+        } catch {
+            return message.reply('無法搜尋結果!');
+        }
     }
 
     try {
@@ -35,7 +47,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    aliases: [''],
+    aliases: [],
     permLevel: 'User',
     description: '搜尋維基百科',
 };

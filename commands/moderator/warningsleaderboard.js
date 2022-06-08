@@ -14,14 +14,15 @@ exports.run = async (client, message) => {
         co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].count}**\n`;
     }
 
-    const exampleEmbed = new MessageEmbed()
-        .setColor('#ffae00')
-        .setTitle('Warnings前十排行榜')
-        .setDescription(`${co}`)
-        .setThumbnail('https://i.imgur.com/MTWQbeh.png')
-        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
-
-    message.reply({ embeds: [exampleEmbed] });
+    message.reply({
+        embeds: [
+            new MessageEmbed()
+                .setColor('#ffae00')
+                .setTitle('Warnings前十排行榜')
+                .setDescription(`${co}`)
+                .setThumbnail('https://i.imgur.com/MTWQbeh.png')
+                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' })],
+    });
 };
 
 exports.conf = {

@@ -1,14 +1,12 @@
 const { codeBlock } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const { getVoiceConnection } = require('@discordjs/voice');
-const RssFeedEmitter = require('rss-feed-emitter');
 const logger = require('../modules/Logger.js');
 const { settings } = require('../config.js');
 const misc = require('../models/misc.js');
 const version = require('../version.js');
 const level = require('../models/level.js');
-
-const feeder = new RssFeedEmitter({ skipFirstLoad: true });
+const giveaway = require('../models/giveaway');
+const ticket = require('../models/ticket');
 
 module.exports = async (client) => {
     logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map((g) => g.memberCount).reduce((a, b) => a + b)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
@@ -33,10 +31,6 @@ module.exports = async (client) => {
     }, 300000);
 
     setInterval(async () => {
-        if (targetGuild.me.voice.channelId === '858370818635464774' && targetGuild.me.voice.channel.members.map((m) => m).length === 1) {
-            getVoiceConnection('828450904990154802').destroy();
-            client.channels.cache.find((c) => c.id === '948178858610405426').send('因為無人在語音頻道，機器人已斷開連線');
-        }
         const nowStamp = Math.floor((Date.now() + 28800000) / 86400000);
         const activeLevelData = await level.find({ discordid: { $in: targetGuild.members.cache.filter((member) => member.roles.cache.find((role) => role.id === '856808847251734559')).map((m) => m.id) } });
         activeLevelData.forEach((data) => {
@@ -52,30 +46,48 @@ module.exports = async (client) => {
         });
     }, 60000);
 
-    feeder.add({
-        url: [
-            'https://news.ltn.com.tw/rss/politics.xml',
-            'https://news.ltn.com.tw/rss/opinion.xml',
-            'https://www.epochtimes.com/gb/nsc413.xml',
-            'https://news.pts.org.tw/xml/newsfeed.xml',
-            'http://www.people.com.cn/rss/politics.xml',
-            'http://www.people.com.cn/rss/haixia.xml',
-            'http://www.people.com.cn/rss/military.xml',
-            'http://www.people.com.cn/rss/world.xml',
-            'https://m.secretchina.com/news/gb/p1.xml',
-            'https://m.secretchina.com/news/gb/p2.xml',
-            'https://www.cdc.gov.tw/RSS/RssXml/Hh094B49-DRwe2RR4eFfrQ?type=1',
-        ],
-        refresh: 2000,
-    });
-
-    feeder.on('new-item', (item) => {
+    setInterval(async () => {
         try {
-            client.channels.cache.get('962232054878187530').send(
-                `**${item.title}**\n${item.link}`,
-            );
-        } catch (e) {
-            logger.error(e);
-        }
-    });
+            const now = Date.now();
+            let res = await giveaway.find();
+            res = res.filter((d) => d.users.length === 0).filter((d) => now > d.time);
+            const data = res[0];
+            const Channel = client.channels.cache.get(data.channelid);
+            const msg = await Channel.messages.fetch(data.messageid);
+            if (!msg || !Channel) {
+                await giveaway.deleteOne({ messageid: data.messageid });
+                return;
+            }
+            const reactUsers = msg.reactions.cache.get('931773626057912420').users.cache.map((u) => u.id).filter((i) => i !== '889358372170792970');
+            if (reactUsers.length === 0) {
+                Channel.send('沒有人參加抽獎 🐸');
+                await giveaway.deleteOne({ messageid: data.messageid });
+                return;
+            }
+            await giveaway.updateOne({ messageid: data.messageid }, { users: reactUsers });
+            let winners = [];
+            if (reactUsers.length <= data.winner) {
+                winners = reactUsers;
+            }
+            while (winners.length < data.winner) {
+                // eslint-disable-next-line no-await-in-loop
+                const winUser = await client.users.fetch(reactUsers[Math.floor((Math.random() * reactUsers.length))]);
+                if (winners.indexOf(winUser) === -1) {
+                    winners.push(winUser);
+                }
+            }
+            Channel.send(`恭喜 ${winners.join(' ')} 中獎 😭👏`);
+        } catch {}
+    }, 1000);
+
+    setInterval(async () => {
+        const list = await ticket.find();
+        const channels = client.channels.cache;
+        list.forEach(async (res) => {
+            if (!res) return;
+            if (!channels.get(res.channelid)) {
+                await ticket.deleteOne({ channelid: res.channelid });
+            }
+        });
+    }, 60000);
 };

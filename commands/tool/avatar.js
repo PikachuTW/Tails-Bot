@@ -1,7 +1,12 @@
 const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
-    const target = targetGet(message, args) || message.member;
+    let target;
+    if (args[0]) {
+        target = targetGet(message, args) || await client.users.fetch(args[0]) || message.member;
+    } else {
+        target = message.member;
+    }
     message.reply(target.displayAvatarURL({ format: 'png', dynamic: true, size: 4096 }));
 };
 

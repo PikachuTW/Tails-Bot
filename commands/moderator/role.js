@@ -1,7 +1,8 @@
 const { MessageEmbed } = require('discord.js');
+const { targetGet } = require('../../modules/functions');
 
 exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
+    const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
 
     const res = message.guild.roles.cache.filter((r) => r.name.toLowerCase().includes(args.slice(1).join(' ').toLowerCase())).map((r) => r);
@@ -9,23 +10,28 @@ exports.run = async (client, message, args) => {
     if (res.length === 0) return message.reply('未找到任何結果');
     if (res.length === 1) {
         target.roles.add(res[0].id);
-        const successembed = new MessageEmbed()
-            .setTitle(`${target.user.tag} 已經獲得身分組!`)
-            .setColor('#ffae00')
-            .setDescription(`已經給予 ${target} ${res[0]}`)
-            .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
-        return message.reply({ embeds: [successembed] });
+        return message.reply({
+            embeds: [new MessageEmbed()
+                .setTitle(`${target.user.tag} 已經獲得身分組!`)
+                .setColor('#ffae00')
+                .setDescription(`已經給予 ${target} ${res[0]}`)
+                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' })],
+        });
     }
     let text = '';
     for (let i = 0; i < res.length; i++) {
         text += `\`${i + 1}\` ${res[i]}\n`;
     }
-    const embed = new MessageEmbed()
-        .setTitle(`找到 ${res.length} 個相關身分組`)
-        .setColor('#ffae00')
-        .setDescription(text)
-        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
-    message.reply({ embeds: [embed] });
+
+    message.reply({
+        embeds: [
+            new MessageEmbed()
+                .setTitle(`找到 ${res.length} 個相關身分組`)
+                .setColor('#ffae00')
+                .setDescription(text)
+                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+        ],
+    });
 
     const filter = (m) => (parseInt(m.content, 10) >= 1 && parseInt(m.content, 10) <= res.length && m.author.id === message.author.id) || m.content === 'cancel';
     const collector = message.channel.createMessageCollector({ filter, time: 15000 });
@@ -38,12 +44,13 @@ exports.run = async (client, message, args) => {
         collector.stop();
         target.roles.add(res[parseInt(m.content, 10) - 1].id);
 
-        const successembed = new MessageEmbed()
-            .setTitle(`${target.user.tag} 已經獲得身分組!`)
-            .setColor('#ffae00')
-            .setDescription(`已經給予 ${target} ${res[parseInt(m.content, 10) - 1]}`)
-            .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
-        return message.reply({ embeds: [successembed] });
+        return message.reply({
+            embeds: [new MessageEmbed()
+                .setTitle(`${target.user.tag} 已經獲得身分組!`)
+                .setColor('#ffae00')
+                .setDescription(`已經給予 ${target} ${res[parseInt(m.content, 10) - 1]}`)
+                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' })],
+        });
     });
 
     collector.on('end', () => {

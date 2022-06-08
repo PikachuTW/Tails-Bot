@@ -1,8 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 const warning = require('../../models/warning.js');
+const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
-    const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]);
+    const target = targetGet(message, args);
     if (!target) return message.reply('請給予有效目標!');
 
     const warntotal = await warning.find({ discordid: target.id });
