@@ -10,10 +10,6 @@ exports.run = async (client, message) => {
             .setDefaultPermission(true)
             .setName('ping')
             .setDescription('回傳延遲值'),
-        new SlashCommandBuilder()
-            .setDefaultPermission(true)
-            .setName('test')
-            .setDescription('測試'),
     ]
         .map((command) => command.toJSON());
 

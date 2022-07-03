@@ -1,28 +1,28 @@
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message) => {
-    const { guild } = message;
-    const tier = guild.premiumTier;
-    let banCount = await guild.bans.fetch();
+    const Guild = message.guild;
+    const tier = Guild.premiumTier;
+    let banCount = await Guild.bans.fetch();
     banCount = banCount.size;
     message.reply({
         embeds: [
             new MessageEmbed()
-                .setTitle(guild.name)
+                .setTitle(Guild.name)
                 .setColor('#ffae00')
                 .setDescription(
-                    `**ID:** \`${guild.id}\`
-                    **Owner:** <@${guild.ownerId}>
-                    **創建時間:** <t:${Math.round(guild.createdTimestamp / 1000)}>
-                    **人數:** \`${guild.memberCount}\`
-                    **加成:** 等級 \`${tier === 'TIER_1' ? 1 : tier === 'TIER_2' ? 2 : tier === 'TIER_3' ? 3 : '無'}\` 加成數 \`${guild.premiumSubscriptionCount}\`
+                    `**ID:** \`${Guild.id}\`
+                    **Owner:** <@${Guild.ownerId}>
+                    **創建時間:** <t:${Math.round(Guild.createdTimestamp / 1000)}>
+                    **人數:** \`${Guild.memberCount}\`
+                    **加成:** 等級 \`${tier === 'TIER_1' ? 1 : tier === 'TIER_2' ? 2 : tier === 'TIER_3' ? 3 : '無'}\` 加成數 \`${Guild.premiumSubscriptionCount}\`
 
-                    **身分組數:** \`${guild.roles.cache.size}\`
-                    **頻道數:** \`${guild.channels.channelCountWithoutThreads}\`
-                    **表情數:** \`${guild.emojis.cache.size}\`
+                    **身分組數:** \`${Guild.roles.cache.size}\`
+                    **頻道數:** \`${Guild.channels.channelCountWithoutThreads}\`
+                    **表情數:** \`${Guild.emojis.cache.size}\`
                     **封鎖數:** \`${banCount}\``,
                 )
-                .setThumbnail(guild.iconURL({ dynamic: true, format: 'png' })),
+                .setThumbnail(Guild.iconURL({ dynamic: true, format: 'png' })),
         ],
     });
 };

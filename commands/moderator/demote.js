@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
 
     target.roles.remove(list);
     message.reply(`${target} 已經被 ${message.author} 降職`);
-    client.channels.resolve('936311943143247974').send({ content: `${target} 已經被 ${message.author} 降職`, allowedMentions: { parse: ['users'] } });
+    client.channels.resolve('936311943143247974').send({ content: `${target} 已經被 ${message.author} 降職`, allowedMentions: { parse: [] } });
     target.send(`${target} 已經被 ${message.author} 降職`);
 };
 

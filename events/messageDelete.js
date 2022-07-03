@@ -2,12 +2,11 @@ const { MessageEmbed } = require('discord.js');
 const snipedata = require('../models/snipedata.js');
 
 module.exports = async (client, message) => {
-    if (message.guildId !== '828450904990154802') return;
-    if (!message.author) return;
+    if (message.guildId !== '828450904990154802' || !message.author) return;
 
     const currentdate = new Date(message.createdTimestamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
 
-    client.channels.cache.find((channel) => channel.id === '932974877630148658').send({
+    client.channels.cache.get('932974877630148658').send({
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
@@ -20,9 +19,9 @@ module.exports = async (client, message) => {
 
     if (message.author.bot && message.author.tag) return;
 
-    const data = await snipedata.findOne({ channelid: message.channel.id });
+    let data = await snipedata.findOne({ channelid: message.channel.id });
     if (!data) {
-        await snipedata.create({
+        data = await snipedata.create({
             channelid: message.channel.id,
             snipemsg: 'test',
             snipesender: 123,
@@ -42,7 +41,10 @@ module.exports = async (client, message) => {
         }
         return;
     }
-    if (['t!rs', 's?s', 's?'].indexOf(message.content.toLowerCase()) !== -1) return;
+
+    const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
+
+    if (['t!rs', 's?s', 's?'].indexOf(message.content.toLowerCase()) !== -1 || bannedWords.some((word) => unescape(message.content.toLowerCase()).includes(word) || message.content.toLowerCase().includes(word))) return;
 
     await snipedata.updateOne({
         channelid: message.channel.id,

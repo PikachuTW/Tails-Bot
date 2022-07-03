@@ -43,7 +43,6 @@ specifiers:
   prism-media: ^1.3.2
   quickchart-js: ^3.0.0
   romans: ^2.0.5
-  rss-feed-emitter: ^3.2.3
   sodium: ^3.0.2
   unb-api: ^1.2.3
   yt-search: ^2.10.3
@@ -92,7 +91,6 @@ dependencies:
   prism-media: 1.3.2_@discordjs+opus@0.7.0
   quickchart-js: 3.0.1
   romans: 2.0.7
-  rss-feed-emitter: 3.2.3
   sodium: 3.0.2
   unb-api: 1.2.3
   yt-search: 2.10.3
@@ -400,10 +398,6 @@ packages:
     hasBin: true
     dev: false
 
-  /addressparser/0.1.3:
-    resolution: {integrity: sha512-c9UMtMY9vRM5/QGeuTOKi+Qmmx0d9heuHej5RKzf29YggwFHLTTwnXD4UBN53OfoLnTs+Eotevh/qfooBL18gA==}
-    dev: false
-
   /agent-base/6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
@@ -484,10 +478,6 @@ packages:
       es-abstract: 1.20.1
       get-intrinsic: 1.1.1
       is-string: 1.0.7
-    dev: false
-
-  /array-indexofobject/0.0.1:
-    resolution: {integrity: sha512-tpdPBIBm4TMNxSp8O3pZgC7mF4+wn9SmJlhE+7bi5so6x39PvzUqChQMbv93R5ilYGZ1HV+Neki4IH/i+87AoQ==}
     dev: false
 
   /array.prototype.flat/1.3.0:
@@ -1634,16 +1624,6 @@ packages:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
     dev: false
 
-  /feedparser/1.1.4:
-    resolution: {integrity: sha1-F4Rb6ErT/NmG2u4S/kIfi1TfDe8=}
-    engines: {node: '>= 0.10.0'}
-    dependencies:
-      addressparser: 0.1.3
-      array-indexofobject: 0.0.1
-      readable-stream: 1.0.34
-      sax: 0.6.1
-    dev: false
-
   /ffmpeg/0.0.4:
     resolution: {integrity: sha512-3TgWUJJlZGQn+crJFyhsO/oNeRRnGTy6GhgS98oUCIfZrOW5haPPV7DUfOm3xJcHr5q3TJpjk2GudPutrNisRA==}
     dependencies:
@@ -2280,10 +2260,6 @@ packages:
     resolution: {integrity: sha512-qctsuLZmIQ0+vSSMfoVvyFe2+GSEvnmZ2ezTup1SBse9+twCCeial6EEi3Nc2KFcf6+qz2FBPnjXsk8xhKSaPQ==}
     dependencies:
       call-bind: 1.0.2
-    dev: false
-
-  /isarray/0.0.1:
-    resolution: {integrity: sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==}
     dev: false
 
   /isarray/1.0.0:
@@ -3188,15 +3164,6 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
-  /readable-stream/1.0.34:
-    resolution: {integrity: sha1-Elgg40vIQtLyqq+v5MKRbuMsFXw=}
-    dependencies:
-      core-util-is: 1.0.3
-      inherits: 2.0.4
-      isarray: 0.0.1
-      string_decoder: 0.10.31
-    dev: false
-
   /readable-stream/2.3.7:
     resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
     dependencies:
@@ -3326,14 +3293,6 @@ packages:
     resolution: {integrity: sha512-CdePLY/O9H3HAgt/o97QbIcRxM3q5xFvyclam17Y4bLTiYFVtcW7Yfyr5gnTZNQcLGwdAp//3ro01eOe+x3Buw==}
     dev: false
 
-  /rss-feed-emitter/3.2.3:
-    resolution: {integrity: sha512-scgrKRbI2LYuzPIbjEKNAQxAj1Qj/NxHlGXLQIeMC8XescW9YwqbJccrd2U+qQVZthc8JlNmExYDU44FbvrzZA==}
-    engines: {node: '>=8.16.2'}
-    dependencies:
-      feedparser: 1.1.4
-      request: 2.88.2
-    dev: false
-
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
     dev: false
@@ -3354,10 +3313,6 @@ packages:
       sparse-bitfield: 3.0.3
     dev: false
     optional: true
-
-  /sax/0.6.1:
-    resolution: {integrity: sha1-VjsZx8HeiS4Jv8Ty/DDjwn8JUrk=}
-    dev: false
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
@@ -3550,10 +3505,6 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.1.4
       es-abstract: 1.20.1
-    dev: false
-
-  /string_decoder/0.10.31:
-    resolution: {integrity: sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=}
     dev: false
 
   /string_decoder/1.1.1:

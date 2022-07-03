@@ -43,6 +43,12 @@ const timeConvert = (num) => {
     return res;
 };
 
+const nowTime = () => new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+
+const delay = (ms = 1000) => new Promise((resolve) => {
+    setTimeout(resolve, ms);
+});
+
 // async function awaitReply(message, question, limit = 60000) {
 //     const filter = m => m.author.id === message.author.id;
 //     await msg.channel.send(question);
@@ -85,4 +91,6 @@ const timeConvert = (num) => {
 //     console.error(err);
 // });
 
-module.exports = { permlevel, targetGet, timeConvert };
+module.exports = {
+    permlevel, targetGet, timeConvert, nowTime, delay,
+};

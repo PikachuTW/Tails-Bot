@@ -27,8 +27,8 @@ exports.run = async (client, message) => {
             });
         }
 
-        let msg = sdata.snipemsg;
-        let timeget = sdata.snipetime;
+        const msg = sdata.snipemsg;
+        const timeget = sdata.snipetime;
         const senderid = sdata.snipesender;
         const senderatt = sdata.snipeatt;
 
@@ -40,12 +40,12 @@ exports.run = async (client, message) => {
             return message.reply('沒有可Snipe的訊息');
         }
 
-        const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
+        // const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
 
-        if (bannedWords.some((word) => msg.toLowerCase().includes(word)) && senderid !== '650604337000742934' && senderid !== '889358372170792970') {
-            msg = '```已屏蔽```';
-            timeget = '屏蔽了🙈';
-        }
+        // if (bannedWords.some(((word) => msg.toLowerCase().includes(word) || unescape(msg.toLowerCase()).includes(word))) && senderid !== '650604337000742934' && senderid !== '889358372170792970') {
+        //     msg = '```已屏蔽```';
+        //     timeget = '屏蔽了🙈';
+        // }
 
         const getuser = client.users.cache.get(senderid);
         const embed = new MessageEmbed()

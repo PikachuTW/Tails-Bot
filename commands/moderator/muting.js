@@ -5,7 +5,7 @@ exports.run = async (client, message) => {
     const res = message.guild.members.cache.filter((m) => m.communicationDisabledUntilTimestamp - now > 0);
     let msg;
     if (res.size === 0) {
-        msg = '```無````';
+        msg = '```無```';
     } else {
         msg = res.map((m) => `${m} \`${client.fn.timeConvert(m.communicationDisabledUntilTimestamp - now)}\``).join('\n');
     }

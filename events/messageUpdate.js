@@ -4,7 +4,7 @@ module.exports = async (client, oldMessage, newMessage) => {
     if (newMessage.guildId !== '828450904990154802') return;
     if (!newMessage.member) return;
 
-    const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite'];
+    const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
 
     if (bannedWords.some((word) => newMessage.content.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970'].indexOf(newMessage.author.id) === -1 && newMessage.channel.id !== '869948348285722654') {
         newMessage.delete();
@@ -12,7 +12,7 @@ module.exports = async (client, oldMessage, newMessage) => {
         return;
     }
 
-    client.channels.cache.find((channel) => channel.id === '932992270918119434').send({
+    client.channels.cache.get('932992270918119434').send({
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')

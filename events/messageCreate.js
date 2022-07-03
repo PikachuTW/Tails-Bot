@@ -16,14 +16,14 @@ module.exports = async (client, message) => {
         const cmd = container.commands.get(command) || container.commands.get(container.aliases.get(command));
         if (cmd) {
             if (permlevelGet < container.levelCache[cmd.conf.permLevel]) {
-                message.reply(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${config.permLevels.find((l) => l.level === permlevelGet).name})\n你需要權限等級 ${container.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`);
+                message.reply(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${config.permLevels.find((l) => l.level === permlevelGet).name})\n你需要權限等級 ${container.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`).catch();
             } else {
                 try {
                     const stamp = client.container.cooldown.get(message.author.id) || 0;
                     const now = Date.now();
-                    if (now - stamp < 2000 && message.author.id !== '650604337000742934') {
+                    if (now - stamp < 1500 && message.author.id !== '650604337000742934') {
                         try {
-                            message.reply(`指令還在冷卻中! (${((2000 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
+                            message.reply(`指令還在冷卻中! (${((1500 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
                         } catch { }
                     } else {
                         await cmd.run(client, message, args);
@@ -38,9 +38,9 @@ module.exports = async (client, message) => {
         }
     }
     const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
-    if (bannedWords.some((word) => message.content.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970'].indexOf(message.author.id) === -1 && message.channel.id !== '869948348285722654') {
+    if (bannedWords.some((word) => unescape(message.content.toLowerCase()).includes(word) || message.content.toLowerCase().includes(word) || message.author.username.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970', '785496543141560371'].indexOf(message.author.id) === -1 && message.channel.id !== '869948348285722654') {
         try {
-            message.delete();
+            await message.delete();
             message.channel.send(`:x: ${message.author} 你不允許發送邀請連結!!`);
         } catch { }
     }
@@ -51,21 +51,7 @@ module.exports = async (client, message) => {
         } catch { }
     }
 
-    const afkData = await afk.find();
-    const afkList = afkData.map((d) => d.discordid);
-    let checkFor = false;
-    afkList.forEach((d) => {
-        if (message.mentions.members.map((m) => m.id).indexOf(d) !== -1 && checkFor === false) {
-            const { content } = afkData.find((a) => a.discordid === d);
-            message.channel.send({ content: `<@${d}> 正在afk: ${content}`, allowedMentions: { parse: [] } });
-            checkFor = true;
-        }
-    });
-    if (afkList.indexOf(message.author.id) !== -1 && cmdname2 !== 'afk') {
-        await afk.deleteOne({ discordid: message.author.id });
-        message.reply('已經解除你的afk!');
-    }
-    if ((['948178858610405426', '832219589046829086', '859245756737388544'].indexOf(message.channel.id) !== -1) || message.author.id === '650604337000742934') {
+    if (['948178858610405426', '832219589046829086', '981900833039990784'].indexOf(message.channel.id) !== -1) {
         let levelData = await level.findOne({ discordid: message.author.id });
         if (!levelData) {
             levelData = await level.create({
@@ -75,26 +61,46 @@ module.exports = async (client, message) => {
         }
         const stamp = client.container.msgCooldown.get(message.author.id);
         const nowMS = Date.now();
-        if (stamp && nowMS - stamp < 1000 && message.author.id !== '650604337000742934') return;
-        client.container.msgCooldown.set(message.author.id, nowMS);
-        const nowStamp = Math.floor((nowMS + 28800000) / 86400000);
-        const check = await levelData.daily.find((d) => d.date === nowStamp);
-        if (!check) {
-            await level.updateOne({ discordid: message.author.id }, { $push: { daily: { date: nowStamp, count: 1 } } });
-        } else {
-            await level.updateOne({ discordid: message.author.id, 'daily.date': nowStamp }, { $inc: { 'daily.$.count': 1 } });
-        }
-        const active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
-        const sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
-        if (active > 100) {
-            if (!message.member.roles.cache.get('856808847251734559')) {
-                message.member.roles.add('856808847251734559');
+        if (!(stamp && nowMS - stamp < 750)) {
+            client.container.msgCooldown.set(message.author.id, nowMS);
+            const nowStamp = Math.floor((nowMS + 28800000) / 86400000);
+            const check = await levelData.daily.find((d) => d.date === nowStamp);
+            if (!check) {
+                await level.updateOne({ discordid: message.author.id }, { $push: { daily: { date: nowStamp, count: 1 } } });
+            } else {
+                await level.updateOne({ discordid: message.author.id, 'daily.date': nowStamp }, { $inc: { 'daily.$.count': 1 } });
+            }
+            const active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
+            const sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
+            if (active > 100) {
+                if (!message.member.roles.cache.has('856808847251734559')) {
+                    message.member.roles.add('856808847251734559');
+                    message.channel.send({ content: `${message.member} 已經獲得 <@&856808847251734559>`, allowedMentions: { parse: ['users'] } });
+                }
+            }
+            if (sActive > 300) {
+                if (!message.member.roles.cache.has('861459068789850172')) {
+                    message.member.roles.add('861459068789850172');
+                    message.channel.send({ content: `${message.member} 已經獲得 <@&861459068789850172>`, allowedMentions: { parse: ['users'] } });
+                }
             }
         }
-        if (sActive > 300) {
-            if (!message.member.roles.cache.get('861459068789850172')) {
-                message.member.roles.add('861459068789850172');
+    }
+
+    const afkData = await afk.find();
+    if (afkData.length > 0) {
+        const afkList = afkData.map((d) => d.discordid);
+        let checkFor = false;
+        afkList.forEach((d) => {
+            if (message.mentions.members.map((m) => m.id).indexOf(d) !== -1 && checkFor === false) {
+                const { content } = afkData.find((a) => a.discordid === d);
+                message.channel.send({ content: `<@${d}> 正在afk: ${content}`, allowedMentions: { parse: [] } });
+                checkFor = true;
             }
+        });
+        if (afkList.indexOf(message.author.id) !== -1 && cmdname2 !== 'afk') {
+            await afk.deleteOne({ discordid: message.author.id });
+            message.reply('已經解除你的afk!');
         }
     }
 };

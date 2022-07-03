@@ -2,7 +2,7 @@ const gis = require('g-i-s');
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message, args) => {
-    if (message.channelId !== '975025966990626816' && !message.member.roles.cache.has('870741338960830544')) return message.reply('此指令僅限 <#975025966990626816> 使用，以便管理');
+    if (message.channelId !== '975025966990626816' && !message.member.roles.cache.has('870741338960830544') && !message.member.roles.cache.has('989362072062165052')) return message.reply('此指令僅限 <#975025966990626816> 使用，以便管理');
     const input = args.join(' ');
     gis(input, (error, results) => {
         if (error) {

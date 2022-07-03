@@ -42,17 +42,17 @@ exports.run = async (client, message, args) => {
         return message.reply('你的錢似乎無法負荷這樣的金額 <:thinking_cute:852936219515551754>');
     }
 
-    await credit.findOneAndUpdate({ discordid: target.id }, { $inc: { tails_credit: amount } });
+    await credit.findOneAndUpdate({ discordid: target.id }, { $inc: { tails_credit: Math.floor(amount * 0.9) } });
 
     await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { tails_credit: amount * -1 } });
 
     const logEmbed = new MessageEmbed()
         .setColor('#ffae00')
         .setTitle(`${message.author.tag} 給予 ${target.user.tag} ${amount} Tails幣!`)
-        .setDescription(`${message.author} 的餘額已經從 \`${sendercredit}\` 變為 \`${sendercredit - amount}\`\n${target} 的餘額已經從 \`${targetcredit}\` 變為 \`${targetcredit + amount}\` (10%稅率)`);
+        .setDescription(`${message.author} 的餘額已經從 \`${sendercredit}\` 變為 \`${sendercredit - amount}\`\n${target} 的餘額已經從 \`${targetcredit}\` 變為 \`${Math.floor(targetcredit + amount * 0.9)}\` (10%稅率)`);
 
     message.reply({ embeds: [logEmbed] });
-    client.channels.cache.find((channel) => channel.id === '934885945113739355').send({ embeds: [logEmbed] });
+    client.channels.cache.get('934885945113739355').send({ embeds: [logEmbed] });
 };
 
 exports.conf = {

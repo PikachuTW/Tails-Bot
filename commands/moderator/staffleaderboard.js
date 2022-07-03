@@ -3,7 +3,7 @@ const warning = require('../../models/warning.js');
 
 exports.run = async (client, message) => {
     const res = await warning.aggregate([
-        { $sortByCount: '$discordid' },
+        { $sortByCount: '$warnstaff' },
         { $limit: 10 },
     ]);
 
@@ -18,14 +18,14 @@ exports.run = async (client, message) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setTitle('Warnings前十排行榜')
+                .setTitle('管理人員執法前十排行榜')
                 .setDescription(`${co}`)
                 .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' })],
     });
 };
 
 exports.conf = {
-    aliases: ['wlb', 'warnlb', 'warningslb'],
+    aliases: ['stafflb'],
     permLevel: 'User',
-    description: '警告排行榜',
+    description: '管理人員執法排行榜',
 };
