@@ -11,9 +11,8 @@ const giveaway = require('../models/giveaway');
 const ticket = require('../models/ticket');
 
 module.exports = async (client) => {
-    logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map((g) => g.memberCount).reduce((a, b) => a + b)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
+    logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map((g) => g.memberCount).reduce((a, b) => a + b, 0)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
     client.user.setActivity(`${settings.prefix}help | Made By Tails`, { type: 'PLAYING' });
-    // client.channels.cache.find(c => c.id == '948178858610405426').send('機器人已經重新開機!');
     const versionDate = await misc.findOne({ key: 'version' });
     if (version.number !== versionDate.value_string) {
         const Embed1 = new MessageEmbed()
@@ -24,7 +23,7 @@ module.exports = async (client) => {
         await misc.findOneAndUpdate({ key: 'version' }, { $set: { value_string: version.number } });
     }
 
-    const targetGuild = client.guilds.cache.find((guild) => guild.id === '828450904990154802');
+    const targetGuild = client.guilds.cache.get('828450904990154802');
 
     setInterval(() => {
         const count = targetGuild.memberCount;
