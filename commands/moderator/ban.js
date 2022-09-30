@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
     if (!reason) return message.reply('請提供禁止的原因');
 
     if (!target) {
-        const res = message.guild.bans.create(args[0], { reason });
+        const res = message.guild.bans.create(args[0], { reason: `${message.author.tag} - ${reason} (ban)` });
         if (!res) {
             return message.reply('請給予有效目標!');
         }
@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
                 new MessageEmbed()
                     .setTitle('成員已被禁止!')
                     .setColor('#ffae00')
-                    .addField('成員', `${client.users.cache.find((user) => user.id === args[0]).tag}`, false)
+                    .addField('成員', `<@${args[0]}>`, false)
                     .addField('原因', `${reason}`, false)
                     .addField('管理者', `${message.author}`, false)
                     .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
@@ -53,7 +53,7 @@ exports.run = async (client, message, args) => {
     } catch (e) {
         message.reply('機器人無法私訊此用戶');
     }
-    target.ban({ days: 0, reason: `${message.author.username}#${message.author.discriminator} - ${reason}` });
+    target.ban({ days: 0, reason: `${message.author.tag} - ${reason}` });
     client.channels.cache.find((channel) => channel.id === '936299386990919772').send({ embeds: [reasonEmbed] });
 };
 

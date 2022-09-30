@@ -2,9 +2,9 @@ const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message) => {
     if (!message.member.roles.cache.has('856808847251734559')) return message.reply('你需要活躍成員才能使用');
-    const { snipeDB } = client.db;
+    const { editSnipeDB } = client.db;
 
-    const sdata = snipeDB.get(message.channel.id);
+    const sdata = editSnipeDB.get(message.channel.id);
     if (!sdata) return message.reply('沒有可Snipe的訊息');
 
     const msg = sdata.snipemsg;
@@ -24,7 +24,7 @@ exports.run = async (client, message) => {
 };
 
 exports.conf = {
-    aliases: ['s'],
+    aliases: ['es', 's2'],
     permLevel: 'User',
     description: 'Snipe訊息',
 };

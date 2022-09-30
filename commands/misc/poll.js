@@ -10,6 +10,6 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Tails',
+    permLevel: 'Highest',
     description: '創建投票',
 };

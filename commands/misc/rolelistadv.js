@@ -45,7 +45,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    aliases: ['rl2'],
-    permLevel: 'Tails',
+    aliases: ['rla'],
+    permLevel: 'Highest',
     description: '兩個身分組中共同成員列表',
 };

@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const snipedata = require('../models/snipedata.js');
 
 module.exports = async (client, message) => {
     if (message.guildId !== '828450904990154802' || !message.author) return;
@@ -17,43 +16,33 @@ module.exports = async (client, message) => {
         ],
     });
 
-    if (message.author.bot && message.author.tag) return;
+    if (message.author.bot || !message.author.tag) return;
 
-    let data = await snipedata.findOne({ channelid: message.channel.id });
-    if (!data) {
-        data = await snipedata.create({
-            channelid: message.channel.id,
-            snipemsg: 'test',
-            snipesender: 123,
-            snipetime: 'test',
-        });
-    }
+    const { snipeDB } = client.db;
 
-    if (message.author.id === '650604337000742934') {
+    const data = snipeDB.get(message.channel.id);
+
+    if (['650604337000742934', '962270937665896478'].indexOf(message.author.id) !== -1) {
+        if (!data) return;
         if (data.snipemsg !== '```已屏蔽```') {
-            await snipedata.updateOne({
-                channelid: message.channel.id,
-            }, {
-                $set: {
-                    snipetime: currentdate,
-                },
-            });
+            snipeDB.set(message.channel.id, 'snipetime', currentdate);
         }
         return;
     }
 
     const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
 
-    if (['t!rs', 's?s', 's?'].indexOf(message.content.toLowerCase()) !== -1 || bannedWords.some((word) => unescape(message.content.toLowerCase()).includes(word) || message.content.toLowerCase().includes(word))) return;
+    if (message.content.toLowerCase().startsWith('t!rs') || ['s?s', 's?'].indexOf(message.content.toLowerCase()) !== -1 || bannedWords.some((word) => unescape(message.content.toLowerCase()).includes(word) || message.content.toLowerCase().includes(word))) return;
 
-    await snipedata.updateOne({
-        channelid: message.channel.id,
-    }, {
-        $set: {
-            snipemsg: message.content,
-            snipesender: message.author.id,
-            snipetime: currentdate,
-            snipeatt: message.attachments.size > 0 ? message.attachments.map((a) => a.proxyURL) : null,
-        },
+    let mc = message.content;
+    if (message.stickers.first()) {
+        mc += `\n[貼圖: ${message.stickers.first().name}]`;
+    }
+
+    snipeDB.set(message.channel.id, {
+        snipemsg: mc,
+        snipesender: message.author.tag,
+        snipetime: currentdate,
+        snipeatt: message.attachments.size > 0 ? message.attachments.map((a) => a.proxyURL) : message.stickers.size > 0 ? message.stickers.map((a) => a.url) : null,
     });
 };

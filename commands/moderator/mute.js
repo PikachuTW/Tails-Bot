@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const ms = require('ms');
-const credit = require('../../models/credit.js');
 const { targetGet } = require('../../modules/functions');
 
 exports.run = async (client, message, args) => {
@@ -15,26 +14,8 @@ exports.run = async (client, message, args) => {
 
     if (message.member.roles.highest.comparePositionTo(target.roles.highest) <= 0) return message.reply('你的身分組沒有比他高欸!你怎麼可以禁言他 :weary:');
 
-    if (!milliseconds || milliseconds < 10000 || milliseconds > 2419200000) {
-        return message.reply('請給出 10s-28d 的時間');
-    }
-
-    let data = await credit.findOne({ discordid: message.author.id });
-    if (!data) {
-        data = await credit.create({
-            discordid: message.author.id,
-            tails_credit: 0,
-        });
-    }
-
-    const before = data.tails_credit;
-
-    if (message.author.id !== '650604337000742934' && milliseconds > 600000) {
-        if (before < Math.round((milliseconds / 1000) - 600)) {
-            return message.reply(`你需要 \`${Math.round((milliseconds / 1000) - 600)}\` Tails幣才能mute此用戶 <:frog4:931773626057912420>`);
-        }
-
-        await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { tails_credit: -1 * Math.round((milliseconds / 1000) - 600) } });
+    if (!milliseconds || milliseconds < 10000 || milliseconds > 604800000) {
+        return message.reply('請給出 10s-7d 的時間');
     }
 
     target.timeout(milliseconds, `${message.author.username}#${message.author.discriminator} - ${reason}`);

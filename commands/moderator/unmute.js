@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const credit = require('../../models/credit.js');
 const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
@@ -7,25 +6,6 @@ exports.run = async (client, message, args) => {
     if (!target) return message.reply('請給予有效目標!');
 
     if (message.member.roles.highest.comparePositionTo(target.roles.highest) <= 0) return message.reply('你的身分組沒有比他高欸!你怎麼可以解除禁言他 :weary:');
-
-    let data = await credit.findOne({ discordid: message.author.id });
-    if (!data) {
-        data = await credit.create({
-            discordid: message.author.id,
-            tails_credit: 0,
-        });
-    }
-
-    const before = data.tails_credit;
-    const milliseconds = target.communicationDisabledUntilTimestamp - Date.now();
-
-    if (message.author.id !== '650604337000742934' && milliseconds > 600000) {
-        if (before < Math.round((milliseconds / 1000) - 600)) {
-            return message.reply(`你需要 \`${Math.round((milliseconds / 1000) - 600)}\` Tails幣才能unmute此用戶 <:frog4:931773626057912420>`);
-        }
-
-        await credit.findOneAndUpdate({ discordid: message.author.id }, { $inc: { tails_credit: -1 * Math.round((milliseconds / 1000) - 600) } });
-    }
 
     target.timeout(null, `${message.author.username}#${message.author.discriminator}`);
 

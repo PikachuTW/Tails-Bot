@@ -27,8 +27,7 @@ exports.run = async (client, message) => {
         .setColor('#ffae00')
         .setTitle('三日內訊息量前十排行榜')
         .setDescription(co)
-        .setThumbnail('https://i.imgur.com/MTWQbeh.png')
-        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
+        .setThumbnail('https://i.imgur.com/MTWQbeh.png');
 
     message.reply({ embeds: [exampleEmbed] });
 };

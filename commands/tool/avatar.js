@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    aliases: [],
+    aliases: ['av'],
     permLevel: 'User',
     description: '獲取你的頭像',
 };

@@ -9,3 +9,5 @@ core
 .npmrc
 
 .pnpm-debug.log
+
+enmap/

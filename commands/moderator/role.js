@@ -61,6 +61,6 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Tails',
+    permLevel: 'Highest',
     description: '給予成員身分組',
 };

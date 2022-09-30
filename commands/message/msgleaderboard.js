@@ -69,9 +69,7 @@ exports.run = async (client, message) => {
         .setColor('#ffae00')
         .setTitle('總訊息量前十排行榜')
         .setDescription(co)
-        .setThumbnail('https://i.imgur.com/MTWQbeh.png')
-        .setImage('attachment://server_chart.png')
-        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
+        .setImage('attachment://server_chart.png');
 
     message.reply({ embeds: [exampleEmbed], files: [imageGen] });
 };

@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
+const ascension = require('../models/ascension.js');
 const config = require('../config.js');
+const credit = require('../models/credit.js');
+const boost = require('../models/boost.js');
 
 const permlevel = (target) => {
     let permlvl = 0;
@@ -49,6 +52,70 @@ const delay = (ms = 1000) => new Promise((resolve) => {
     setTimeout(resolve, ms);
 });
 
+/**
+   *
+   * @param {*} min
+   * @param {*} max
+   * @returns min ~ max random number
+   */
+const getRandomNum = (min, max) => {
+    try {
+        return Math.random() * (max - min) + min;
+    } catch (e) {
+        console.log(String(e.stack).bgRed);
+    }
+};
+
+const getAs = async () => {
+    const nowMS = Date.now();
+    const today = Math.floor((nowMS + 28800000) / 86400000);
+    let todayRes = await ascension.findOne({ day: today });
+    if (!todayRes) {
+        const yesterRes = await ascension.findOne({ day: today - 1 });
+        if (yesterRes) {
+            todayRes = await ascension.create({ day: today, level: Math.floor(yesterRes.level * 0.95) });
+        } else {
+            todayRes = await ascension.create({ day: today, level: 0 });
+        }
+    }
+    return todayRes.level;
+};
+
+const getCredit = async (member) => {
+    let data = await credit.findOne({ discordid: member.id });
+    if (!data) {
+        await credit.create({
+            discordid: member.id,
+            tails_credit: 0,
+        });
+        data = await credit.findOne({ discordid: member.id });
+    }
+    return data.tails_credit;
+};
+
+const getMulti = async (member) => {
+    const bt = await boost.findOne({ user: member.id, timestamp: { $gte: Date.now() } });
+    let multi = 1;
+    if (member.roles.cache.has('830689873367138304')) {
+        multi += 0.075; // 活躍
+    }
+    if (member.roles.cache.has('1014857925107392522')) {
+        multi += 0.1; // 中等活躍
+    }
+    if (member.roles.cache.has('861459068789850172')) {
+        multi += 0.125; // 超級活躍
+    }
+    if (member.roles.cache.has('830689873367138304')) {
+        multi += 0.1; // 加成者
+    }
+    if (bt && bt.type === 'MONEY') {
+        multi += 0.25;
+    }
+    const as = await getAs();
+    multi += (as ** 1.11 / 200);
+    return multi;
+};
+
 // async function awaitReply(message, question, limit = 60000) {
 //     const filter = m => m.author.id === message.author.id;
 //     await msg.channel.send(question);
@@ -92,5 +159,5 @@ const delay = (ms = 1000) => new Promise((resolve) => {
 // });
 
 module.exports = {
-    permlevel, targetGet, timeConvert, nowTime, delay,
+    permlevel, targetGet, timeConvert, nowTime, delay, getRandomNum, getAs, getCredit, getMulti,
 };

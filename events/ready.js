@@ -1,7 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 const { codeBlock } = require('@discordjs/builders');
 const QuickChart = require('quickchart-js');
-const { MessageEmbed, MessageAttachment } = require('discord.js');
+const {
+    MessageEmbed, MessageAttachment, MessageActionRow, MessageSelectMenu, MessageButton,
+} = require('discord.js');
+const { readdirSync } = require('fs');
 const logger = require('../modules/Logger.js');
 const { settings } = require('../config.js');
 const misc = require('../models/misc.js');
@@ -9,6 +12,9 @@ const version = require('../version.js');
 const level = require('../models/level.js');
 const giveaway = require('../models/giveaway');
 const ticket = require('../models/ticket');
+const vote = require('../models/vote');
+const drop = require('../models/drop');
+const { getRandomNum } = require('../modules/functions.js');
 
 module.exports = async (client) => {
     logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map((g) => g.memberCount).reduce((a, b) => a + b, 0)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
@@ -23,6 +29,42 @@ module.exports = async (client) => {
         await misc.findOneAndUpdate({ key: 'version' }, { $set: { value_string: version.number } });
     }
 
+    const catList = new Map([
+        ['economy', '經濟'],
+        ['information', '資訊'],
+        ['message', '訊息'],
+        ['moderator', '管理'],
+        ['music', '音樂'],
+        ['system', '系統'],
+        ['tool', '工具'],
+        ['misc', '雜項'],
+    ]);
+
+    const helpEmbed = new MessageEmbed()
+        .setColor('#ffae00')
+        .setTitle('指令列表')
+        .setThumbnail('https://i.imgur.com/MTWQbeh.png')
+        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
+
+    const folders = readdirSync('./commands/');
+    folders.forEach((folder) => {
+        const cmds = readdirSync(`./commands/${folder}/`).filter((file) => file.endsWith('.js'));
+        let res = '';
+        cmds.forEach((file) => {
+            try {
+                res += `\`t!${file.split('.')[0]}\` `;
+            } catch (error) {
+                logger.log(`${error}`, 'error');
+            }
+        });
+        helpEmbed.addField(`${catList.get(folder)}`, res);
+    });
+
+    // eslint-disable-next-line no-param-reassign
+    client.preload = {
+        helpEmbed,
+    };
+
     const targetGuild = client.guilds.cache.get('828450904990154802');
 
     setInterval(() => {
@@ -33,24 +75,99 @@ module.exports = async (client) => {
 
     setInterval(async () => {
         const nowStamp = Math.floor((Date.now() + 28800000) / 86400000);
-        const activeLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('856808847251734559').members.cache.map((m) => m.id) } });
+        const activeLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('856808847251734559').members.map((m) => m.id) } });
         activeLevelData.forEach(async (data) => {
-            if (data.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0) <= 100) {
+            const count = data.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
+            if (count < 100) {
                 const m = targetGuild.members.cache.get(data.discordid);
                 if (m) {
                     m.roles.remove('856808847251734559');
                 }
             }
+            if (count < 200) {
+                const m = targetGuild.members.cache.get(data.discordid);
+                if (m) {
+                    m.roles.remove('1014857925107392522');
+                }
+            }
         });
-        const sActiveLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('861459068789850172').members.cache.map((m) => m.id) } });
+        const sActiveLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('861459068789850172').members.map((m) => m.id) } });
         sActiveLevelData.forEach(async (data) => {
-            if (data.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0) <= 300) {
+            if (data.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0) < 250) {
                 const m = targetGuild.members.cache.get(data.discordid);
                 if (m) {
                     m.roles.remove('861459068789850172');
                 }
             }
         });
+    }, 60000);
+
+    setInterval(async () => {
+        try {
+            const now = Date.now();
+            const get = await vote.find();
+            get.filter((d) => now > d.time && !d.finished).forEach(async (res) => {
+                await vote.updateOne({ msg: res.msg }, { finished: true });
+                let highest = [];
+                let max = 0;
+                res.candidates.forEach((d) => {
+                    const arr = res.data.filter((k) => k.candidate === d);
+                    if (arr.length === max) {
+                        highest.push(d);
+                    } else if (arr.length > max) {
+                        highest = [d];
+                        max = arr.length;
+                    }
+                });
+                const Channel = client.channels.cache.get(res.channel);
+                Channel.send(`恭喜 ${highest.map((k) => Channel.guild.members.cache.get(k)).join(' ')} 當選`);
+            });
+        } catch {}
+    }, 1000);
+
+    setInterval(async () => {
+        try {
+            const now = Date.now();
+            const get = await vote.find();
+            get.filter((d) => now < d.time && !d.finished).forEach(async (res) => {
+                const Channel = client.channels.cache.get(res.channel);
+                const Message = await Channel.messages.fetch(res.msg);
+                const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯'];
+                const Embed = new MessageEmbed()
+                    .setTitle(`${res.title}`)
+                    .setColor('#ffae00');
+                let i = 0;
+                const selectList = [];
+                let highest = [];
+                let max = 0;
+                let str = '';
+                res.candidates.forEach((d) => {
+                    const arr = res.data.filter((k) => k.candidate === d);
+                    str += `${emojis[i]} ${Message.guild.members.cache.get(d)} (${arr.length}票)\n`;
+                    if (arr.length === max) {
+                        highest.push(d);
+                    } else if (arr.length > max) {
+                        highest = [d];
+                        max = arr.length;
+                    }
+                    selectList.push({
+                        label: Message.guild.members.cache.get(d).user.tag,
+                        value: d,
+                        emoji: emojis[i],
+                    });
+                    i += 1;
+                });
+                Embed.setDescription(`最高票: ${highest.map((k) => Message.guild.members.cache.get(k)).join(' ')}\n結束時間: <t:${Math.round(res.time / 1000)}> <t:${Math.round(res.time / 1000)}:R>\n\n${str}`);
+                const row = new MessageActionRow()
+                    .addComponents(
+                        new MessageSelectMenu()
+                            .setCustomId('voteSelect')
+                            .setPlaceholder('投票區 Election Area')
+                            .addOptions(selectList),
+                    );
+                await Message.edit({ embeds: [Embed], components: [row] });
+            });
+        } catch {}
     }, 60000);
 
     setInterval(async () => {
@@ -142,6 +259,13 @@ module.exports = async (client) => {
             .setColor('#ffae00')
             .setTitle(`超級活躍成員清單 (近兩天300則訊息) (${sActiveRole.members.size}個)`)
             .setDescription(sActiveRole.members.map((d) => d).join('\n'))
+            .setFooter({ text: `最後編輯時間 ${new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}` });
+
+        const nActiveRole = Guild.roles.cache.get('1014857925107392522');
+        const nActiveEmbed = new MessageEmbed()
+            .setColor('#ffae00')
+            .setTitle(`中等活躍成員清單 (近三天250則訊息) (${nActiveRole.members.size}個)`)
+            .setDescription(nActiveRole.members.map((d) => d).join('\n'))
             .setFooter({ text: `最後編輯時間 ${new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}` });
 
         const res = await level.aggregate([
@@ -242,8 +366,39 @@ module.exports = async (client) => {
 
         await Message.edit({
             content: null,
-            embeds: [serverInfoEmbed, staffEmbed, totalLbEmbed, activeLbEmbed, activeEmbed, sActiveEmbed],
+            embeds: [serverInfoEmbed, staffEmbed, totalLbEmbed, activeLbEmbed, activeEmbed, nActiveEmbed, sActiveEmbed],
             files: [imageGen],
         });
     }, 60000);
+
+    const dropF = async () => {
+        const res = await drop.findOneAndDelete({});
+        const Channel = client.channels.cache.get('948178858610405426');
+        const Message = await Channel.send({
+            embeds: [
+                new MessageEmbed()
+                    .setColor('#ffae00')
+                    .setDescription('**隨機Tails Credits獎勵!**'),
+            ],
+            components: [
+                new MessageActionRow()
+                    .setComponents([
+                        new MessageButton()
+                            .setLabel('領取 Claim')
+                            .setCustomId('drop')
+                            .setStyle('SUCCESS'),
+                    ]),
+            ],
+        });
+        await drop.create({ timestamp: Message.createdTimestamp, claimed: [], mid: Message.id });
+        if (res && res.id) {
+            try {
+                const DM = await Channel.messages.fetch(res.mid);
+                await DM.delete();
+            } catch {}
+        }
+        setTimeout(dropF, getRandomNum(300000, 1200000));
+    };
+
+    setTimeout(dropF, getRandomNum(300000, 1200000));
 };

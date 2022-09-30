@@ -4,10 +4,10 @@ const dotenv = require('dotenv');
 const { Client, Collection } = require('discord.js');
 const { readdirSync } = require('fs');
 const mongoose = require('mongoose');
+const Enmap = require('enmap');
 
 const { permLevels } = require('./config.js');
 const logger = require('./modules/Logger.js');
-
 const functions = require('./modules/functions.js');
 
 dotenv.config();
@@ -22,6 +22,19 @@ mongoose
         console.log('已經連線到資料庫');
     })
     .catch((err) => console.log(err));
+
+const snipeDB = new Enmap({
+    name: 'snipeDB',
+    dataDir: './enmap/snipe',
+});
+const editSnipeDB = new Enmap({
+    name: 'editSnipeDB',
+    dataDir: './enmap/editSnipe',
+});
+const cdDB = new Enmap({
+    name: 'CdDB',
+    dataDir: './enmap/collectCD',
+});
 
 const levelCache = {};
 for (let i = 0; i < permLevels.length; i++) {
@@ -46,8 +59,12 @@ client.container = {
     wordcd: new Collection(),
 };
 client.fn = functions;
+client.db = {
+    snipeDB,
+    editSnipeDB,
+    cdDB,
+};
 client.word = {};
-
 for (let i = 1; i <= 6; i++) {
     const data = require(`./7000words/${i}級.json`);
     client.word[`${i}`] = data;

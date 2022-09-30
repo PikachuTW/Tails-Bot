@@ -15,8 +15,9 @@ module.exports = async (client, message) => {
         const permlevelGet = permlevel(message.member);
         const cmd = container.commands.get(command) || container.commands.get(container.aliases.get(command));
         if (cmd) {
-            if (permlevelGet < container.levelCache[cmd.conf.permLevel]) {
-                message.reply(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${config.permLevels.find((l) => l.level === permlevelGet).name})\n你需要權限等級 ${container.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`).catch();
+            const permNeededNum = container.levelCache[cmd.conf.permLevel] === undefined ? Infinity : container.levelCache[cmd.conf.permLevel];
+            if (permlevelGet < permNeededNum) {
+                message.reply(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${config.permLevels.find((l) => l.level === permlevelGet).name})\n你需要權限等級 ${permNeededNum} (${cmd.conf.permLevel})`).catch();
             } else {
                 try {
                     const stamp = client.container.cooldown.get(message.author.id) || 0;
@@ -45,13 +46,23 @@ module.exports = async (client, message) => {
         } catch { }
     }
     if (message.author.bot) return;
+    if (['650604337000742934', '962270937665896478', '889358372170792970'].indexOf(message.member.id) === -1 && message.mentions.users.size >= 5) {
+        message.member.timeout(30000, 'mass ping');
+        message.channel.send(`:x: ${message.author} 你不允許大量提及用戶!!`);
+    }
+    if (message.member.roles.cache.has('881911118845587477')) {
+        if (message.mentions.everyone === true || message.mentions.roles.size > 0) {
+            const lockchannel = message.guild.channels.cache.get('948178858610405426');
+            if (lockchannel.permissionsFor('881911118845587477').any('MENTION_EVERYONE')) {
+                lockchannel.permissionOverwrites.edit('881911118845587477', { MENTION_EVERYONE: false });
+            }
+        }
+    }
     if (message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
-        try {
-            message.reply(`嗨! 機器人的前綴是 \`${prefix}\``);
-        } catch { }
+        message.reply(`嗨! 機器人的前綴是 \`${prefix}\``);
     }
 
-    if (['948178858610405426', '832219589046829086', '981900833039990784'].indexOf(message.channel.id) !== -1) {
+    if (message.channel.id === '948178858610405426') {
         let levelData = await level.findOne({ discordid: message.author.id });
         if (!levelData) {
             levelData = await level.create({
@@ -72,13 +83,19 @@ module.exports = async (client, message) => {
             }
             const active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
             const sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
-            if (active > 100) {
+            if (active >= 99) {
                 if (!message.member.roles.cache.has('856808847251734559')) {
                     message.member.roles.add('856808847251734559');
                     message.channel.send({ content: `${message.member} 已經獲得 <@&856808847251734559>`, allowedMentions: { parse: ['users'] } });
                 }
             }
-            if (sActive > 300) {
+            if (active >= 199) {
+                if (!message.member.roles.cache.has('1014857925107392522')) {
+                    message.member.roles.add('1014857925107392522');
+                    message.channel.send({ content: `${message.member} 已經獲得 <@&1014857925107392522>`, allowedMentions: { parse: ['users'] } });
+                }
+            }
+            if (sActive >= 249) {
                 if (!message.member.roles.cache.has('861459068789850172')) {
                     message.member.roles.add('861459068789850172');
                     message.channel.send({ content: `${message.member} 已經獲得 <@&861459068789850172>`, allowedMentions: { parse: ['users'] } });

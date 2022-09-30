@@ -9,13 +9,13 @@ exports.run = async (client, message, args) => {
             new MessageEmbed()
                 .setColor('#ffae00')
                 .setTitle(`${Role.name} 身分組成員列表 ( ${Role.members.size} 個 )`)
-                .setDescription(Role.members.map((d) => d).join('\n')),
+                .setDescription(Role.members.map((d) => d).join(' ')),
         ],
     });
 };
 
 exports.conf = {
     aliases: ['rl'],
-    permLevel: 'Tails',
+    permLevel: 'Highest',
     description: '身分組中成員列表',
 };

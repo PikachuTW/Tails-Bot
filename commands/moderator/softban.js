@@ -31,7 +31,7 @@ exports.run = async (client, message, args) => {
     message.reply({ embeds: [reasonEmbed] });
     client.channels.resolve('936299461779542086').send({ embeds: [reasonEmbed] });
     await target.send({ embeds: [kickEmbed] });
-    target.ban({ days: 7, reason: `${message.author.username}#${message.author.discriminator} - ${reason} (softban)` });
+    target.ban({ days: 7, reason: `${message.author.tag} - ${reason} (softban)` });
     message.guild.members.unban(target.id);
 };
 

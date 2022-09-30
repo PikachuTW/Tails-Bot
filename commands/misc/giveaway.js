@@ -33,7 +33,7 @@ exports.run = async (client, message, args) => {
             ],
         });
         await msg.react('931773626057912420');
-        giveaway.create({
+        await giveaway.create({
             messageid: msg.id, channelid: msg.channelId, winner: winnerCount, time: msCount + Date.now(),
         });
     } else if (args[0] === 'end') {

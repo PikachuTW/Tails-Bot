@@ -10,12 +10,6 @@ exports.run = async (client, message, args) => {
 
     const levelData = await level.findOne({ discordid: target.id });
     if (!levelData) {
-        today = 0;
-        sActive = 0;
-        active = 0;
-        week = 0;
-        total = 0;
-
         message.reply({
             embeds: [
                 new MessageEmbed()
@@ -96,7 +90,7 @@ exports.run = async (client, message, args) => {
         chart.setWidth(500);
         chart.setHeight(300);
 
-        chart.setConfig({
+        const conf = {
             type: 'line',
             data: {
                 labels: res.map((d) => `${new Date((d.daily.date) * 86400000).getMonth() + 1}/${new Date((d.daily.date) * 86400000).getDate()}(${weekDays[new Date((d.daily.date) * 86400000).getDay()]})`),
@@ -117,7 +111,9 @@ exports.run = async (client, message, args) => {
                     text: `${target.user.tag} 的訊息資料圖表`,
                 },
             },
-        });
+        };
+
+        chart.setConfig(conf);
 
         const rankRes = await level.aggregate([
             { $unwind: '$daily' },
@@ -146,8 +142,7 @@ exports.run = async (client, message, args) => {
                         { name: '全部訊息量', value: `\`${total}\``, inline: true },
                         { name: '總排名', value: `\`${rankRes.filter((d) => d.total >= total).length}\``, inline: true },
                     ])
-                    .setImage(`attachment://${target.id}_chart.png`)
-                    .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+                    .setImage(`attachment://${target.id}_chart.png`),
             ],
             files: [imageGen],
         });

@@ -1,42 +1,10 @@
 const { MessageEmbed } = require('discord.js');
-const { readdirSync } = require('fs');
-const logger = require('../../modules/Logger.js');
 
 exports.run = async (client, message, args) => {
     const { container } = client;
 
     if (!args[0]) {
-        const list = new Map([
-            ['economy', '經濟'],
-            ['information', '資訊'],
-            ['message', '訊息'],
-            ['moderator', '管理'],
-            ['music', '音樂'],
-            ['system', '系統'],
-            ['tool', '工具'],
-            ['misc', '雜項'],
-        ]);
-
-        const exampleEmbed = new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle('指令列表')
-            .setThumbnail('https://i.imgur.com/MTWQbeh.png')
-            .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
-
-        const folders = readdirSync('./commands/');
-        folders.forEach((folder) => {
-            const cmds = readdirSync(`./commands/${folder}/`).filter((file) => file.endsWith('.js'));
-            let res = '';
-            cmds.forEach((file) => {
-                try {
-                    res += `\`t!${file.split('.')[0]}\` `;
-                } catch (error) {
-                    logger.log(`${error}`, 'error');
-                }
-            });
-            exampleEmbed.addField(`${list.get(folder)}`, res);
-        });
-        message.reply({ embeds: [exampleEmbed] });
+        message.reply({ embeds: [client.preload.helpEmbed] });
     } else {
         const command = args[0];
         const cmd = container.commands.get(command) || container.commands.get(container.aliases.get(command));

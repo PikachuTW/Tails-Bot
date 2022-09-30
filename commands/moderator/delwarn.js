@@ -23,6 +23,6 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
     aliases: [],
-    permLevel: 'Owner',
+    permLevel: 'Highest',
     description: '刪除成員的警告',
 };
