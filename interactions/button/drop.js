@@ -35,7 +35,7 @@ module.exports = async (client, interaction) => {
 
         let giveamount = Math.round(data.level ** 1.225);
 
-        const multi = await getMulti(interaction.member);
+        const multi = await getMulti(client, interaction.member);
 
         giveamount = Math.floor(giveamount * multi);
 
@@ -52,7 +52,7 @@ module.exports = async (client, interaction) => {
             ephemeral: true,
         });
 
-        if (interaction.member.roles.cache.has('856808847251734559') && Math.random() < 0.0015 * Math.floor(data.level / 20)) {
+        if (interaction.member.roles.cache.has('856808847251734559') && Math.random() < 0.00125 * Math.floor(data.level / 20)) {
             const id = uuid.v4();
             let type;
             if (Math.random() < 0.5) {

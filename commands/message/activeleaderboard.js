@@ -26,8 +26,7 @@ exports.run = async (client, message) => {
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
         .setTitle('三日內訊息量前十排行榜')
-        .setDescription(co)
-        .setThumbnail('https://i.imgur.com/MTWQbeh.png');
+        .setDescription(co);
 
     message.reply({ embeds: [exampleEmbed] });
 };

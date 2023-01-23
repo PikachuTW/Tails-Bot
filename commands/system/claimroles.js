@@ -92,7 +92,7 @@ exports.run = async (client, message) => {
             new MessageEmbed()
                 .setColor('#ffae00')
                 .setTitle('👥 性別身分組領取')
-                .setDescription('請在這裡領取你的性別認同身分組，可以多重領取'),
+                .setDescription('請在這裡領取你的性別身分組'),
         ],
         components: [
             new MessageActionRow()
@@ -110,21 +110,6 @@ exports.run = async (client, message) => {
                                 label: '女性',
                                 value: '874567579539222568',
                                 emoji: '🟥',
-                            },
-                            {
-                                label: '中性',
-                                value: '874567832317354034',
-                                emoji: '🟩',
-                            },
-                            {
-                                label: '無性',
-                                value: '874567837165953074',
-                                emoji: '🟪',
-                            },
-                            {
-                                label: '其他性',
-                                value: '874568093542805534',
-                                emoji: '🟧',
                             },
                             {
                                 label: '清除身分組 Clear All',

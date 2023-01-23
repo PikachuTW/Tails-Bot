@@ -24,33 +24,4 @@ module.exports = async (client, oldMessage, newMessage) => {
                 .setFooter({ text: `Author: ${newMessage.author.id} | Message ID: ${newMessage.id}\n${currentdate} | 頻道: ${newMessage.channel.name}` }),
         ],
     });
-
-    if (oldMessage.author.bot || !oldMessage.author.tag) return;
-    if (oldMessage.content === newMessage.content) return;
-
-    const { editSnipeDB } = client.db;
-
-    const data = editSnipeDB.get(oldMessage.channel.id);
-
-    if (['650604337000742934', '962270937665896478'].indexOf(oldMessage.author.id) !== -1) {
-        if (!data) return;
-        if (data.snipemsg !== '```已屏蔽```') {
-            editSnipeDB.set(oldMessage.channel.id, 'snipetime', currentdate);
-        }
-        return;
-    }
-
-    if (oldMessage.content.toLowerCase().startsWith('t!rs') || ['s?s', 's?'].indexOf(oldMessage.content.toLowerCase()) !== -1 || bannedWords.some((word) => unescape(oldMessage.content.toLowerCase()).includes(word) || oldMessage.content.toLowerCase().includes(word))) return;
-
-    let mc = oldMessage.content;
-    if (oldMessage.stickers.first()) {
-        mc += `\n[貼圖: ${oldMessage.stickers.first().name}]`;
-    }
-
-    editSnipeDB.set(oldMessage.channel.id, {
-        snipemsg: mc,
-        snipesender: oldMessage.author.tag,
-        snipetime: currentdate,
-        snipeatt: oldMessage.attachments.size > 0 ? oldMessage.attachments.map((a) => a.proxyURL) : oldMessage.stickers.size > 0 ? oldMessage.stickers.map((a) => a.url) : null,
-    });
 };

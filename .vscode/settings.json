@@ -3,4 +3,5 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     },
     "javascript.format.enable": false,
+    "search.useIgnoreFiles": true,
 }

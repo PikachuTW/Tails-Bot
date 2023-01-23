@@ -34,8 +34,7 @@ exports.run = async (client, message) => {
                 .setColor('#ffae00')
                 .setTitle(`${message.author.tag} 購買了新的投資!`)
                 .setDescription(`你已經花費 \`${Math.round((data.level + 1) ** 1.6)}\` 購買新投資! 你現在每次可以賺 \`${Math.round((data.level + 1) ** 1.225) + 1}\``)
-                .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true }))
-                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+                .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true })),
         ],
     });
 };

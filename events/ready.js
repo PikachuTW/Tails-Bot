@@ -1,8 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const { codeBlock } = require('@discordjs/builders');
-const QuickChart = require('quickchart-js');
 const {
-    MessageEmbed, MessageAttachment, MessageActionRow, MessageSelectMenu, MessageButton,
+    MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton,
 } = require('discord.js');
 const { readdirSync } = require('fs');
 const logger = require('../modules/Logger.js');
@@ -43,7 +42,6 @@ module.exports = async (client) => {
     const helpEmbed = new MessageEmbed()
         .setColor('#ffae00')
         .setTitle('指令列表')
-        .setThumbnail('https://i.imgur.com/MTWQbeh.png')
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     const folders = readdirSync('./commands/');
@@ -78,7 +76,7 @@ module.exports = async (client) => {
         const activeLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('856808847251734559').members.map((m) => m.id) } });
         activeLevelData.forEach(async (data) => {
             const count = data.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
-            if (count < 100) {
+            if (count < 80) {
                 const m = targetGuild.members.cache.get(data.discordid);
                 if (m) {
                     m.roles.remove('856808847251734559');
@@ -93,7 +91,7 @@ module.exports = async (client) => {
         });
         const sActiveLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('861459068789850172').members.map((m) => m.id) } });
         sActiveLevelData.forEach(async (data) => {
-            if (data.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0) < 250) {
+            if (data.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0) < 200) {
                 const m = targetGuild.members.cache.get(data.discordid);
                 if (m) {
                     m.roles.remove('861459068789850172');
@@ -239,15 +237,6 @@ module.exports = async (client) => {
             )
             .setThumbnail(Guild.iconURL({ dynamic: true, format: 'png' }));
 
-        const all = Guild.roles.resolve('832213672695693312').members;
-        const staff = all.filter((member) => !member.roles.cache.has('856377783163944970') && !member.roles.cache.has('870741338960830544'));
-        const admin = all.filter((member) => !member.roles.cache.has('870741338960830544') && member.roles.cache.has('856377783163944970'));
-        const owner = all.filter((member) => member.roles.cache.find((role) => role.id === '870741338960830544'));
-        const staffEmbed = new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle('管理人員階級列表')
-            .setDescription(`**群主OWNER**\n${owner.size > 0 ? `${owner.map((member) => member.user).join('\n')}\n` : '```無```\n'}**管理員ADMIN**\n${admin.size > 0 ? `${admin.map((member) => member.user).join('\n')}\n` : '```無```\n'}**管理人員STAFF**\n${staff.size > 0 ? `${staff.map((member) => member.user).join('\n')}\n` : '```無```\n'}`);
-
         const activeRole = Guild.roles.cache.get('856808847251734559');
         const activeEmbed = new MessageEmbed()
             .setColor('#ffae00')
@@ -257,117 +246,21 @@ module.exports = async (client) => {
         const sActiveRole = Guild.roles.cache.get('861459068789850172');
         const sActiveEmbed = new MessageEmbed()
             .setColor('#ffae00')
-            .setTitle(`超級活躍成員清單 (近兩天300則訊息) (${sActiveRole.members.size}個)`)
+            .setTitle(`超級活躍成員清單 (近兩天250則訊息) (${sActiveRole.members.size}個)`)
             .setDescription(sActiveRole.members.map((d) => d).join('\n'))
             .setFooter({ text: `最後編輯時間 ${new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}` });
 
         const nActiveRole = Guild.roles.cache.get('1014857925107392522');
         const nActiveEmbed = new MessageEmbed()
             .setColor('#ffae00')
-            .setTitle(`中等活躍成員清單 (近三天250則訊息) (${nActiveRole.members.size}個)`)
+            .setTitle(`中等活躍成員清單 (近三天200則訊息) (${nActiveRole.members.size}個)`)
             .setDescription(nActiveRole.members.map((d) => d).join('\n'))
             .setFooter({ text: `最後編輯時間 ${new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}` });
 
-        const res = await level.aggregate([
-            { $unwind: '$daily' },
-            {
-                $group: {
-                    _id: '$discordid',
-                    total: { $sum: '$daily.count' },
-                },
-            },
-            { $sort: { total: -1 } },
-            { $limit: 10 },
-        ]);
-
-        const chartRes = await level.aggregate([
-            { $unwind: '$daily' },
-            {
-                $group: {
-                    _id: '$daily.date',
-                    total: { $sum: '$daily.count' },
-                },
-            },
-            { $sort: { _id: 1 } },
-        ]);
-
-        const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
-
-        const chart = new QuickChart();
-
-        chart.setWidth(500);
-        chart.setHeight(300);
-
-        chart.setConfig({
-            type: 'line',
-            data: {
-                labels: chartRes.map((d) => `${new Date((d._id) * 86400000).getMonth() + 1}/${new Date((d._id) * 86400000).getDate()}(${weekDays[new Date((d._id) * 86400000).getDay()]})`),
-                datasets: [{
-                    label: '訊息量',
-                    fill: false,
-                    borderColor: '#ffae00',
-                    pointBackgroundColor: '#ffae00',
-                    data: chartRes.map((d) => d.total),
-                }],
-            },
-            options: {
-                legend: {
-                    display: false,
-                },
-                title: {
-                    display: true,
-                    text: '伺服器訊息資料圖表',
-                },
-            },
-        });
-
-        const imageGen = new MessageAttachment(chart.getUrl(), 'server_chart.png');
-
-        let co = '';
-
-        for (let i = 0; i < 10; i++) {
-            co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`;
-        }
-
-        const totalLbEmbed = new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle('總訊息量前十排行榜')
-            .setDescription(co)
-            .setThumbnail('https://i.imgur.com/MTWQbeh.png')
-            .setImage('attachment://server_chart.png');
-
-        const nowStamp = Math.floor((Date.now() + 28800000) / 86400000);
-
-        const ares = await level.aggregate([
-            { $unwind: '$daily' },
-            { $match: { 'daily.date': { $gte: nowStamp - 2 } } },
-            {
-                $group: {
-                    _id: '$discordid',
-                    total: { $sum: '$daily.count' },
-                },
-            },
-            { $sort: { total: -1 } },
-            { $limit: 10 },
-        ]);
-
-        let aco = '';
-
-        for (let i = 0; i < 10; i++) {
-        // eslint-disable-next-line no-underscore-dangle
-            aco += `\`${i + 1}\` <@${ares[i]._id}> **${ares[i].total}**\n`;
-        }
-
-        const activeLbEmbed = new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle('三日內訊息量前十排行榜')
-            .setDescription(aco)
-            .setThumbnail('https://i.imgur.com/MTWQbeh.png');
-
         await Message.edit({
             content: null,
-            embeds: [serverInfoEmbed, staffEmbed, totalLbEmbed, activeLbEmbed, activeEmbed, nActiveEmbed, sActiveEmbed],
-            files: [imageGen],
+            embeds: [serverInfoEmbed, activeEmbed, nActiveEmbed, sActiveEmbed],
+            files: [],
         });
     }, 60000);
 

@@ -13,7 +13,7 @@ exports.run = async (client, message, args) => {
         embeds: [new MessageEmbed()
             .setColor('#ffae00')
             .setTitle(`${target.user.tag} 的Tails幣餘額`)
-            .setDescription(`餘額: \`${res}\`\n排名: \`${creditrank - 1}\``)
+            .setDescription(`餘額: \`${res}\`\n排名: \`${creditrank - 2}\``)
             .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))],
     });
 };

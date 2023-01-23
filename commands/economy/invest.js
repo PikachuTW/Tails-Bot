@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
     }
 
     const nowLevel = data.level;
-    const multi = (await getMulti(target) - 1) * 100;
+    const multi = (await getMulti(client, target) - 1) * 100;
 
     message.reply({
         embeds: [

@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
-const ascension = require('../models/ascension.js');
 const config = require('../config.js');
 const credit = require('../models/credit.js');
 const boost = require('../models/boost.js');
+const misc = require('../models/misc.js');
+const marry = require('../models/marry.js');
 
 const permlevel = (target) => {
     let permlvl = 0;
@@ -66,34 +67,19 @@ const getRandomNum = (min, max) => {
     }
 };
 
-const getAs = async () => {
-    const nowMS = Date.now();
-    const today = Math.floor((nowMS + 28800000) / 86400000);
-    let todayRes = await ascension.findOne({ day: today });
-    if (!todayRes) {
-        const yesterRes = await ascension.findOne({ day: today - 1 });
-        if (yesterRes) {
-            todayRes = await ascension.create({ day: today, level: Math.floor(yesterRes.level * 0.95) });
-        } else {
-            todayRes = await ascension.create({ day: today, level: 0 });
-        }
-    }
-    return todayRes.level;
-};
-
 const getCredit = async (member) => {
     let data = await credit.findOne({ discordid: member.id });
     if (!data) {
-        await credit.create({
+        data = await credit.create({
             discordid: member.id,
             tails_credit: 0,
         });
-        data = await credit.findOne({ discordid: member.id });
+        await credit.findOne({ discordid: member.id });
     }
     return data.tails_credit;
 };
 
-const getMulti = async (member) => {
+const getMulti = async (client, member) => {
     const bt = await boost.findOne({ user: member.id, timestamp: { $gte: Date.now() } });
     let multi = 1;
     if (member.roles.cache.has('830689873367138304')) {
@@ -111,8 +97,21 @@ const getMulti = async (member) => {
     if (bt && bt.type === 'MONEY') {
         multi += 0.25;
     }
-    const as = await getAs();
-    multi += (as ** 1.11 / 200);
+
+    const marryres = await marry.findOne({ users: member.id });
+    if (marryres) {
+        const man = member.guild.members.cache.get(marryres.users[0]);
+        const woman = member.guild.members.cache.get(marryres.users[1]);
+        if (man.roles.cache.has('861459068789850172') && woman.roles.cache.has('861459068789850172')) {
+            multi += 0.8;
+        } else if (man.roles.cache.has('1014857925107392522') && woman.roles.cache.has('1014857925107392522')) {
+            multi += 0.5;
+        } else if (man.roles.cache.has('856808847251734559') && woman.roles.cache.has('856808847251734559')) {
+            multi += 0.3;
+        }
+    }
+    const { value_num } = await misc.findOne({ key: 'ac' });
+    multi += (value_num ** 1.11 / 200);
     return multi;
 };
 
@@ -159,5 +158,5 @@ const getMulti = async (member) => {
 // });
 
 module.exports = {
-    permlevel, targetGet, timeConvert, nowTime, delay, getRandomNum, getAs, getCredit, getMulti,
+    permlevel, targetGet, timeConvert, nowTime, delay, getRandomNum, getCredit, getMulti,
 };

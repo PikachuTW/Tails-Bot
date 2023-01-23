@@ -3,15 +3,19 @@ const { ContextMenuCommandBuilder, SlashCommandBuilder } = require('@discordjs/b
 exports.run = async (client, message) => {
     const commands = [
         new ContextMenuCommandBuilder()
-            .setDefaultPermission(true)
             .setName('翻譯成中文')
             .setType(3),
         new SlashCommandBuilder()
-            .setDefaultPermission(true)
             .setName('ping')
             .setDescription('回傳延遲值'),
-    ]
-        .map((command) => command.toJSON());
+        new SlashCommandBuilder()
+            .setName('tw')
+            .setDescription('翻譯成中文')
+            .addStringOption((options) => options
+                .setName('內容')
+                .setDescription('要翻譯的內容')
+                .setRequired(true)),
+    ];
 
     try {
         message.guild.commands.set(commands);

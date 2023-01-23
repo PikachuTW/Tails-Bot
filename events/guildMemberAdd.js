@@ -6,4 +6,7 @@ module.exports = (client, member) => {
     try {
         member.send(`${member} 歡迎來到林天天，請好好閱讀規則後，盡情享受聊天討論!\n\n群組永久連結: https://discord.gg/HswZaneNjQ`);
     } catch { }
+    try {
+        client.channels.cache.get('948178858610405426').send(`${member} **歡迎來到伺服器!! Welcome to the server!!**`);
+    } catch {}
 };

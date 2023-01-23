@@ -1,25 +1,24 @@
 const { MessageEmbed } = require('discord.js');
+const snipe = require('../../models/snipe.js');
 
 exports.run = async (client, message) => {
     if (!message.member.roles.cache.has('856808847251734559')) return message.reply('你需要活躍成員才能使用');
-    const { snipeDB } = client.db;
 
-    const sdata = snipeDB.get(message.channel.id);
+    const sdata = await snipe.findOne({ channelid: message.channel.id });
     if (!sdata) return message.reply('沒有可Snipe的訊息');
 
-    const msg = sdata.snipemsg;
-    const timeget = sdata.snipetime;
-    const sender = sdata.snipesender;
-    const senderatt = sdata.snipeatt;
+    const {
+        snipemsg, snipetime, snipesender, snipeatt,
+    } = sdata;
 
-    if (!msg && !senderatt) return message.reply('沒有可Snipe的訊息');
+    if (!snipemsg && !snipeatt) return message.reply('沒有可Snipe的訊息');
 
     const embed = new MessageEmbed()
-        .setAuthor({ name: sender })
-        .setDescription(`${msg}\n${senderatt ? senderatt.join(' ') : ''}`)
-        .setFooter({ text: timeget })
+        .setAuthor({ name: snipesender })
+        .setDescription(`${snipemsg}\n${snipeatt ? snipeatt.join(' ') : ''}`)
+        .setFooter({ text: snipetime })
         .setColor('F8DA07');
-    if (senderatt) embed.setImage(senderatt[0]);
+    if (snipeatt) embed.setImage(snipeatt[0]);
     message.reply({ embeds: [embed] });
 };
 

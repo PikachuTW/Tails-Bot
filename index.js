@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const { Client, Collection } = require('discord.js');
 const { readdirSync } = require('fs');
 const mongoose = require('mongoose');
-const Enmap = require('enmap');
+const { REST } = require('@discordjs/rest');
 
 const { permLevels } = require('./config.js');
 const logger = require('./modules/Logger.js');
@@ -13,6 +13,7 @@ const functions = require('./modules/functions.js');
 dotenv.config();
 const client = new Client({ intents: 131071, partials: ['CHANNEL', 'USER', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'GUILD_SCHEDULED_EVENT'] });
 client.login(process.env.DISCORD_TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 mongoose
     .connect(process.env.MONGO, {
         useNewUrlParser: true,
@@ -22,19 +23,6 @@ mongoose
         console.log('已經連線到資料庫');
     })
     .catch((err) => console.log(err));
-
-const snipeDB = new Enmap({
-    name: 'snipeDB',
-    dataDir: './enmap/snipe',
-});
-const editSnipeDB = new Enmap({
-    name: 'editSnipeDB',
-    dataDir: './enmap/editSnipe',
-});
-const cdDB = new Enmap({
-    name: 'CdDB',
-    dataDir: './enmap/collectCD',
-});
 
 const levelCache = {};
 for (let i = 0; i < permLevels.length; i++) {
@@ -46,6 +34,7 @@ client.container = {
     commands: new Collection(),
     aliases: new Collection(),
     levelCache,
+    rest,
     interactions: {
         button: new Collection(),
         context: new Collection(),
@@ -59,16 +48,15 @@ client.container = {
     wordcd: new Collection(),
 };
 client.fn = functions;
-client.db = {
-    snipeDB,
-    editSnipeDB,
-    cdDB,
-};
 client.word = {};
 for (let i = 1; i <= 6; i++) {
     const data = require(`./7000words/${i}級.json`);
     client.word[`${i}`] = data;
 }
+
+const data = require('./7000words/11級.json');
+
+client.word['11'] = data;
 
 const folders = readdirSync('./commands/').filter((file) => !file.endsWith('.js'));
 folders.forEach((folder) => {

@@ -10,11 +10,11 @@ exports.run = async (client, message) => {
         data = await economy.create({
             discordid: message.member.id,
             level: 0,
+            cooldown: 0,
         });
     }
 
-    const { cdDB } = client.db;
-    const cooldown = cdDB.get(message.author.id) || 0;
+    const { cooldown } = data;
 
     const data5 = await credit.findOne({ discordid: message.author.id });
     if (!data5) {
@@ -35,10 +35,10 @@ exports.run = async (client, message) => {
 
         return message.reply(`你還要再${Math.floor(second / 60)}分${second % 60}秒才能領取!`);
     }
-    cdDB.set(message.author.id, Date.now());
+    await economy.updateOne({ discordid: message.author.id }, { $set: { cooldown: Date.now() } });
     let giveamount = Math.round(data.level ** 1.225);
 
-    const multi = await getMulti(message.member);
+    const multi = await getMulti(client, message.member);
 
     giveamount = Math.floor(giveamount * multi);
 

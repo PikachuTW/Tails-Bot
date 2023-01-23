@@ -2,11 +2,11 @@ const { MessageEmbed } = require('discord.js');
 const credit = require('../../models/credit.js');
 
 exports.run = async (client, message) => {
-    let res = await credit.find({}).sort({ tails_credit: -1 }).limit(11);
+    let res = await credit.find({}).sort({ tails_credit: -1 }).limit(12);
 
     let co = '';
 
-    res = res.filter((k) => k.discordid !== '650604337000742934');
+    res = res.filter((k) => k.discordid !== '650604337000742934' && k.discordid !== '900993128759193600');
 
     for (let i = 0; i < 10; i++) {
         co += `\`${i + 1}\` <@${res[i].discordid}> **${res[i].tails_credit}**\n`;

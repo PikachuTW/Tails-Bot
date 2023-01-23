@@ -9,7 +9,8 @@ exports.run = async (client, message, args) => {
     let today; let sActive; let active; let week; let total;
 
     const levelData = await level.findOne({ discordid: target.id });
-    if (!levelData) {
+    const { daily } = levelData;
+    if (!levelData || !daily || daily.length === 0) {
         message.reply({
             embeds: [
                 new MessageEmbed()
@@ -29,33 +30,11 @@ exports.run = async (client, message, args) => {
     } else {
         const nowStamp = Math.floor((Date.now() + 28800000) / 86400000);
 
-        try {
-            week = levelData.daily.filter((d) => d.date >= nowStamp - 6).map((d) => d.count).reduce((a, b) => a + b, 0);
-        } catch {
-            week = 0;
-        }
-        try {
-            today = levelData.daily.filter((d) => d.date === nowStamp).map((d) => d.count).reduce((a, b) => a + b, 0);
-        } catch {
-            today = 0;
-        }
-        try {
-            sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
-        } catch {
-            sActive = 0;
-        }
-
-        try {
-            active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
-        } catch {
-            active = 0;
-        }
-
-        try {
-            total = levelData.daily.map((d) => d.count).reduce((a, b) => a + b, 0);
-        } catch {
-            total = 0;
-        }
+        week = daily.filter((d) => d.date >= nowStamp - 6).map((d) => d.count).reduce((a, b) => a + b, 0);
+        today = daily.filter((d) => d.date === nowStamp).map((d) => d.count).reduce((a, b) => a + b, 0);
+        sActive = daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
+        active = daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
+        total = levelData.daily.map((d) => d.count).reduce((a, b) => a + b, 0);
 
         const res = await level.aggregate([
             { $match: { discordid: target.id } },
@@ -85,21 +64,16 @@ exports.run = async (client, message, args) => {
 
         const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
-        const chart = new QuickChart();
-
-        chart.setWidth(500);
-        chart.setHeight(300);
-
         const conf = {
             type: 'line',
             data: {
-                labels: res.map((d) => `${new Date((d.daily.date) * 86400000).getMonth() + 1}/${new Date((d.daily.date) * 86400000).getDate()}(${weekDays[new Date((d.daily.date) * 86400000).getDay()]})`),
+                labels: res.map((d) => `${new Date((d.daily.date) * 86400000).getMonth() + 1}/${new Date((d.daily.date) * 86400000).getDate()}(${weekDays[new Date((d.daily.date) * 86400000).getDay()]})`).slice(-250),
                 datasets: [{
                     label: '訊息量',
                     fill: false,
                     borderColor: '#ffae00',
                     pointBackgroundColor: '#ffae00',
-                    data: res.map((d) => d.daily.count),
+                    data: res.map((d) => d.daily.count).slice(-250),
                 }],
             },
             options: {
@@ -113,7 +87,10 @@ exports.run = async (client, message, args) => {
             },
         };
 
-        chart.setConfig(conf);
+        const chart = new QuickChart()
+            .setWidth(500)
+            .setHeight(300)
+            .setConfig(conf);
 
         const rankRes = await level.aggregate([
             { $unwind: '$daily' },

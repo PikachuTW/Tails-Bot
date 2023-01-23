@@ -18,6 +18,7 @@ module.exports = {
         'import/extensions': 'off',
         'consistent-return': 'off',
         'import/no-dynamic-require': 'off',
+        camelcase: 'off',
         'global-require': 'off',
         'no-nested-ternary': 'off',
         indent: ['warn', 4],

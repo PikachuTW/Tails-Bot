@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
                         .setDescription(cmd.conf.description)
                         .addField('別名', cmd.conf.aliases.length > 0 ? cmd.conf.aliases.join(', ') : '無')
                         .addField('權限等級', cmd.conf.permLevel)
-                        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+                        .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/ksNkKfU.png' }),
                 ],
             });
         }

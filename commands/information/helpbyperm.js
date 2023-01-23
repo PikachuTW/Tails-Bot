@@ -13,7 +13,6 @@ exports.run = async (client, message) => {
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
         .setTitle('指令列表')
-        .setThumbnail('https://i.imgur.com/MTWQbeh.png')
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     list.forEach((d) => {

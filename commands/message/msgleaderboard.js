@@ -37,13 +37,13 @@ exports.run = async (client, message) => {
     chart.setConfig({
         type: 'line',
         data: {
-            labels: chartRes.map((d) => `${new Date((d._id) * 86400000).getMonth() + 1}/${new Date((d._id) * 86400000).getDate()}(${weekDays[new Date((d._id) * 86400000).getDay()]})`),
+            labels: chartRes.map((d) => `${new Date((d._id) * 86400000).getMonth() + 1}/${new Date((d._id) * 86400000).getDate()}(${weekDays[new Date((d._id) * 86400000).getDay()]})`).slice(-250),
             datasets: [{
                 label: '訊息量',
                 fill: false,
                 borderColor: '#ffae00',
                 pointBackgroundColor: '#ffae00',
-                data: chartRes.map((d) => d.total),
+                data: chartRes.map((d) => d.total).slice(-250),
             }],
         },
         options: {

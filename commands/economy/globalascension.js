@@ -1,10 +1,11 @@
 const { MessageEmbed } = require('discord.js');
 const credit = require('../../models/credit.js');
-const ascension = require('../../models/ascension.js');
-const { getAs, getCredit } = require('../../modules/functions.js');
+const misc = require('../../models/misc.js');
+const { getCredit } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
-    const as = await getAs();
+    const ac = await misc.findOne({ key: 'ac' });
+    const as = ac.value_num;
     const next = Math.floor((as + 1) ** 2.2 + (as + 1) * 50);
     if (args[0] !== 'buy') {
         message.reply({
@@ -20,13 +21,13 @@ exports.run = async (client, message, args) => {
         const res = await getCredit(message.member);
         if (res < next) return message.reply(`你需要 ${next} 才能購買!`);
         await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: next * -1 } });
-        await ascension.updateOne({ day: Math.floor((Date.now() + 28800000) / 86400000) }, { $inc: { level: 1 } });
+        misc.updateOne({ key: 'as' }, { $inc: { value_num: 1 } });
         message.reply({
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
                     .setTitle(`${message.author.tag} 已經購買新提升!`)
-                    .setDescription(`你已經花費 \`${next}\` 購買新提升! 現在伺服器提升乘數為 \`${((as + 1) ** 1.11 / 2).toFixed(3)}%\``)
+                    .setDescription(`你已經花費 \`${next}\` 購買新提升! 現在伺服器提升乘數為 \`${((as + 1) ** 1.11 / 2).toFixed(3)}%\` (等級\`${as + 1}\`)`)
                     .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true })),
             ],
         });
