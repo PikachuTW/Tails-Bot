@@ -18,8 +18,10 @@ module.exports = async (client, oldMessage, newMessage) => {
             new MessageEmbed()
                 .setColor('#ffae00')
                 .setAuthor({ name: newMessage.author.tag, iconURL: newMessage.member.displayAvatarURL({ format: 'png', dynamic: true }), url: newMessage.url })
-                .addField('修改前', oldMessage.content || '`空`')
-                .addField('修改後', newMessage.content || '`空`')
+                .addFields([
+                    { name: '修改前', value: oldMessage.content || '`空`', inline: false },
+                    { name: '修改後', value: newMessage.content || '`空`', inline: false },
+                ])
                 .setImage(oldMessage.attachments.first() ? oldMessage.attachments.first().proxyURL : null)
                 .setFooter({ text: `Author: ${newMessage.author.id} | Message ID: ${newMessage.id}\n${currentdate} | 頻道: ${newMessage.channel.name}` }),
         ],

@@ -1,6 +1,6 @@
 const { codeBlock } = require('@discordjs/builders');
-// eslint-disable-next-line no-unused-vars
-const got = require('got');
+// eslint-disable-next-line no-unused-vars, import/no-unresolved
+const got = import('got');
 const logger = require('../../modules/Logger.js');
 
 const clean = async (client, text) => {

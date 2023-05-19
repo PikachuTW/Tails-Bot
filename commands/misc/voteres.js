@@ -23,7 +23,7 @@ exports.run = async (client, message, args) => {
             arr = res.data.filter((k) => k.candidate === d).map((k) => `<@${k.user}>`);
             output = arr.join(' ');
         }
-        Embed.addField(`${emojis[i]} ${message.guild.members.cache.get(d).user.tag} (${arr.length}票)`, `${output}`);
+        Embed.addFields({ name: `${emojis[i]} ${client.users.cache.get(d)?.tag || '已離開'} (${arr.length}票)`, value: `${output}` });
         if (arr.length === max) {
             highest.push(d);
         } else if (arr.length > max) {
@@ -32,7 +32,7 @@ exports.run = async (client, message, args) => {
         }
         i += 1;
     });
-    Embed.setDescription(`最高票: ${highest.map((k) => message.guild.members.cache.get(k)).join(' ')}\n結束時間: <t:${Math.round(res.time / 1000)}> <t:${Math.round(res.time / 1000)}:R>`);
+    Embed.setDescription(`最高票: ${highest.map((k) => `<@${k}>`).join(' ')}\n結束時間: <t:${Math.round(res.time / 1000)}> <t:${Math.round(res.time / 1000)}:R>`);
     message.channel.send({ embeds: [Embed] });
 };
 

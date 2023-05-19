@@ -55,7 +55,11 @@ module.exports = async (client, interaction) => {
     let str = '';
     res.candidates.forEach((d) => {
         const arr = res.data.filter((k) => k.candidate === d);
-        str += `${emojis[i]} ${message.guild.members.cache.get(d)} (${arr.length}票)\n`;
+        const candidate = client.users.cache.get(d) || {
+            tag: '未知',
+            id: d,
+        };
+        str += `${emojis[i]} <@${candidate.id}> (${arr.length}票)\n`;
         if (arr.length === max) {
             highest.push(d);
         } else if (arr.length > max) {
@@ -63,19 +67,22 @@ module.exports = async (client, interaction) => {
             max = arr.length;
         }
         selectList.push({
-            label: message.guild.members.cache.get(d).user.tag,
+            label: candidate.tag,
             value: d,
             emoji: emojis[i],
         });
         i += 1;
     });
-    Embed.setDescription(`最高票: ${highest.map((k) => message.guild.members.cache.get(k)).join(' ')}\n結束時間: <t:${Math.round(res.time / 1000)}> <t:${Math.round(res.time / 1000)}:R>\n\n${str}`);
-    const row = new MessageActionRow()
-        .addComponents(
-            new MessageSelectMenu()
-                .setCustomId('voteSelect')
-                .setPlaceholder('投票區 Election Area')
-                .addOptions(selectList),
-        );
-    await message.edit({ embeds: [Embed], components: [row] });
+    Embed.setDescription(`最高票: ${highest.map((k) => `<@${k}>`).join(' ')}\n結束時間: <t:${Math.round(res.time / 1000)}> <t:${Math.round(res.time / 1000)}:R>\n\n${str}`);
+    await message.edit({
+        embeds: [Embed],
+        components: [
+            new MessageActionRow()
+                .addComponents(
+                    new MessageSelectMenu()
+                        .setCustomId('voteSelect')
+                        .setPlaceholder('投票區 Election Area')
+                        .addOptions(selectList),
+                )],
+    });
 };

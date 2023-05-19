@@ -40,11 +40,13 @@ client.container = {
         context: new Collection(),
         select: new Collection(),
         slash: new Collection(),
+        modal: new Collection(),
     },
     cooldown: new Collection(),
     msgCooldown: new Collection(),
     interactionCooldown: new Collection(),
-    robCooldown: new Collection(),
+    gptDataBase: new Collection(),
+    gptCooldown: new Collection(),
     wordcd: new Collection(),
 };
 client.fn = functions;
@@ -104,6 +106,8 @@ interactionFolder.forEach((folder) => {
                 client.container.interactions.select.set(cmdName, code);
             } else if (folder === 'slash') {
                 client.container.interactions.slash.set(cmdName, code);
+            } else if (folder === 'modal') {
+                client.container.interactions.modal.set(cmdName, code);
             }
             logger.log(`INTERACTION ${cmdName} 已被載入 ✅`, 'log');
         } catch (error) {

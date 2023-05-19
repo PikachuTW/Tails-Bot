@@ -4,23 +4,33 @@ const { DiscordTogether } = require('discord-together');
 exports.run = async (client, message, args) => {
     const list = [
         'youtube',
+        'youtubedev',
         'poker',
-        'chess',
-        'checkers',
         'betrayal',
         'fishing',
+        'chess',
+        'chessdev',
         'lettertile',
         'wordsnack',
         'doodlecrew',
-        'spellcast',
         'awkword',
+        'spellcast',
+        'checkers',
         'puttparty',
+        'sketchheads',
+        'ocho',
+        'puttpartyqa',
+        'sketchyartist',
+        'land',
+        'meme',
+        'askaway',
+        'bobble',
     ];
 
     const listEmbed = new MessageEmbed()
         .setColor('#ffae00')
         .setTitle('活動列表')
-        .setDescription(`\`\`\`${list.join('\n')}\`\`\``);
+        .setDescription(`\`\`\`${list.join(' ')}\`\`\``);
 
     if (args[0] === 'list') {
         return message.reply({ embeds: [listEmbed] });

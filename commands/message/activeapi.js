@@ -1,96 +1,32 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
-const QuickChart = require('quickchart-js');
 const level = require('../../models/level.js');
 const { targetGet } = require('../../modules/functions.js');
+const { Canvas } = require('../../modules/canvas.js');
 
 exports.run = async (client, message, args) => {
     const target = targetGet(message, args) || message.member;
 
-    let today; let sActive; let active; let week; let total;
-
     const levelData = await level.findOne({ discordid: target.id });
-    const { daily } = levelData;
-    if (!levelData || !daily || daily.length === 0) {
+    if (!levelData || !levelData.daily || levelData.daily.length === 0) {
         message.reply({
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
                     .setTitle(`${target.user.tag} 的訊息資料`)
                     .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
-                    .addFields([
-                        { name: '今日訊息量', value: '`0`', inline: true },
-                        { name: '兩日訊息量', value: '`0`', inline: true },
-                        { name: '三日訊息量', value: '`0`', inline: true },
-                        { name: '星期訊息量', value: '`0`', inline: true },
-                        { name: '全部訊息量', value: '`0`', inline: true },
-                    ])
+                    .setDescription('```無訊息資料```')
                     .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
             ],
         });
     } else {
+        const { daily } = levelData;
         const nowStamp = Math.floor((Date.now() + 28800000) / 86400000);
-
-        week = daily.filter((d) => d.date >= nowStamp - 6).map((d) => d.count).reduce((a, b) => a + b, 0);
-        today = daily.filter((d) => d.date === nowStamp).map((d) => d.count).reduce((a, b) => a + b, 0);
-        sActive = daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
-        active = daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
-        total = levelData.daily.map((d) => d.count).reduce((a, b) => a + b, 0);
-
-        const res = await level.aggregate([
-            { $match: { discordid: target.id } },
-            { $unwind: '$daily' },
-            { $sort: { _id: 1 } },
-        ]);
-
-        let forCount = res.length;
-
-        const check = res[0].daily.date;
-
-        for (let i = 1; i < forCount; i++) {
-            if (res[i].daily.date !== check + i) {
-                res.splice(i, 0, { daily: { date: check + i, count: 0 } });
-                forCount += 1;
-            }
-        }
-
-        let forData = res[res.length - 1].daily.date + 1;
-
-        if (nowStamp - check + 1 !== res.length) {
-            for (let i = 0; i < nowStamp - check + 1 - res.length; i++) {
-                res.push({ daily: { date: forData, count: 0 } });
-                forData += 1;
-            }
-        }
-
-        const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
-
-        const conf = {
-            type: 'line',
-            data: {
-                labels: res.map((d) => `${new Date((d.daily.date) * 86400000).getMonth() + 1}/${new Date((d.daily.date) * 86400000).getDate()}(${weekDays[new Date((d.daily.date) * 86400000).getDay()]})`).slice(-250),
-                datasets: [{
-                    label: '訊息量',
-                    fill: false,
-                    borderColor: '#ffae00',
-                    pointBackgroundColor: '#ffae00',
-                    data: res.map((d) => d.daily.count).slice(-250),
-                }],
-            },
-            options: {
-                legend: {
-                    display: false,
-                },
-                title: {
-                    display: true,
-                    text: `${target.user.tag} 的訊息資料圖表`,
-                },
-            },
-        };
-
-        const chart = new QuickChart()
-            .setWidth(500)
-            .setHeight(300)
-            .setConfig(conf);
+        const total = daily.reduce((sum, d) => sum + d.count, 1);
+        const weekData = daily.filter((d) => d.date >= nowStamp - 6);
+        const week = weekData.reduce((sum, d) => sum + d.count, 0);
+        const sActive = weekData.filter((d) => d.date >= nowStamp - 1).reduce((sum, d) => sum + d.count, 0);
+        const active = weekData.filter((d) => d.date >= nowStamp - 2).reduce((sum, d) => sum + d.count, 0);
+        const today = daily.find((d) => d.date === nowStamp)?.count || 0;
 
         const rankRes = await level.aggregate([
             { $unwind: '$daily' },
@@ -103,26 +39,59 @@ exports.run = async (client, message, args) => {
             { $sort: { total: -1 } },
         ]);
 
-        const imageGen = new MessageAttachment(chart.getUrl(), `${target.id}_chart.png`);
+        let msg = '';
+        let ratio = 0;
+        if (sActive >= 150) {
+            ratio = 1;
+            msg = `三天訊息量${active}則(${Math.round((active / 3) * 20) / 10}%)`;
+        } else if (active >= 150) {
+            ratio = sActive / 150;
+            msg = `下一個目標:超級活躍(${Math.round(ratio * 1000) / 10}%)`;
+        } else if (active >= 60) {
+            ratio = active / 150;
+            msg = `下一個目標:中等活躍(${Math.round(ratio * 1000) / 10}%)`;
+        } else {
+            ratio = active / 60;
+            msg = `下一個目標:活躍成員(${Math.round(ratio * 1000) / 10}%)`;
+        }
 
-        message.reply({
-            embeds: [
-                new MessageEmbed()
-                    .setColor('#ffae00')
-                    .setTitle(`${target.user.tag} 的訊息資料`)
-                    .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
-                    .addFields([
-                        { name: '今日訊息量', value: `\`${today}\``, inline: true },
-                        { name: '兩日訊息量', value: `\`${sActive}\``, inline: true },
-                        { name: '三日訊息量', value: `\`${active}\``, inline: true },
-                        { name: '星期訊息量', value: `\`${week}\``, inline: true },
-                        { name: '全部訊息量', value: `\`${total}\``, inline: true },
-                        { name: '總排名', value: `\`${rankRes.filter((d) => d.total >= total).length}\``, inline: true },
-                    ])
-                    .setImage(`attachment://${target.id}_chart.png`),
-            ],
-            files: [imageGen],
-        });
+        const canvas = Canvas.createCanvas(1240, 750);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(await Canvas.loadImage(`${__dirname}/../../images/rank.png`), 0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(20, 20, 100, 100, 25);
+        ctx.closePath();
+        ctx.clip();
+        const avatar = await Canvas.loadImage(target.displayAvatarURL());
+        ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 20, 20, 100, 100);
+        ctx.restore();
+        ctx.font = '100px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText(target.user.tag, 140, 105, 1075);
+        ctx.textAlign = 'center';
+        ctx.font = '70px GG_SANS_MEDIUM, NOTO_SANS_TC';
+        const y = 287.5;
+        ctx.fillText(`${today}`, 420, y);
+        ctx.fillText(`${sActive}`, 420, y + 107.5);
+        ctx.fillText(`${active}`, 420, y + 107.5 * 2);
+        ctx.fillText(`${week}`, 420 + 592.5, y);
+        ctx.fillText(`${total}`, 420 + 592.5, y + 107.5);
+        ctx.fillText(`${rankRes.filter((d) => d.total >= total).length + 1}`, 420 + 592.5, y + 107.5 * 2);
+        ctx.fillStyle = '#82FF53';
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(35, 575, 1170, 140, 15);
+        ctx.closePath();
+        ctx.clip();
+        ctx.fillRect(35, 575, 1170 * ratio, 140);
+        ctx.restore();
+        ctx.fillStyle = '#000000';
+        ctx.fillText(msg, 620, 673);
+
+        const attachment = new MessageAttachment(canvas.toBuffer('image/png'), `${target.id}_tails_rank.png`);
+
+        message.reply({ files: [attachment] });
     }
 };
 

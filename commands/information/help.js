@@ -15,8 +15,10 @@ exports.run = async (client, message, args) => {
                         .setTitle(cmd.conf.name)
                         .setColor('#ffae00')
                         .setDescription(cmd.conf.description)
-                        .addField('別名', cmd.conf.aliases.length > 0 ? cmd.conf.aliases.join(', ') : '無')
-                        .addField('權限等級', cmd.conf.permLevel)
+                        .addFields([
+                            { name: '別名', value: cmd.conf.aliases.length > 0 ? cmd.conf.aliases.join(', ') : '無' },
+                            { name: '權限等級', value: cmd.conf.permLevel },
+                        ])
                         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/ksNkKfU.png' }),
                 ],
             });

@@ -1,4 +1,5 @@
-const got = require('got');
+// eslint-disable-next-line import/no-unresolved
+const got = import('got');
 const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {

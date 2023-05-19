@@ -12,8 +12,10 @@ exports.run = async (client, message, args) => {
     const ReasonEmbed = new MessageEmbed()
         .setTitle('成員已被解除禁言!')
         .setColor('#ffae00')
-        .addField('成員', `${target}`, false)
-        .addField('管理者', `${message.author}`, false)
+        .addFields([
+            { name: '成員', value: `${target}`, inline: false },
+            { name: '管理者', value: `${message.author}`, inline: false },
+        ])
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
     message.reply({ embeds: [ReasonEmbed] });
     client.channels.resolve('907969972893020201').send({ embeds: [ReasonEmbed] });

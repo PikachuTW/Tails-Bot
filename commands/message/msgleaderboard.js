@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const { MessageEmbed, MessageAttachment } = require('discord.js');
-const QuickChart = require('quickchart-js');
 const level = require('../../models/level.js');
+const { chartJs } = require('../../modules/canvas.js');
 
 exports.run = async (client, message) => {
     const res = await level.aggregate([
@@ -29,21 +29,16 @@ exports.run = async (client, message) => {
 
     const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
-    const chart = new QuickChart();
-
-    chart.setWidth(500);
-    chart.setHeight(300);
-
-    chart.setConfig({
+    const conf = {
         type: 'line',
         data: {
-            labels: chartRes.map((d) => `${new Date((d._id) * 86400000).getMonth() + 1}/${new Date((d._id) * 86400000).getDate()}(${weekDays[new Date((d._id) * 86400000).getDay()]})`).slice(-250),
+            labels: chartRes.map((d) => `${new Date((d._id) * 86400000).getMonth() + 1}/${new Date((d._id) * 86400000).getDate()}(${weekDays[new Date((d._id) * 86400000).getDay()]})`),
             datasets: [{
                 label: '訊息量',
                 fill: false,
                 borderColor: '#ffae00',
-                pointBackgroundColor: '#ffae00',
-                data: chartRes.map((d) => d.total).slice(-250),
+                pointRadius: 0,
+                data: chartRes.map((d) => d.total),
             }],
         },
         options: {
@@ -54,10 +49,11 @@ exports.run = async (client, message) => {
                 display: true,
                 text: '伺服器訊息資料圖表',
             },
+            devicePixelRatio: 5,
         },
-    });
+    };
 
-    const imageGen = new MessageAttachment(chart.getUrl(), 'server_chart.png');
+    const imageGen = new MessageAttachment(await chartJs.renderToBuffer(conf), 'server_chart.png');
 
     let co = '';
 

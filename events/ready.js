@@ -1,9 +1,11 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 const { codeBlock } = require('@discordjs/builders');
 const {
     MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton,
 } = require('discord.js');
 const { readdirSync } = require('fs');
+const { Configuration, OpenAIApi } = require('openai');
 const logger = require('../modules/Logger.js');
 const { settings } = require('../config.js');
 const misc = require('../models/misc.js');
@@ -55,7 +57,9 @@ module.exports = async (client) => {
                 logger.log(`${error}`, 'error');
             }
         });
-        helpEmbed.addField(`${catList.get(folder)}`, res);
+        helpEmbed.addFields([
+            { name: `${catList.get(folder)}`, value: res, inline: false },
+        ]);
     });
 
     // eslint-disable-next-line no-param-reassign
@@ -67,7 +71,7 @@ module.exports = async (client) => {
 
     setInterval(() => {
         const count = targetGuild.memberCount;
-        client.channels.cache.get('897054056625885214').setName(`成員數:${count}`);
+        client.channels.cache.get('897054056625885214').setName(`📈｜成員數:${count}`);
         client.channels.cache.get('898168354680995880').send(`成員數:${count}`);
     }, 300000);
 
@@ -76,13 +80,13 @@ module.exports = async (client) => {
         const activeLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('856808847251734559').members.map((m) => m.id) } });
         activeLevelData.forEach(async (data) => {
             const count = data.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
-            if (count < 80) {
+            if (count < 60) {
                 const m = targetGuild.members.cache.get(data.discordid);
                 if (m) {
                     m.roles.remove('856808847251734559');
                 }
             }
-            if (count < 200) {
+            if (count < 150) {
                 const m = targetGuild.members.cache.get(data.discordid);
                 if (m) {
                     m.roles.remove('1014857925107392522');
@@ -91,7 +95,7 @@ module.exports = async (client) => {
         });
         const sActiveLevelData = await level.find({ discordid: { $in: targetGuild.roles.cache.get('861459068789850172').members.map((m) => m.id) } });
         sActiveLevelData.forEach(async (data) => {
-            if (data.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0) < 200) {
+            if (data.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0) < 150) {
                 const m = targetGuild.members.cache.get(data.discordid);
                 if (m) {
                     m.roles.remove('861459068789850172');
@@ -118,10 +122,10 @@ module.exports = async (client) => {
                     }
                 });
                 const Channel = client.channels.cache.get(res.channel);
-                Channel.send(`恭喜 ${highest.map((k) => Channel.guild.members.cache.get(k)).join(' ')} 當選`);
+                Channel.send(`恭喜 ${highest.map((k) => `<@${k}>`).join(' ')} 當選`);
             });
         } catch {}
-    }, 1000);
+    }, 2000);
 
     setInterval(async () => {
         try {
@@ -140,8 +144,12 @@ module.exports = async (client) => {
                 let max = 0;
                 let str = '';
                 res.candidates.forEach((d) => {
+                    const candidate = client.users.cache.get(d) || {
+                        tag: '未知',
+                        id: d,
+                    };
                     const arr = res.data.filter((k) => k.candidate === d);
-                    str += `${emojis[i]} ${Message.guild.members.cache.get(d)} (${arr.length}票)\n`;
+                    str += `${emojis[i]} <@${candidate.id}> (${arr.length}票)\n`;
                     if (arr.length === max) {
                         highest.push(d);
                     } else if (arr.length > max) {
@@ -149,13 +157,13 @@ module.exports = async (client) => {
                         max = arr.length;
                     }
                     selectList.push({
-                        label: Message.guild.members.cache.get(d).user.tag,
+                        label: candidate.tag,
                         value: d,
                         emoji: emojis[i],
                     });
                     i += 1;
                 });
-                Embed.setDescription(`最高票: ${highest.map((k) => Message.guild.members.cache.get(k)).join(' ')}\n結束時間: <t:${Math.round(res.time / 1000)}> <t:${Math.round(res.time / 1000)}:R>\n\n${str}`);
+                Embed.setDescription(`最高票: ${highest.map((k) => `<@${k}>`).join(' ')}\n結束時間: <t:${Math.round(res.time / 1000)}> <t:${Math.round(res.time / 1000)}:R>\n\n${str}`);
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageSelectMenu()
@@ -294,4 +302,16 @@ module.exports = async (client) => {
     };
 
     setTimeout(dropF, getRandomNum(300000, 1200000));
+
+    // eslint-disable-next-line import/no-unresolved
+    const { ChatGPTAPI } = await import('chatgpt');
+
+    client.GPT = new ChatGPTAPI({
+        apiKey: process.env.GPT,
+    });
+    client.GPT3 = new OpenAIApi(new Configuration({
+        apiKey: process.env.GPT,
+    }));
+    console.log('GPT準備完成');
+    client.gptReady = true;
 };

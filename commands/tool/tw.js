@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    aliases: ['cn'],
+    aliases: [],
     permLevel: 'User',
     description: '翻譯任何語言到到中文(自動偵測)',
 };

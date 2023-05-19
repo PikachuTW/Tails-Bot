@@ -9,6 +9,9 @@ exports.run = async (client, message) => {
             .setName('ping')
             .setDescription('回傳延遲值'),
         new SlashCommandBuilder()
+            .setName('cb')
+            .setDescription('投稿匿名貼文'),
+        new SlashCommandBuilder()
             .setName('tw')
             .setDescription('翻譯成中文')
             .addStringOption((options) => options

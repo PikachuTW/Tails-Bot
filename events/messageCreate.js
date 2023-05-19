@@ -62,7 +62,7 @@ module.exports = async (client, message) => {
         message.reply(`嗨! 機器人的前綴是 \`${prefix}\``);
     }
 
-    if (message.channel.id === '948178858610405426' && !message.content.toLowerCase().startsWith('s?')) {
+    if (['948178858610405426', '1075964798958846002'].indexOf(message.channel.id) !== -1 && !message.content.toLowerCase().startsWith('s?')) {
         let levelData = await level.findOne({ discordid: message.author.id });
         if (!levelData) {
             levelData = await level.create({
@@ -83,19 +83,19 @@ module.exports = async (client, message) => {
             }
             const active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
             const sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
-            if (active >= 79) {
+            if (active >= 59) {
                 if (!message.member.roles.cache.has('856808847251734559')) {
                     message.member.roles.add('856808847251734559');
                     message.channel.send({ content: `${message.member} 已經獲得 <@&856808847251734559>`, allowedMentions: { parse: ['users'] } });
                 }
             }
-            if (active >= 199) {
+            if (active >= 149) {
                 if (!message.member.roles.cache.has('1014857925107392522')) {
                     message.member.roles.add('1014857925107392522');
                     message.channel.send({ content: `${message.member} 已經獲得 <@&1014857925107392522>`, allowedMentions: { parse: ['users'] } });
                 }
             }
-            if (sActive >= 199) {
+            if (sActive >= 149) {
                 if (!message.member.roles.cache.has('861459068789850172')) {
                     message.member.roles.add('861459068789850172');
                     message.channel.send({ content: `${message.member} 已經獲得 <@&861459068789850172>`, allowedMentions: { parse: ['users'] } });

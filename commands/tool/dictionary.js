@@ -1,4 +1,5 @@
-const got = require('got').default;
+// eslint-disable-next-line import/no-unresolved
+const got = import('got').default;
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message, args) => {

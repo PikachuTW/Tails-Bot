@@ -17,9 +17,11 @@ exports.run = async (client, message, args) => {
                 new MessageEmbed()
                     .setTitle('成員已被禁止!')
                     .setColor('#ffae00')
-                    .addField('成員', `<@${args[0]}>`, false)
-                    .addField('原因', `${reason}`, false)
-                    .addField('管理者', `${message.author}`, false)
+                    .addFields([
+                        { name: '成員', value: `<@${args[0]}>`, inline: false },
+                        { name: '原因', value: `${reason}`, inline: false },
+                        { name: '管理者', value: `${message.author}`, inline: false },
+                    ])
                     .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
             ],
         });
@@ -42,9 +44,11 @@ exports.run = async (client, message, args) => {
     const reasonEmbed = new MessageEmbed()
         .setTitle('成員已被禁止!')
         .setColor('#ffae00')
-        .addField('成員', `${target}`, false)
-        .addField('原因', `${reason}`, false)
-        .addField('管理者', `${message.author}`, false)
+        .addFields([
+            { name: '成員', value: `${target}`, inline: false },
+            { name: '原因', value: `${reason}`, inline: false },
+            { name: '管理者', value: `${message.author}`, inline: false },
+        ])
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     message.reply({ embeds: [reasonEmbed] });

@@ -8,8 +8,8 @@ exports.run = async (client, message) => {
         m = message.guild.members.cache.get(marryres.users[0]).nickname || message.guild.members.cache.get(marryres.users[0]).user.username;
         f = message.guild.members.cache.get(marryres.users[1]).nickname || message.guild.members.cache.get(marryres.users[1]).user.username;
     } else {
-        m = message.guild.members.cache.get('962270937665896478').nickname || message.guild.members.cache.get('962270937665896478').user.username;
-        f = message.guild.members.cache.get('953093158554714132').nickname || message.guild.members.cache.get('953093158554714132').user.username;
+        m = message.guild.members.cache.get('1064074182180212746').nickname || message.guild.members.cache.get('1064074182180212746').user.username;
+        f = message.guild.members.cache.get('959993844454264874').nickname || message.guild.members.cache.get('959993844454264874').user.username;
     }
     const sex = [
         `${m}的舌頭移動到${f}現在還是遮掩著的胸部上部，碰觸到柔嫩的山麓時，她全身像觸電般的跳動了一下，兩支手又再度緊緊遮住自己，頭像是說不要一般的搖動著。`,

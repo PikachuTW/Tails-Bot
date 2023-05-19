@@ -1,64 +1,74 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageAttachment } = require('discord.js');
 const credit = require('../../models/credit.js');
 const economy = require('../../models/economy.js');
 const boost = require('../../models/boost.js');
 const { getMulti } = require('../../modules/functions.js');
+const { Canvas } = require('../../modules/canvas.js');
 
 exports.run = async (client, message) => {
-    let data = await economy.findOne({ discordid: message.member.id });
-    if (!data) {
-        data = await economy.create({
-            discordid: message.member.id,
-            level: 0,
-            cooldown: 0,
-        });
-    }
+    const data = await economy.findOne({ discordid: message.member.id }) || await economy.create({
+        discordid: message.member.id,
+        level: 0,
+        cooldown: 0,
+    });
 
     const { cooldown } = data;
 
-    const data5 = await credit.findOne({ discordid: message.author.id });
-    if (!data5) {
+    let cd = 600000;
+    const bt = await boost.findOne({ user: message.author.id, timestamp: { $gte: Date.now() } });
+    if (bt && bt.type === 'TIME') cd = 400000;
+
+    if (Date.now() - cooldown < cd) {
+        const second = Math.round(((cd - Date.now() + cooldown) / 1000));
+        const minutes = Math.floor(second / 60);
+        const seconds = second % 60;
+        const timeLeft = minutes > 0 ? `${minutes}分${seconds}秒` : `${seconds}秒`;
+        return message.reply(`你還要再${timeLeft}才能領取!`);
+    }
+
+    await economy.updateOne({ discordid: message.author.id }, { $set: { cooldown: Date.now() } });
+
+    const giveamount = Math.floor(data.level ** 1.225 * await getMulti(client, message.member)) + 1;
+
+    if (!credit.exists({ discordid: message.author.id })) {
         await credit.create({
             discordid: message.author.id,
             tails_credit: 0,
         });
     }
 
-    let cd = 600000;
-    const bt = await boost.findOne({ user: message.author.id, timestamp: { $gte: Date.now() } });
-    if (bt && bt.type === 'TIME')cd = 400000;
-    if (Date.now() - cooldown < cd) {
-        const second = Math.round(((cd - Date.now() + cooldown) / 1000));
-        if (second < 60) {
-            return message.reply(`你還要再${second}秒才能領取!`);
-        }
-
-        return message.reply(`你還要再${Math.floor(second / 60)}分${second % 60}秒才能領取!`);
-    }
-    await economy.updateOne({ discordid: message.author.id }, { $set: { cooldown: Date.now() } });
-    let giveamount = Math.round(data.level ** 1.225);
-
-    const multi = await getMulti(client, message.member);
-
-    giveamount = Math.floor(giveamount * multi);
-
-    giveamount += 1;
-
     await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: giveamount } });
 
-    message.reply({
-        embeds: [
-            new MessageEmbed()
-                .setColor('#ffae00')
-                .setTitle(`${message.author.tag} 的Tails幣投資系統出資!`)
-                .setDescription(`已經出資 \`${giveamount}\` Tails幣`)
-                .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true })),
-        ],
+    const canvas = Canvas.createCanvas(750, 225);
+    const ctx = canvas.getContext('2d');
+    await Canvas.loadImage(`${__dirname}/../../images/collect.png`).then((image) => {
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     });
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(10, 10, 50, 50, 12.5);
+    ctx.closePath();
+    ctx.clip();
+    const avatar = await Canvas.loadImage(message.member.displayAvatarURL());
+    ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 10, 10, 50, 50);
+    ctx.restore();
+
+    ctx.font = '45px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(message.author.tag, 70, 50, 670);
+
+    ctx.font = '88px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.textAlign = 'center';
+    ctx.fillText(`+${giveamount} Tails幣`, 375, 175);
+
+    const attachment = new MessageAttachment(canvas.toBuffer('image/png'), `${message.member.id}_tails_collect.png`);
+
+    message.reply({ files: [attachment] });
 };
 
 exports.conf = {
-    aliases: [],
+    aliases: ['c'],
     permLevel: 'User',
     description: '領取Tails幣資金',
 };

@@ -115,6 +115,33 @@ const getMulti = async (client, member) => {
     return multi;
 };
 
+const formatTime = (milliseconds) => {
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+        if (hours % 24 === 0) {
+            return `${days}天`;
+        }
+        return `${days}天${hours % 24}小時`;
+    }
+
+    if (hours > 0) {
+        if (minutes % 60 === 0) {
+            return `${hours}小時`;
+        }
+        return `${hours}小時${minutes % 60}分鐘`;
+    }
+
+    if (minutes > 0) {
+        return `${minutes}分鐘`;
+    }
+
+    return `${seconds}秒`;
+};
+
 // async function awaitReply(message, question, limit = 60000) {
 //     const filter = m => m.author.id === message.author.id;
 //     await msg.channel.send(question);
@@ -158,5 +185,5 @@ const getMulti = async (client, member) => {
 // });
 
 module.exports = {
-    permlevel, targetGet, timeConvert, nowTime, delay, getRandomNum, getCredit, getMulti,
+    permlevel, targetGet, timeConvert, nowTime, delay, getRandomNum, getCredit, getMulti, formatTime,
 };
