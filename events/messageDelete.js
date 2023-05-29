@@ -21,9 +21,9 @@ module.exports = async (client, message) => {
 
     const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
 
-    if (message.content.toLowerCase().startsWith('t!rs') || ['s?s', 's?'].indexOf(message.content.toLowerCase()) !== -1 || bannedWords.some((word) => unescape(message.content.toLowerCase()).includes(word) || message.content.toLowerCase().includes(word))) return;
+    if (message.content.toLowerCase().startsWith('t!rs') || ['s?s', 's?'].includes(message.content.toLowerCase()) || bannedWords.some((word) => decodeURIComponent(message.content.toLowerCase()).includes(word) || message.content.toLowerCase().includes(word))) return;
 
-    if (['650604337000742934', '962270937665896478'].indexOf(message.author.id) !== -1) return;
+    if (['650604337000742934', '962270937665896478'].includes(message.author.id)) return;
 
     let mc = message.content;
     if (message.stickers.first()) {

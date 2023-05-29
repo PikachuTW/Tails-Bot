@@ -2,13 +2,11 @@ const mongoose = require('mongoose');
 
 const ascension = new mongoose.Schema({
     day: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         required: true,
         unique: true,
     },
-    level: {
-        type: mongoose.SchemaTypes.Number,
-    },
+    level: Number,
 });
 
 module.exports = mongoose.model('ascension', ascension);

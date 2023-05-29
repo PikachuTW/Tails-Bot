@@ -1,6 +1,6 @@
 const { MessageAttachment } = require('discord.js');
 const ms = require('ms');
-const { targetGet, formatTime } = require('../../modules/functions');
+const { targetGet, timeFormat } = require('../../modules/functions');
 const { Canvas } = require('../../modules/canvas.js');
 
 const shortenString = (str) => (str.length > 30 ? `${str.slice(0, 30)}...` : str);
@@ -37,7 +37,7 @@ exports.run = async (client, message, [targetArg, time, ...reason]) => {
     ctx.font = '50px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
     ctx.textAlign = 'center';
     ctx.fillText(`${shortenString(reason.join(' '))}`, 500, 269.25, 750);
-    ctx.fillText(`${formatTime(milliseconds)}`, 292.5, 162);
+    ctx.fillText(`${timeFormat(milliseconds)}`, 292.5, 162);
     ctx.textAlign = 'start';
     ctx.fillText(`${message.author.tag}`, 615, 162, 350);
 

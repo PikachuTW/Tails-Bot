@@ -1,47 +1,38 @@
-const uuid = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const { MessageEmbed } = require('discord.js');
-const drop = require('../../models/drop.js');
-const credit = require('../../models/credit.js');
-const economy = require('../../models/economy.js');
-const boost = require('../../models/boost.js');
-const { getMulti } = require('../../modules/functions.js');
+const dropModel = require('../../models/drop.js');
+const creditModel = require('../../models/credit.js');
+const economyModel = require('../../models/economy.js');
+const boostModel = require('../../models/boost.js');
+const { getMulti, getCredit } = require('../../modules/functions.js');
 
 module.exports = async (client, interaction) => {
     const timestamp = interaction.message.createdTimestamp;
     const userId = interaction.member.id;
-    const res = await drop.findOne({ timestamp });
+    const res = await dropModel.findOne({ timestamp });
     if (!res) {
         interaction.reply({ content: '這個獎勵早已過時', ephemeral: true });
-    } else if (res.claimed.indexOf(userId) !== -1) {
+    } else if (res.claimed.includes(userId)) {
         interaction.reply({ content: '你早就領取過獎勵!!', ephemeral: true });
     } else {
-        await drop.updateOne({ timestamp }, { $push: { claimed: userId } });
-        let data = await economy.findOne({ discordid: userId });
-        if (!data) {
-            data = await economy.create({
-                discordid: userId,
-                level: 0,
-                cooldown: 0,
-            });
-        }
+        await dropModel.updateOne({ timestamp }, { $push: { claimed: userId } });
+        const economyData = await economyModel.findOneAndUpdate(
+            { discordid: userId },
+            { $setOnInsert: { level: 0, cooldown: 0 } },
+            { upsert: true, new: true },
+        );
 
-        const data5 = await credit.findOne({ discordid: userId });
-        if (!data5) {
-            await credit.create({
-                discordid: userId,
-                tails_credit: 0,
-            });
-        }
+        await getCredit(interaction.member);
 
-        let giveamount = Math.round(data.level ** 1.225);
+        let giveamount = Math.round(economyData.level ** 1.225);
 
-        const multi = await getMulti(client, interaction.member);
+        const multi = await getMulti(interaction.member);
 
         giveamount = Math.floor(giveamount * multi);
 
         giveamount += 1;
 
-        await credit.updateOne({ discordid: userId }, { $inc: { tails_credit: giveamount } });
+        await creditModel.updateOne({ discordid: userId }, { $inc: { tails_credit: giveamount } });
 
         interaction.reply({
             embeds: [
@@ -52,24 +43,24 @@ module.exports = async (client, interaction) => {
             ephemeral: true,
         });
 
-        if (interaction.member.roles.cache.has('856808847251734559') && Math.random() < 0.00125 * Math.floor(data.level / 20)) {
-            const id = uuid.v4();
+        if (interaction.member.roles.cache.has('856808847251734559') && Math.random() < 0.00125 * Math.floor(economyData.level / 20)) {
+            const id = uuidv4();
             let type;
             if (Math.random() < 0.5) {
                 type = 'MONEY';
             } else {
                 type = 'TIME';
             }
-            await boost.create({
+            await boostModel.create({
                 id,
                 type,
             });
-            const trans = {
+            const translate = {
                 MONEY: '金錢',
                 TIME: '時間',
             };
-            interaction.member.send(`恭喜你得到了: 投資${trans[type]}BOOST 6小時，你的兌換碼:\n||${id}||`);
-            interaction.channel.send(`恭喜 ${interaction.member} 得到了投資${trans[type]}BOOST 6小時!!`);
+            interaction.member.send(`恭喜你得到了: 投資${translate[type]}BOOST 6小時，你的兌換碼:\n||${id}||`);
+            interaction.channel.send(`恭喜 ${interaction.member} 得到了投資${translate[type]}BOOST 6小時!!`);
         }
     }
 };

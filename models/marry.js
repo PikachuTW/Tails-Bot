@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const marry = new mongoose.Schema({
+module.exports = mongoose.model('marry', new mongoose.Schema({
     users: Array,
     started: Number,
     points: 0,
@@ -10,6 +10,4 @@ const marry = new mongoose.Schema({
         hug: 0,
         shopping: 0,
     },
-});
-
-module.exports = mongoose.model('marry', marry);
+}));

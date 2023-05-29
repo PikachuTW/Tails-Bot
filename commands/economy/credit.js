@@ -1,21 +1,39 @@
-const { MessageEmbed } = require('discord.js');
-const credit = require('../../models/credit.js');
+const { MessageAttachment } = require('discord.js');
+const creditModel = require('../../models/credit.js');
 const { targetGet, getCredit } = require('../../modules/functions.js');
+const { Canvas } = require('../../modules/canvas.js');
 
 exports.run = async (client, message, args) => {
     const target = targetGet(message, args) || message.member;
+    const userCredit = await getCredit(target);
+    const creditrank = await creditModel.count({ tails_credit: { $gte: userCredit } });
 
-    const res = await getCredit(target);
+    const canvas = Canvas.createCanvas(650, 325);
+    const ctx = canvas.getContext('2d');
 
-    const creditrank = await credit.count({ tails_credit: { $gte: res } });
+    ctx.drawImage(await Canvas.loadImage(`${__dirname}/../../images/bal.png`), 0, 0, canvas.width, canvas.height);
 
-    message.reply({
-        embeds: [new MessageEmbed()
-            .setColor('#ffae00')
-            .setTitle(`${target.user.tag} 的Tails幣餘額`)
-            .setDescription(`餘額: \`${res}\`\n排名: \`${creditrank - 2}\``)
-            .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))],
-    });
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(15, 15, 60, 60, 12.5);
+    ctx.closePath();
+    ctx.clip();
+
+    const avatar = await Canvas.loadImage(target.displayAvatarURL());
+    ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 15, 15, 60, 60);
+
+    ctx.restore();
+    ctx.font = '55px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(`${target.user.tag}`, 90, 62.5, 550);
+
+    ctx.font = '50px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.textAlign = 'start';
+    ctx.fillText(`${userCredit}`, 200, 162);
+    ctx.fillText(`${creditrank - 1}`, 200, 269.25, 750);
+
+    const attachment = new MessageAttachment(canvas.toBuffer('image/png'), `${target.id}_tails_credit.png`);
+    message.reply({ files: [attachment] });
 };
 
 exports.conf = {

@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 
-const credit = new mongoose.Schema({
+module.exports = mongoose.model('credit', new mongoose.Schema({
     discordid: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
         unique: true,
     },
-    tails_credit: {
-        type: mongoose.SchemaTypes.Number,
-    },
-});
-
-module.exports = mongoose.model('credit', credit);
+    tails_credit: Number,
+}));

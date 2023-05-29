@@ -13,7 +13,7 @@ module.exports = async (client, interaction) => {
         let done = false;
 
         collector.on('collect', async (m) => {
-            if (['y', 'yes', '是'].indexOf(m.content.toLowerCase()) === -1) return collector.stop();
+            if (!['y', 'yes', '是'].includes(m.content.toLowerCase())) return collector.stop();
             done = true;
             collector.stop();
             await ticket.updateOne({ channelid: interaction.channel.id }, { $set: { closed: true } });

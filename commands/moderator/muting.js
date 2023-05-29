@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const timeFormat = require('../../modules/functions.js');
 
 exports.run = async (client, message) => {
     const now = Date.now();
@@ -7,7 +8,7 @@ exports.run = async (client, message) => {
     if (res.size === 0) {
         msg = '```無```';
     } else {
-        msg = res.map((m) => `${m} \`${client.fn.timeConvert(m.communicationDisabledUntilTimestamp - now)}\``).join('\n');
+        msg = res.map((m) => `${m} \`${timeFormat(m.communicationDisabledUntilTimestamp - now, true)}\``).join('\n');
     }
     message.reply({
         embeds: [

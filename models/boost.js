@@ -2,19 +2,13 @@ const mongoose = require('mongoose');
 
 const boost = new mongoose.Schema({
     id: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
         unique: true,
     },
-    user: {
-        type: mongoose.SchemaTypes.String,
-    },
-    timestamp: {
-        type: mongoose.SchemaTypes.Number,
-    },
-    type: {
-        type: mongoose.SchemaTypes.String,
-    },
+    user: String,
+    timestamp: Number,
+    type: String,
 });
 
 module.exports = mongoose.model('boost', boost);

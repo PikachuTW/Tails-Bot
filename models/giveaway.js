@@ -2,22 +2,14 @@ const mongoose = require('mongoose');
 
 const giveaway = new mongoose.Schema({
     messageid: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
         unique: true,
     },
-    channelid: {
-        type: mongoose.SchemaTypes.String,
-    },
-    time: {
-        type: mongoose.SchemaTypes.Number,
-    },
-    winner: {
-        type: mongoose.SchemaTypes.Number,
-    },
-    users: {
-        type: mongoose.SchemaTypes.Array,
-    },
+    channelid: String,
+    time: Number,
+    winner: Number,
+    users: Array,
 });
 
 module.exports = mongoose.model('giveaway', giveaway);

@@ -31,9 +31,6 @@ dependencies:
   cheerio:
     specifier: 1.0.0-rc.12
     version: 1.0.0-rc.12
-  cpu-stat:
-    specifier: ^2.0.1
-    version: 2.0.1
   discord-api-types:
     specifier: ^0.37.42
     version: 0.37.42
@@ -55,9 +52,6 @@ dependencies:
   eslint-plugin-import:
     specifier: ^2.27.5
     version: 2.27.5(eslint@8.40.0)
-  g-i-s:
-    specifier: ^2.1.6
-    version: 2.1.6
   googlethis:
     specifier: ^1.7.1
     version: 1.7.1
@@ -106,6 +100,9 @@ dependencies:
   romans:
     specifier: ^2.0.5
     version: 2.0.5
+  systeminformation:
+    specifier: ^5.17.12
+    version: 5.17.12
   uuid:
     specifier: ^9.0.0
     version: 9.0.0
@@ -1200,10 +1197,6 @@ packages:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
     dev: false
 
-  /cpu-stat@2.0.1:
-    resolution: {integrity: sha512-bC4ts/0IjYfNV6Dc7F2NauWM0tip0fneZjRek8HqX2ZERC4oSt6dmV+GTN1mfE9OKbLAppv58M2PVzKLGB731w==}
-    dev: false
-
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -2037,14 +2030,6 @@ packages:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: false
 
-  /g-i-s@2.1.6:
-    resolution: {integrity: sha512-55htF0vFQpm6+GBOk6PwjfiNyBRoh9mfo6YvsfYYDqCcj7lSyfX8qn3o2qDw4vY3vja21w9Buxr2Dy4/B1LLvA==}
-    dependencies:
-      cheerio: 1.0.0-rc.12
-      lodash.flatten: 4.4.0
-      request: 2.88.2
-    dev: false
-
   /gauge@3.0.2:
     resolution: {integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==}
     engines: {node: '>=10'}
@@ -2716,10 +2701,6 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       p-locate: 6.0.0
-    dev: false
-
-  /lodash.flatten@4.4.0:
-    resolution: {integrity: sha512-C5N2Z3DgnnKr0LOpv/hKCgKdb7ZZwafIrsesve6lmzvZIRZRGaZ/l6Q8+2W7NaT+ZwO3fFlSCzCzrDCFdJfZ4g==}
     dev: false
 
   /lodash.merge@4.6.2:
@@ -3848,6 +3829,13 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+    dev: false
+
+  /systeminformation@5.17.12:
+    resolution: {integrity: sha512-I3pfMW2vue53u+X08BNxaJieaHkRoMMKjWetY9lbYJeWFaeWPO6P4FkNc4XOCX8F9vbQ0HqQ25RJoz3U/B7liw==}
+    engines: {node: '>=8.0.0'}
+    os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
+    hasBin: true
     dev: false
 
   /tar@6.1.15:

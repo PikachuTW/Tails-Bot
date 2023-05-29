@@ -1,9 +1,8 @@
 const logger = require('../modules/Logger.js');
 const { permlevel } = require('../modules/functions.js');
-const config = require('../config.js');
-const { settings: { prefix } } = require('../config.js');
-const level = require('../models/level.js');
-const afk = require('../models/afk.js');
+const { settings: { prefix }, permLevels } = require('../config.js');
+const levelModel = require('../models/level.js');
+const afkModel = require('../models/afk.js');
 
 module.exports = async (client, message) => {
     if (message.guildId !== '828450904990154802') return;
@@ -17,7 +16,7 @@ module.exports = async (client, message) => {
         if (cmd) {
             const permNeededNum = container.levelCache[cmd.conf.permLevel] === undefined ? Infinity : container.levelCache[cmd.conf.permLevel];
             if (permlevelGet < permNeededNum) {
-                message.reply(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${config.permLevels.find((l) => l.level === permlevelGet).name})\n你需要權限等級 ${permNeededNum} (${cmd.conf.permLevel})`).catch();
+                message.reply(`你沒有權限使用!\n你的權限等級為 ${permlevelGet} (${permLevels.find((l) => l.level === permlevelGet).name})\n你需要權限等級 ${permNeededNum} (${cmd.conf.permLevel})`).catch();
             } else {
                 try {
                     const stamp = client.container.cooldown.get(message.author.id) || 0;
@@ -29,47 +28,29 @@ module.exports = async (client, message) => {
                     } else {
                         await cmd.run(client, message, args);
                         client.container.cooldown.set(message.author.id, now);
-                        logger.log(`${config.permLevels.find((l) => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.conf.name}`, 'cmd');
+                        logger.log(`${permLevels.find((l) => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.conf.name}`, 'cmd');
                         cmdname2 = cmd.conf.name;
                     }
                 } catch (e) {
-                    message.channel.send({ content: `出現了些錯誤\n\`\`\`${e.message}\`\`\`` });
+                    message.channel.send({ content: `出現了些錯誤\n\`\`\`${e.message}\`\`\``.slice(0, 2000) });
                 }
             }
         }
     }
-    // const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
-    // if (bannedWords.some((word) => unescape(message.content.toLowerCase()).includes(word) || message.content.toLowerCase().includes(word) || message.author.username.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970', '900993128759193600', '962270937665896478'].indexOf(message.author.id) === -1 && message.channel.id !== '869948348285722654') {
-    //     try {
-    //         await message.delete();
-    //         message.channel.send(`:x: ${message.author} 你不允許發送邀請連結!!`);
-    //     } catch { }
-    // }
     if (message.author.bot) return;
-    if (['650604337000742934', '962270937665896478', '889358372170792970'].indexOf(message.member.id) === -1 && message.mentions.users.size >= 5) {
+    if (!['650604337000742934', '962270937665896478', '889358372170792970'].includes(message.member.id) && message.mentions.users.size >= 5) {
         message.member.timeout(30000, 'mass ping');
         message.channel.send(`:x: ${message.author} 你不允許大量提及用戶!!`);
-    }
-    if (message.member.roles.cache.has('881911118845587477')) {
-        if (message.mentions.everyone === true || message.mentions.roles.size > 0) {
-            const lockchannel = message.guild.channels.cache.get('948178858610405426');
-            if (lockchannel.permissionsFor('881911118845587477').any('MENTION_EVERYONE')) {
-                lockchannel.permissionOverwrites.edit('881911118845587477', { MENTION_EVERYONE: false });
-            }
-        }
     }
     if (message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
         message.reply(`嗨! 機器人的前綴是 \`${prefix}\``);
     }
-
-    if (['948178858610405426', '1075964798958846002'].indexOf(message.channel.id) !== -1 && !message.content.toLowerCase().startsWith('s?')) {
-        let levelData = await level.findOne({ discordid: message.author.id });
-        if (!levelData) {
-            levelData = await level.create({
-                discordid: message.author.id,
-                daily: [],
-            });
-        }
+    if (['948178858610405426', '1075964798958846002'].includes(message.channel.id) && !message.content.toLowerCase().startsWith('s?')) {
+        const levelData = await levelModel.findOneAndUpdate(
+            { discordid: message.author.id },
+            { $setOnInsert: { daily: [] } },
+            { upsert: true, new: true },
+        );
         const stamp = client.container.msgCooldown.get(message.author.id);
         const nowMS = Date.now();
         if (!(stamp && nowMS - stamp < 750)) {
@@ -77,46 +58,41 @@ module.exports = async (client, message) => {
             const nowStamp = Math.floor((nowMS + 28800000) / 86400000);
             const check = await levelData.daily.find((d) => d.date === nowStamp);
             if (!check) {
-                await level.updateOne({ discordid: message.author.id }, { $push: { daily: { date: nowStamp, count: 1 } } });
+                await levelModel.updateOne({ discordid: message.author.id }, { $push: { daily: { date: nowStamp, count: 1 } } });
             } else {
-                await level.updateOne({ discordid: message.author.id, 'daily.date': nowStamp }, { $inc: { 'daily.$.count': 1 } });
+                await levelModel.updateOne({ discordid: message.author.id, 'daily.date': nowStamp }, { $inc: { 'daily.$.count': 1 } });
             }
             const active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
             const sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
-            if (active >= 59) {
-                if (!message.member.roles.cache.has('856808847251734559')) {
-                    message.member.roles.add('856808847251734559');
-                    message.channel.send({ content: `${message.member} 已經獲得 <@&856808847251734559>`, allowedMentions: { parse: ['users'] } });
+
+            const roles = [
+                { count: 59, roleId: '856808847251734559' },
+                { count: 149, roleId: '1014857925107392522' },
+                { count: 149, roleId: '861459068789850172' },
+            ];
+            roles.forEach(({ count, roleId }) => {
+                if ((roleId === '861459068789850172' ? sActive >= count : active >= count) && !message.member.roles.cache.has(roleId)) {
+                    message.member.roles.add(roleId);
+                    const role = message.guild.roles.cache.get(roleId);
+                    message.channel.send(`${message.member} 已經獲得 <@${role.id}>`, { allowedMentions: { parse: ['users'] } });
                 }
-            }
-            if (active >= 149) {
-                if (!message.member.roles.cache.has('1014857925107392522')) {
-                    message.member.roles.add('1014857925107392522');
-                    message.channel.send({ content: `${message.member} 已經獲得 <@&1014857925107392522>`, allowedMentions: { parse: ['users'] } });
-                }
-            }
-            if (sActive >= 149) {
-                if (!message.member.roles.cache.has('861459068789850172')) {
-                    message.member.roles.add('861459068789850172');
-                    message.channel.send({ content: `${message.member} 已經獲得 <@&861459068789850172>`, allowedMentions: { parse: ['users'] } });
-                }
-            }
+            });
         }
     }
 
-    const afkData = await afk.find();
+    const afkData = await afkModel.find();
     if (afkData.length > 0) {
         const afkList = afkData.map((d) => d.discordid);
         let checkFor = false;
         afkList.forEach((d) => {
-            if (message.mentions.members.map((m) => m.id).indexOf(d) !== -1 && checkFor === false) {
+            if (message.mentions.members.map((m) => m.id).includes(d) && checkFor === false) {
                 const { content } = afkData.find((a) => a.discordid === d);
                 message.channel.send({ content: `<@${d}> 正在afk: ${content}`, allowedMentions: { parse: [] } });
                 checkFor = true;
             }
         });
-        if (afkList.indexOf(message.author.id) !== -1 && cmdname2 !== 'afk') {
-            await afk.deleteOne({ discordid: message.author.id });
+        if (afkList.includes(message.author.id) && cmdname2 !== 'afk') {
+            await afkModel.deleteOne({ discordid: message.author.id });
             message.reply('已經解除你的afk!');
         }
     }

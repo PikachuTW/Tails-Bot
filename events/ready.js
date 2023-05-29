@@ -202,7 +202,7 @@ module.exports = async (client) => {
             while (winners.length < data.winner) {
                 // eslint-disable-next-line no-await-in-loop
                 const winUser = await client.users.fetch(reactUsers[Math.floor((Math.random() * reactUsers.length))]);
-                if (winners.indexOf(winUser) === -1) {
+                if (!winners.includes(winUser)) {
                     winners.push(winUser);
                 }
             }

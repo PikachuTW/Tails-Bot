@@ -3,8 +3,7 @@ const { MessageEmbed } = require('discord.js');
 exports.run = async (client, message) => {
     const Guild = message.guild;
     const tier = Guild.premiumTier;
-    let banCount = await Guild.bans.fetch();
-    banCount = banCount.size;
+    const { size: banCount } = await Guild.bans.fetch();
     message.reply({
         embeds: [
             new MessageEmbed()

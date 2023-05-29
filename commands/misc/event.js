@@ -38,7 +38,7 @@ exports.run = async (client, message, args) => {
 
     if (!message.member.voice.channel) return message.reply('你需要加入一個語音頻道');
 
-    if (list.indexOf(args[0]) === -1) {
+    if (!list.includes(args[0])) {
         message.reply('請輸入有效的活動內容!');
         message.reply({ embeds: [listEmbed] });
         return;

@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 exports.run = async (client, message, args) => {
     const num = Number(args[0]);
     if (!num) return message.reply('你需要輸入一個1-6, 11的等級');
-    if ([1, 2, 3, 4, 5, 6, 11].indexOf(num) === -1) return message.reply('你需要輸入一個1-6, 11的等級');
+    if (![1, 2, 3, 4, 5, 6, 11].includes(num)) return message.reply('你需要輸入一個1-6, 11的等級');
     const data = client.word[`${num}`];
     const res = data[Math.floor(Math.random() * data.length)];
     const cd = client.container.wordcd.get(message.author.id);

@@ -8,7 +8,7 @@ module.exports = async (client, oldMember, newMember) => {
     // });
     // const Log = fetchedLogs.entries.first();
 
-    // if (['650604337000742934', '889358372170792970'].indexOf(Log.executor.id) != -1) return;
+    // if (['650604337000742934'].indexOf(Log.executor.id) != -1) return;
 
     // if (!Log) return;
     // if (Log.target.id != newMember.id) return;
@@ -16,7 +16,7 @@ module.exports = async (client, oldMember, newMember) => {
     // if (oldMember.communicationDisabledUntilTimestamp == newMember.communicationDisabledUntilTimestamp) return;
 
     // const executorMember = newMember.guild.members.cache.find(member => member.id == Log.executor.id);
-    // executorMember.roles.remove(executorMember.roles.cache.filter(r => r.id != '830689873367138304' && r.id != '864379903164284940' && r.id != '872493084502523935'));
+    // executorMember.roles.remove(executorMember.roles.cache.filter(r => r.id != '830689873367138304' && r.id != '864379903164284940');
 
     // const resEmbed = new MessageEmbed()
     //     .setColor('#ffae00')

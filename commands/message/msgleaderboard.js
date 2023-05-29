@@ -3,7 +3,17 @@ const { MessageEmbed, MessageAttachment } = require('discord.js');
 const level = require('../../models/level.js');
 const { chartJs } = require('../../modules/canvas.js');
 
-exports.run = async (client, message) => {
+exports.run = async (client, message, args) => {
+    let page;
+    if (!args[0]) {
+        page = 1;
+    } else {
+        page = parseInt(args[0], 10);
+        if (!Number.isSafeInteger(page) || page <= 0 || page > 100) {
+            return message.reply('請給予1~100的頁數範圍');
+        }
+    }
+
     const res = await level.aggregate([
         { $unwind: '$daily' },
         {
@@ -13,7 +23,6 @@ exports.run = async (client, message) => {
             },
         },
         { $sort: { total: -1 } },
-        { $limit: 10 },
     ]);
 
     const chartRes = await level.aggregate([
@@ -26,6 +35,21 @@ exports.run = async (client, message) => {
         },
         { $sort: { _id: 1 } },
     ]);
+
+    let co = '';
+
+    const leftList = {
+        '953065839010136124': 'Yoshi Guest',
+        '471383299324117015': 'Father Wu',
+    };
+
+    for (let i = 10 * page - 10; i < 10 * page; i++) {
+        if (Object.keys(leftList).includes(res[i]._id)) {
+            co += `\`${i + 1}\` ${leftList[res[i]._id]} **${res[i].total}**\n`;
+        } else {
+            co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`;
+        }
+    }
 
     const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -55,15 +79,9 @@ exports.run = async (client, message) => {
 
     const imageGen = new MessageAttachment(await chartJs.renderToBuffer(conf), 'server_chart.png');
 
-    let co = '';
-
-    for (let i = 0; i < 10; i++) {
-        co += `\`${i + 1}\` <@${res[i]._id}> **${res[i].total}**\n`;
-    }
-
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
-        .setTitle('總訊息量前十排行榜')
+        .setTitle((page === 1) ? '總訊息量前十排行榜' : `總訊息量排行榜 第${page}頁`)
         .setDescription(co)
         .setImage('attachment://server_chart.png');
 

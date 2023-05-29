@@ -1,9 +1,2 @@
 {
-    "[javascript]": {
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-    },
-    "javascript.format.enable": false,
-    "search.useIgnoreFiles": false,
-    "search.useGlobalIgnoreFiles": false,
-    "search.useParentIgnoreFiles": false,
 }

@@ -1,49 +1,44 @@
 const { MessageAttachment } = require('discord.js');
-const credit = require('../../models/credit.js');
-const economy = require('../../models/economy.js');
-const boost = require('../../models/boost.js');
-const { getMulti } = require('../../modules/functions.js');
+const creditModel = require('../../models/credit.js');
+const economyModel = require('../../models/economy.js');
+const boostModel = require('../../models/boost.js');
+const { getMulti, getCredit } = require('../../modules/functions.js');
 const { Canvas } = require('../../modules/canvas.js');
 
 exports.run = async (client, message) => {
-    const data = await economy.findOne({ discordid: message.member.id }) || await economy.create({
-        discordid: message.member.id,
-        level: 0,
-        cooldown: 0,
-    });
+    const { cooldown, level } = await economyModel.findOneAndUpdate(
+        { discordid: message.member.id },
+        { $setOnInsert: { level: 0, cooldown: 0 } },
+        { upsert: true, new: true },
+    );
 
-    const { cooldown } = data;
-
-    let cd = 600000;
-    const bt = await boost.findOne({ user: message.author.id, timestamp: { $gte: Date.now() } });
-    if (bt && bt.type === 'TIME') cd = 400000;
+    const bt = await boostModel.findOne({ user: message.author.id, timestamp: { $gte: Date.now() } });
+    const cd = bt && bt.type === 'TIME' ? 400000 : 600000;
 
     if (Date.now() - cooldown < cd) {
-        const second = Math.round(((cd - Date.now() + cooldown) / 1000));
-        const minutes = Math.floor(second / 60);
-        const seconds = second % 60;
+        const remainingTime = Math.round(((cd - Date.now() + cooldown) / 1000));
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
         const timeLeft = minutes > 0 ? `${minutes}分${seconds}秒` : `${seconds}秒`;
         return message.reply(`你還要再${timeLeft}才能領取!`);
     }
 
-    await economy.updateOne({ discordid: message.author.id }, { $set: { cooldown: Date.now() } });
+    await economyModel.updateOne({ discordid: message.author.id }, { $set: { cooldown: Date.now() } });
 
-    const giveamount = Math.floor(data.level ** 1.225 * await getMulti(client, message.member)) + 1;
+    const giveAmount = Math.floor(level ** 1.225 * await getMulti(message.member)) + 1;
 
-    if (!credit.exists({ discordid: message.author.id })) {
-        await credit.create({
-            discordid: message.author.id,
-            tails_credit: 0,
-        });
-    }
+    await getCredit(message.member);
 
-    await credit.updateOne({ discordid: message.author.id }, { $inc: { tails_credit: giveamount } });
+    await creditModel.updateOne(
+        { discordid: message.author.id },
+        { $inc: { tails_credit: giveAmount } },
+        { upsert: true, new: true },
+    );
 
     const canvas = Canvas.createCanvas(750, 225);
     const ctx = canvas.getContext('2d');
-    await Canvas.loadImage(`${__dirname}/../../images/collect.png`).then((image) => {
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    });
+    const backgroundImage = await Canvas.loadImage(`${__dirname}/../../images/collect.png`);
+    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
     ctx.save();
     ctx.beginPath();
@@ -60,7 +55,7 @@ exports.run = async (client, message) => {
 
     ctx.font = '88px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
     ctx.textAlign = 'center';
-    ctx.fillText(`+${giveamount} Tails幣`, 375, 175);
+    ctx.fillText(`+${giveAmount} Tails幣`, 375, 175);
 
     const attachment = new MessageAttachment(canvas.toBuffer('image/png'), `${message.member.id}_tails_collect.png`);
 

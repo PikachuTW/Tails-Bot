@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const snipe = new mongoose.Schema({
+module.exports = mongoose.model('snipe', new mongoose.Schema({
     channelid: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
         unique: true,
     },
@@ -10,6 +10,4 @@ const snipe = new mongoose.Schema({
     snipetime: String,
     snipesender: String,
     snipeatt: Array,
-});
-
-module.exports = mongoose.model('snipe', snipe);
+}));

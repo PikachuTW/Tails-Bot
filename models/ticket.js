@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
 
-const ticket = new mongoose.Schema({
+module.exports = mongoose.model('ticket', new mongoose.Schema({
     discordid: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
     },
     channelid: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
     },
     closed: {
-        type: mongoose.SchemaTypes.Boolean,
+        type: Boolean,
         required: true,
     },
-});
-
-module.exports = mongoose.model('ticket', ticket);
+}));

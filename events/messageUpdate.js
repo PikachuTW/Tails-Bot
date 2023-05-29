@@ -7,7 +7,7 @@ module.exports = async (client, oldMessage, newMessage) => {
 
     const bannedWords = ['discord.gg', '.gg/', '.gg /', '. gg /', '. gg/', 'discord .gg /', 'discord.gg /', 'discord .gg/', 'discord .gg', 'discord . gg', 'discord. gg', 'discord gg', 'discordgg', 'discord gg /', 'discord.com/invite', 't.me', 'lamtintinfree'];
 
-    if (bannedWords.some((word) => newMessage.content.toLowerCase().includes(word)) && ['650604337000742934', '889358372170792970'].indexOf(newMessage.author.id) === -1 && newMessage.channel.id !== '869948348285722654') {
+    if (bannedWords.some((word) => newMessage.content.toLowerCase().includes(word)) && !['650604337000742934', '889358372170792970'].includes(newMessage.author.id) && newMessage.channel.id !== '869948348285722654') {
         newMessage.delete();
         newMessage.channel.send(`:x: ${newMessage.author} 你不允許發送邀請連結!!`);
         return;
