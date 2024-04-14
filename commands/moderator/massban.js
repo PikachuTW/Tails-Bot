@@ -4,7 +4,7 @@ exports.run = async (client, message, args) => {
     const targets = args.map((k) => k.slice(2, -1));
 
     targets.forEach((k) => {
-        message.guild.bans.create(k, { reason: `${message.author.tag} mass ban` });
+        message.guild.bans.create(k, { reason: `${message.author.newName} mass ban` });
     });
 
     message.reply({

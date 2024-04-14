@@ -12,7 +12,7 @@ exports.run = async (client, message, args) => {
         target.roles.add(res[0].id);
         return message.reply({
             embeds: [new MessageEmbed()
-                .setTitle(`${target.user.tag} 已經獲得身分組!`)
+                .setTitle(`${target.user.newName} 已經獲得身分組!`)
                 .setColor('#ffae00')
                 .setDescription(`已經給予 ${target} ${res[0]}`)
                 .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' })],
@@ -46,7 +46,7 @@ exports.run = async (client, message, args) => {
 
         return message.reply({
             embeds: [new MessageEmbed()
-                .setTitle(`${target.user.tag} 已經獲得身分組!`)
+                .setTitle(`${target.user.newName} 已經獲得身分組!`)
                 .setColor('#ffae00')
                 .setDescription(`已經給予 ${target} ${res[parseInt(m.content, 10) - 1]}`)
                 .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' })],

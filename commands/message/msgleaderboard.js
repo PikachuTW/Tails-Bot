@@ -39,7 +39,6 @@ exports.run = async (client, message, args) => {
     let co = '';
 
     const leftList = {
-        '953065839010136124': 'Yoshi Guest',
         '471383299324117015': 'Father Wu',
     };
 

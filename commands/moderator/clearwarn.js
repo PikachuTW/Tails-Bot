@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setDescription(`**:white_check_mark:  ${target.user.tag} 已被清除 ${replyamount.deletedCount} 項警告**`),
+                .setDescription(`**:white_check_mark:  ${target.user.newName} 已被清除 ${replyamount.deletedCount} 項警告**`),
         ],
     });
 };

@@ -22,7 +22,7 @@ exports.run = async (client, message) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setTitle(`${message.author.tag} 購買了新的投資!`)
+                .setTitle(`${message.author.newName} 購買了新的投資!`)
                 .setDescription(`# 你已經花費 \`${Math.round((level + 1) ** 1.6)}\` 購買新投資!\n# 你現在每次可以賺 \`${Math.round((level + 1) ** 1.225) + 1}\``)
                 .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true })),
         ],

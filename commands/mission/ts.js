@@ -1,14 +1,7 @@
 const { MessageAttachment } = require('discord.js');
-const creditModel = require('../../models/credit.js');
 const { Canvas } = require('../../modules/canvas.js');
 
-exports.run = async (client, message, args) => {
-    const page = parseInt(args[0], 10) - 1 || 0;
-    const res = await creditModel.find({}).sort({ tails_credit: -1 });
-
-    const top10 = res.slice(0 + page * 10, 10 + page * 10);
-    const leaderboard = top10.map(({ discordid, tails_credit }, index) => ({ 0: `${index + 1 + page * 10}`, 1: client.users.cache.get(discordid)?.username || 'Unknown', 4: `${tails_credit.toLocaleString()}` }));
-
+exports.run = async (client, message) => {
     const canvaWidth = 3000;
     const canvaHeight = 2500;
     const tableX = 20;
@@ -22,9 +15,9 @@ exports.run = async (client, message, args) => {
 
     const canvas = Canvas.createCanvas(canvaWidth, canvaHeight);
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#36393F';
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(tableX, tableY, tableWidth, tableHeight);
-    ctx.strokeStyle = '#EEEEEE';
+    ctx.strokeStyle = '#000000';
     ctx.lineWidth = 20;
     ctx.strokeRect(tableX, tableY, tableWidth, tableHeight);
 
@@ -46,19 +39,15 @@ exports.run = async (client, message, args) => {
         ctx.stroke();
     }
 
-    ctx.fillStyle = '#EEEEEE';
-    ctx.font = `175px ${Canvas.font}`;
+    ctx.fillStyle = '#000000';
+    ctx.font = `180px ${Canvas.font}`;
     ctx.textBaseline = 'middle';
-    const table = [{ 0: '排名', 1: '名稱', 4: 'Tails幣' }, ...leaderboard];
     // 繪製表格的內容
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-            const element = table[i][j];
-            if (element) {
-                const x = tableX + j * cellWidth;
-                const y = tableY + i * cellHeight;
-                ctx.fillText(element, x + cellWidth / 10, y + cellHeight / 2);
-            }
+            const x = tableX + j * cellWidth;
+            const y = tableY + i * cellHeight;
+            ctx.fillText(`(${i}, ${j})`, x + cellWidth / 10, y + cellHeight / 2);
         }
     }
 
@@ -68,7 +57,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    aliases: ['lb'],
-    permLevel: 'User',
-    description: 'Tails幣排行榜',
+    aliases: [],
+    permLevel: 'Tails',
+    description: '你好',
 };

@@ -23,11 +23,11 @@ exports.run = async (client, message, args) => {
     ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 15, 15, 60, 60);
 
     ctx.restore();
-    ctx.font = '55px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.font = `55px ${Canvas.font}`;
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillText(`${target.user.tag}`, 90, 62.5, 550);
+    ctx.fillText(`${target.user.newName}`, 90, 62.5, 550);
 
-    ctx.font = '50px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.font = `50px ${Canvas.font}`;
     ctx.textAlign = 'start';
     ctx.fillText(`${userCredit}`, 200, 162);
     ctx.fillText(`${creditrank - 1}`, 200, 269.25, 750);

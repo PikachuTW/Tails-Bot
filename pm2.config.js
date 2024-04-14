@@ -3,6 +3,6 @@ module.exports = {
         name: 'Tails Bot',
         script: 'index.js',
         watch: true,
-        ignore_watch: ['node_modules', 'enmap'],
+        ignore_watch: ['node_modules', 'enmap', '.git'],
     }],
 };

@@ -31,15 +31,15 @@ exports.run = async (client, message, [targetArg, time, ...reason]) => {
     const avatar = await Canvas.loadImage(target.displayAvatarURL());
     ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 15, 15, 60, 60);
     ctx.restore();
-    ctx.font = '55px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.font = `55px ${Canvas.font}`;
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillText(`${target.user.tag}已被禁言`, 90, 60, 895);
-    ctx.font = '50px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.fillText(`${target.user.newName}已被禁言`, 90, 60, 895);
+    ctx.font = `50px ${Canvas.font}`;
     ctx.textAlign = 'center';
     ctx.fillText(`${shortenString(reason.join(' '))}`, 500, 269.25, 750);
     ctx.fillText(`${timeFormat(milliseconds)}`, 292.5, 162);
     ctx.textAlign = 'start';
-    ctx.fillText(`${message.author.tag}`, 615, 162, 350);
+    ctx.fillText(`${message.author.newName}`, 615, 162, 350);
 
     const attachment = new MessageAttachment(canvas.toBuffer('image/png'), `${target.id}_tails_mute.png`);
 

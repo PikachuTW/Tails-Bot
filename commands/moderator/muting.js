@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const timeFormat = require('../../modules/functions.js');
+const { timeFormat } = require('../../modules/functions.js');
 
 exports.run = async (client, message) => {
     const now = Date.now();

@@ -13,7 +13,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setDescription(`**🐸 ${target.user.tag} 沒有任何警告**`),
+                    .setDescription(`**🐸 ${target.user.newName} 沒有任何警告**`),
             ],
         });
         return;
@@ -29,13 +29,13 @@ exports.run = async (client, message, args) => {
 
     const warningembed = new MessageEmbed()
         .setColor('#ffae00')
-        .setAuthor({ name: `${target.user.tag} 目前有 ${warntotal.length} 則警告`, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
+        .setAuthor({ name: `${target.user.newName} 目前有 ${warntotal.length} 則警告`, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
         .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' });
 
     for (let i = 0; i < warnres.length; i++) {
         const mod = client.users.cache.get(warnres[i].warnstaff);
         // eslint-disable-next-line no-underscore-dangle
-        warningembed.addField(`ID: ${warnres[i]._id} | 管理人員: ${mod ? mod.tag : 'User Left'}`, `${warnres[i].warncontent} - ${new Date(warnres[i].warnstamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
+        warningembed.addField(`ID: ${warnres[i]._id} | 管理人員: ${mod ? mod.newName : 'User Left'}`, `${warnres[i].warncontent} - ${new Date(warnres[i].warnstamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
     }
 
     message.reply({ embeds: [warningembed] });

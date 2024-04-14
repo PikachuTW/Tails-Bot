@@ -1,8 +1,8 @@
-// eslint-disable-next-line import/no-unresolved
-const got = import('got');
 const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
+    // eslint-disable-next-line import/no-unresolved
+    const got = (await import('got')).default;
     let target;
     if (args[0]) {
         target = targetGet(message, args) || await client.users.fetch(args[0]) || message.member;
@@ -12,6 +12,7 @@ exports.run = async (client, message, args) => {
     target = await target.user.fetch();
     if (!target.banner) return message.reply('此用戶沒有banner');
     const res = await got.head(`https://cdn.discordapp.com/banners/${target.id}/${target.banner}`);
+    console.log(res);
     message.reply(`https://cdn.discordapp.com/banners/${target.id}/${target.banner}.${res.headers['content-type'].slice(6)}?size=4096`);
 };
 

@@ -26,7 +26,7 @@ exports.run = async (client, message, args) => {
 
     const exampleEmbed = new MessageEmbed()
         .setColor('#ffae00')
-        .setTitle(`${message.member.user.tag} 的自我介紹調整!`)
+        .setTitle(`${message.member.user.newName} 的自我介紹調整!`)
         .setDescription(`<@${message.member.id}>的暱稱已經從 \`${introdata.intro}\` 改成 \`${introinput}\``);
 
     message.reply({ embeds: [exampleEmbed] });

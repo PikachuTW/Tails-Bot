@@ -21,7 +21,7 @@ exports.run = async (client, message, args) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setDescription(`**:white_check_mark:  ${target.user.tag} 已被警告+禁言一分鐘 | cmd in chat**`),
+                .setDescription(`**:white_check_mark:  ${target.user.newName} 已被警告+禁言一分鐘 | cmd in chat**`),
         ],
     });
 
@@ -30,7 +30,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setDescription(`**你被 ${message.author.tag} 警告+禁言一分鐘了，原因: cmd in chat**`),
+                    .setDescription(`**你被 ${message.author.newName} 警告+禁言一分鐘了，原因: cmd in chat**`),
             ],
         });
     } catch { }

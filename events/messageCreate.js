@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const logger = require('../modules/Logger.js');
 const { permlevel } = require('../modules/functions.js');
 const { settings: { prefix }, permLevels } = require('../config.js');
@@ -26,9 +27,17 @@ module.exports = async (client, message) => {
                             message.reply(`指令還在冷卻中! (${((1500 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
                         } catch { }
                     } else {
+                        if (message.author.discriminator === '0') {
+                            const newName = message.author.username;
+                            message.author.newName = newName;
+                            message.member.user.newName = newName;
+                        } else {
+                            message.author.newName = message.author.tag;
+                            message.member.user.newName = message.author.tag;
+                        }
                         await cmd.run(client, message, args);
                         client.container.cooldown.set(message.author.id, now);
-                        logger.log(`${permLevels.find((l) => l.level === permlevelGet).name} ${message.author.tag} 執行了 ${cmd.conf.name}`, 'cmd');
+                        logger.log(`${permLevels.find((l) => l.level === permlevelGet).name} ${message.author.newName} 執行了 ${cmd.conf.name}`, 'cmd');
                         cmdname2 = cmd.conf.name;
                     }
                 } catch (e) {
@@ -45,7 +54,7 @@ module.exports = async (client, message) => {
     if (message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
         message.reply(`嗨! 機器人的前綴是 \`${prefix}\``);
     }
-    if (['948178858610405426', '1075964798958846002'].includes(message.channel.id) && !message.content.toLowerCase().startsWith('s?')) {
+    if (['948178858610405426', '1144935378437017662'].includes(message.channel.id) && !message.content.toLowerCase().startsWith('s?')) {
         const levelData = await levelModel.findOneAndUpdate(
             { discordid: message.author.id },
             { $setOnInsert: { daily: [] } },
@@ -62,21 +71,64 @@ module.exports = async (client, message) => {
             } else {
                 await levelModel.updateOne({ discordid: message.author.id, 'daily.date': nowStamp }, { $inc: { 'daily.$.count': 1 } });
             }
+            const total = levelData.daily.map((d) => d.count).reduce((a, b) => a + b, 0);
             const active = levelData.daily.filter((d) => d.date >= nowStamp - 2).map((d) => d.count).reduce((a, b) => a + b, 0);
             const sActive = levelData.daily.filter((d) => d.date >= nowStamp - 1).map((d) => d.count).reduce((a, b) => a + b, 0);
 
-            const roles = [
+            const activeRoles = [
                 { count: 59, roleId: '856808847251734559' },
                 { count: 149, roleId: '1014857925107392522' },
                 { count: 149, roleId: '861459068789850172' },
             ];
-            roles.forEach(({ count, roleId }) => {
+            activeRoles.forEach(({ count, roleId }) => {
                 if ((roleId === '861459068789850172' ? sActive >= count : active >= count) && !message.member.roles.cache.has(roleId)) {
                     message.member.roles.add(roleId);
-                    const role = message.guild.roles.cache.get(roleId);
-                    message.channel.send(`${message.member} 已經獲得 <@${role.id}>`, { allowedMentions: { parse: ['users'] } });
+                    if (message.member.roles.has(roleId)) {
+                        message.channel.send({ content: `${message.member} 已經獲得 <@&${roleId}>`, allowedMentions: { parse: ['users'] } });
+                    }
                 }
             });
+            const totalMsgRoles = [
+                { count: 4, roleId: '1201814055426473984' },
+                { count: 39, roleId: '1201815869974650901' },
+                { count: 99, roleId: '1201815771190399016' },
+                { count: 249, roleId: '1201815676033966130' },
+                { count: 499, roleId: '1201815604944707594' },
+                { count: 999, roleId: '1201815541602603018' },
+                { count: 1999, roleId: '1201815472505630720' },
+                { count: 4999, roleId: '1201815306159534120' },
+                { count: 9999, roleId: '1201815249628704768' },
+                { count: 19999, roleId: '1201815168573505567' },
+                { count: 29999, roleId: '1201815103423643698' },
+                { count: 39999, roleId: '1201814971818979348' },
+                { count: 49999, roleId: '1201814860757999638' },
+                { count: 59999, roleId: '1201814747436032041' },
+                { count: 74999, roleId: '1201814654041456670' },
+                { count: 99999, roleId: '1201814547405750342' },
+                { count: 124999, roleId: '1201814374168408114' },
+                { count: 149999, roleId: '1201814291465117747' },
+            ];
+            let highestRoleExist = false;
+            let highestRole;
+            let highestIndex;
+            totalMsgRoles.forEach((element, index) => {
+                if (total >= element.count) {
+                    highestRoleExist = true;
+                    highestRole = element;
+                    highestIndex = index;
+                }
+            });
+            if (highestRoleExist) { message.member.roles.remove(totalMsgRoles.filter((r) => r.roleId !== highestRole.roleId).map((r) => r.roleId)); }
+            if (highestRoleExist && !message.member.roles.cache.has(highestRole.roleId)) {
+                message.member.roles.add(highestRole.roleId);
+                if (message.member.roles.has(highestRole.roleId)) {
+                    if (highestIndex >= totalMsgRoles.length - 1) {
+                        message.channel.send({ content: `${message.member} 已經獲得 <@&${highestRole.roleId}>`, allowedMentions: { parse: ['users'] } });
+                    } else {
+                        message.channel.send({ content: `${message.member} 已經獲得 <@&${highestRole.roleId}>，下一個身份組在${totalMsgRoles[highestIndex + 1].count + 1}訊息量，可以用t!rank查詢你的總訊息量，努力聊天來升級吧!`, allowedMentions: { parse: ['users'] } });
+                    }
+                }
+            }
         }
     }
 

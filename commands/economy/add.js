@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
 
     const embed = new MessageEmbed()
         .setColor('#ffae00')
-        .setTitle(`${target.user.tag} 的tails幣餘額調整!`)
+        .setTitle(`${target.user.newName} 的tails幣餘額調整!`)
         .setDescription(`# ${target}的餘額已經從 \`${before}\` 變為 \`${before + amount}\`\n# 操作人: ${message.author}`);
 
     message.reply({ embeds: [embed] });

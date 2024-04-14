@@ -18,9 +18,10 @@ exports.run = async (client, message, args) => {
     // eslint-disable-next-line no-unused-vars
     let str = '';
     list.forEach((d) => {
-        str += `${emojis[i]} ${message.guild.members.cache.get(d)} (0票)\n`;
+        const { user } = message.guild.members.cache.get(d);
+        str += `${emojis[i]} ${user} (0票)\n`;
         selectList.push({
-            label: message.guild.members.cache.get(d).user.tag,
+            label: user.discriminator === '0' ? user.username : user.tag,
             value: d,
             emoji: emojis[i],
         });

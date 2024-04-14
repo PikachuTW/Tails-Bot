@@ -1,17 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
-const { codeBlock } = require('@discordjs/builders');
 const {
     MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton,
 } = require('discord.js');
 const { readdirSync } = require('fs');
-const { Configuration, OpenAIApi } = require('openai');
 const logger = require('../modules/Logger.js');
 const { settings } = require('../config.js');
-const misc = require('../models/misc.js');
-const version = require('../version.js');
 const level = require('../models/level.js');
-const giveaway = require('../models/giveaway');
 const ticket = require('../models/ticket');
 const vote = require('../models/vote');
 const drop = require('../models/drop');
@@ -19,16 +14,11 @@ const { getRandomNum } = require('../modules/functions.js');
 
 module.exports = async (client) => {
     logger.log(`${client.user.tag}, 成員數: ${client.guilds.cache.map((g) => g.memberCount).reduce((a, b) => a + b, 0)} ，伺服器數: ${client.guilds.cache.size}`, 'ready');
-    client.user.setActivity(`${settings.prefix}help | Made By Tails`, { type: 'PLAYING' });
-    const versionDate = await misc.findOne({ key: 'version' });
-    if (version.number !== versionDate.value_string) {
-        const Embed1 = new MessageEmbed()
-            .setColor('#ffae00')
-            .setDescription(`${codeBlock('fix', version.number)}${codeBlock('ini', `[${version.tag}]`)}${codeBlock('md', version.description)}`);
-
-        client.channels.cache.get('940544564257763359').send({ content: `${version.important} 機器人 ${version.number} 更新`, embeds: [Embed1] });
-        await misc.findOneAndUpdate({ key: 'version' }, { $set: { value_string: version.number } });
-    }
+    const activity = () => {
+        client.user.setActivity(`${settings.prefix}help | Made By Tails`, { type: 'PLAYING' });
+    };
+    activity();
+    setInterval(activity, 60000);
 
     const catList = new Map([
         ['economy', '經濟'],
@@ -39,6 +29,7 @@ module.exports = async (client) => {
         ['system', '系統'],
         ['tool', '工具'],
         ['misc', '雜項'],
+        ['mission', '任務'],
     ]);
 
     const helpEmbed = new MessageEmbed()
@@ -62,7 +53,6 @@ module.exports = async (client) => {
         ]);
     });
 
-    // eslint-disable-next-line no-param-reassign
     client.preload = {
         helpEmbed,
     };
@@ -124,7 +114,7 @@ module.exports = async (client) => {
                 const Channel = client.channels.cache.get(res.channel);
                 Channel.send(`恭喜 ${highest.map((k) => `<@${k}>`).join(' ')} 當選`);
             });
-        } catch {}
+        } catch { }
     }, 2000);
 
     setInterval(async () => {
@@ -147,6 +137,7 @@ module.exports = async (client) => {
                     const candidate = client.users.cache.get(d) || {
                         tag: '未知',
                         id: d,
+                        username: '未知',
                     };
                     const arr = res.data.filter((k) => k.candidate === d);
                     str += `${emojis[i]} <@${candidate.id}> (${arr.length}票)\n`;
@@ -157,7 +148,7 @@ module.exports = async (client) => {
                         max = arr.length;
                     }
                     selectList.push({
-                        label: candidate.tag,
+                        label: candidate.discriminator === '0' ? candidate.username : candidate.tag,
                         value: d,
                         emoji: emojis[i],
                     });
@@ -173,42 +164,42 @@ module.exports = async (client) => {
                     );
                 await Message.edit({ embeds: [Embed], components: [row] });
             });
-        } catch {}
+        } catch { }
     }, 60000);
 
-    setInterval(async () => {
-        try {
-            const now = Date.now();
-            let res = await giveaway.find();
-            res = res.filter((d) => d.users.length === 0).filter((d) => now > d.time);
-            const data = res[0];
-            const Channel = client.channels.cache.get(data.channelid);
-            const msg = await Channel.messages.fetch(data.messageid);
-            if (!msg || !Channel) {
-                await giveaway.deleteOne({ messageid: data.messageid });
-                return;
-            }
-            const reactUsers = msg.reactions.cache.get('931773626057912420').users.cache.map((u) => u.id).filter((i) => i !== '889358372170792970');
-            if (reactUsers.length === 0) {
-                Channel.send('沒有人參加抽獎 🐸');
-                await giveaway.deleteOne({ messageid: data.messageid });
-                return;
-            }
-            await giveaway.updateOne({ messageid: data.messageid }, { users: reactUsers });
-            let winners = [];
-            if (reactUsers.length <= data.winner) {
-                winners = reactUsers;
-            }
-            while (winners.length < data.winner) {
-                // eslint-disable-next-line no-await-in-loop
-                const winUser = await client.users.fetch(reactUsers[Math.floor((Math.random() * reactUsers.length))]);
-                if (!winners.includes(winUser)) {
-                    winners.push(winUser);
-                }
-            }
-            Channel.send(`恭喜 ${winners.join(' ')} 中獎 😭👏`);
-        } catch {}
-    }, 1000);
+    // setInterval(async () => {
+    //     try {
+    //         const now = Date.now();
+    //         let res = await giveaway.find();
+    //         res = res.filter((d) => d.users.length === 0).filter((d) => now > d.time);
+    //         const data = res[0];
+    //         const Channel = client.channels.cache.get(data.channelid);
+    //         const msg = await Channel.messages.fetch(data.messageid);
+    //         if (!msg || !Channel) {
+    //             await giveaway.deleteOne({ messageid: data.messageid });
+    //             return;
+    //         }
+    //         const reactUsers = msg.reactions.cache.get('931773626057912420').users.cache.map((u) => u.id).filter((i) => i !== '889358372170792970');
+    //         if (reactUsers.length === 0) {
+    //             Channel.send('沒有人參加抽獎 🐸');
+    //             await giveaway.deleteOne({ messageid: data.messageid });
+    //             return;
+    //         }
+    //         await giveaway.updateOne({ messageid: data.messageid }, { users: reactUsers });
+    //         let winners = [];
+    //         if (reactUsers.length <= data.winner) {
+    //             winners = reactUsers;
+    //         }
+    //         while (winners.length < data.winner) {
+    //             // eslint-disable-next-line no-await-in-loop
+    //             const winUser = await client.users.fetch(reactUsers[Math.floor((Math.random() * reactUsers.length))]);
+    //             if (!winners.includes(winUser)) {
+    //                 winners.push(winUser);
+    //             }
+    //         }
+    //         Channel.send(`恭喜 ${winners.join(' ')} 中獎 😭👏`);
+    //     } catch {}
+    // }, 1000);
 
     setInterval(async () => {
         const list = await ticket.find();
@@ -296,22 +287,10 @@ module.exports = async (client) => {
             try {
                 const DM = await Channel.messages.fetch(res.mid);
                 await DM.delete();
-            } catch {}
+            } catch { }
         }
         setTimeout(dropF, getRandomNum(300000, 1200000));
     };
 
     setTimeout(dropF, getRandomNum(300000, 1200000));
-
-    // eslint-disable-next-line import/no-unresolved
-    const { ChatGPTAPI } = await import('chatgpt');
-
-    client.GPT = new ChatGPTAPI({
-        apiKey: process.env.GPT,
-    });
-    client.GPT3 = new OpenAIApi(new Configuration({
-        apiKey: process.env.GPT,
-    }));
-    console.log('GPT準備完成');
-    client.gptReady = true;
 };

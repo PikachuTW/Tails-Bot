@@ -2,7 +2,7 @@ const google = require('googlethis');
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message, args) => {
-    if (message.channelId !== '975025966990626816' && !message.member.roles.cache.has('870741338960830544') && !message.member.roles.cache.has('989362072062165052')) return message.reply({ content: '此指令僅限 <#975025966990626816> 使用，以便管理，或是向 <@650604337000742934> 索取權限即可使用該指令', allowedMentions: { parse: [] } });
+    if (message.channelId !== '975025966990626816' && !message.member.roles.cache.has('856808847251734559')) return message.reply({ content: '此指令在非 <#975025966990626816> 使用必須要有 <@&856808847251734559>', allowedMentions: { parse: [] } });
     const input = args.join(' ');
 
     if (!input) {

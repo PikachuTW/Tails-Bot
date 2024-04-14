@@ -23,7 +23,7 @@ exports.run = async (client, message, args) => {
             arr = res.data.filter((k) => k.candidate === d).map((k) => `<@${k.user}>`);
             output = arr.join(' ');
         }
-        Embed.addFields({ name: `${emojis[i]} ${client.users.cache.get(d)?.tag || '已離開'} (${arr.length}票)`, value: `${output}` });
+        Embed.addFields({ name: `${emojis[i]} ${client.users.cache.get(d)?.newName || '已離開'} (${arr.length}票)`, value: `${output}` });
         if (arr.length === max) {
             highest.push(d);
         } else if (arr.length > max) {

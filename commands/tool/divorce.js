@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setTitle(`${man} 已經與 ${woman} 離婚`),
+                    .setDescription(`**${man} 已經與 ${woman} 離婚**`),
             ],
         });
     }

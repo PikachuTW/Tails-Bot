@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setTitle(`${target.user.tag} 的婚姻狀態`)
+                    .setTitle(`${target.user.newName} 的婚姻狀態`)
                     .setDescription('```無```')
                     .setFooter({ text: '若要新增你的婚姻狀態，請使用 t!proposal <你的求婚對象> <你的性別(m/f)> ' }),
             ],
@@ -24,7 +24,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setTitle(`${target.user.tag} 的婚姻狀態`)
+                    .setTitle(`${target.user.newName} 的婚姻狀態`)
                     .setDescription(`**男方** ${man}\n**女方** ${woman}\n結婚紀念日: <t:${time}> <t:${time}:R>\n愛情點數: ${res.points}`)
                     .addFields([
                         { name: '愛情行為冷卻時間 (還沒製作完成)', value: `親吻 <t:${k}:R>\n性愛 <t:${k}:R>\n擁抱 <t:${k}:R>\n約會 <t:${k}:R>` }]),

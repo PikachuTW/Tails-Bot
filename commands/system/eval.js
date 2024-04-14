@@ -21,7 +21,9 @@ exports.run = async (client, message, args) => {
     const code = args.join(' ');
     try {
         // eslint-disable-next-line no-eval
-        const evaled = eval(`(async()=>{\n${code}\n})()`);
+        // const evaled = eval(`(async()=>{\n${code}\n})()`);
+        // eslint-disable-next-line no-eval
+        const evaled = eval(`${code}`);
         const cleaned = await clean(client, evaled);
         if (cleaned.startsWith('<ref *1>')) return;
         message.channel.send(codeBlock('js', cleaned.slice(0, 1991)));

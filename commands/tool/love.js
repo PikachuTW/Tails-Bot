@@ -2,14 +2,14 @@ const marry = require('../../models/marry.js');
 
 exports.run = async (client, message) => {
     const marryres = await marry.findOne({ users: message.member.id });
-    let m; let
-        f;
+    let m;
+    let f;
     if (marryres) {
         m = message.guild.members.cache.get(marryres.users[0]).nickname || message.guild.members.cache.get(marryres.users[0]).user.username;
         f = message.guild.members.cache.get(marryres.users[1]).nickname || message.guild.members.cache.get(marryres.users[1]).user.username;
     } else {
-        m = message.guild.members.cache.get('1064074182180212746').nickname || message.guild.members.cache.get('1064074182180212746').user.username;
-        f = message.guild.members.cache.get('959993844454264874').nickname || message.guild.members.cache.get('959993844454264874').user.username;
+        m = message.guild.members.cache.get('1029516549247209533').nickname || message.guild.members.cache.get('1029516549247209533').user.username;
+        f = message.guild.members.cache.get('983618755894579210').nickname || message.guild.members.cache.get('983618755894579210').user.username;
     }
     const sex = [
         `${m}的舌頭移動到${f}現在還是遮掩著的胸部上部，碰觸到柔嫩的山麓時，她全身像觸電般的跳動了一下，兩支手又再度緊緊遮住自己，頭像是說不要一般的搖動著。`,

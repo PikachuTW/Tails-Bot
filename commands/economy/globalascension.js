@@ -25,7 +25,7 @@ exports.run = async (client, message, args) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setTitle(`${message.author.tag} 已經購買新提升!`)
+                .setTitle(`${message.author.newName} 已經購買新提升!`)
                 .setDescription(`# 你已經花費 \`${next}\` 購買新提升!\n# 現在伺服器提升乘數為 \`${((level + 1) ** 1.11 / 2).toFixed(3)}%\` (等級\`${level + 1}\`)`)
                 .setThumbnail(message.member.displayAvatarURL({ format: 'png', dynamic: true })),
         ],

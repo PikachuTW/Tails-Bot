@@ -49,11 +49,11 @@ exports.run = async (client, message) => {
     ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 10, 10, 50, 50);
     ctx.restore();
 
-    ctx.font = '45px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.font = `45px ${Canvas.font}`;
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillText(message.author.tag, 70, 50, 670);
+    ctx.fillText(message.author.newName, 70, 50, 670);
 
-    ctx.font = '88px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+    ctx.font = `88px ${Canvas.font}`;
     ctx.textAlign = 'center';
     ctx.fillText(`+${giveAmount} Tails幣`, 375, 175);
 

@@ -13,8 +13,19 @@ const permlevel = (target) => {
 const targetGet = (message, args) => {
     if (!args[0]) return undefined;
     const userMention = args[0].matchAll(Discord.MessageMentions.USERS_PATTERN).next().value;
-    if (userMention) return message.guild.members.resolve(userMention[1]);
-    return message.guild.members.resolve(args[0]);
+    let Member;
+    if (userMention) {
+        Member = message.guild.members.resolve(userMention[1]);
+    } else {
+        Member = message.guild.members.resolve(args[0]);
+    }
+    if (Member.user.discriminator === '0') {
+        const newName = Member.user.username;
+        Member.user.newName = newName;
+    } else {
+        Member.user.newName = Member.user.tag;
+    }
+    return Member;
 };
 
 const timeFormat = (milliseconds, complex = false) => {

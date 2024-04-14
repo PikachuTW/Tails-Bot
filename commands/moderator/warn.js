@@ -24,7 +24,7 @@ exports.run = async (client, message, args) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setDescription(`**:white_check_mark:  ${target.user.tag} 已被警告 | ${reason}**`),
+                .setDescription(`**:white_check_mark:  ${target.user.newName} 已被警告 | ${reason}**`),
         ],
     });
 
@@ -33,7 +33,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setDescription(`**你被 ${message.author.tag} 警告了，原因: ${reason}**`),
+                    .setDescription(`**你被 ${message.author.newName} 警告了，原因: ${reason}**`),
             ],
         });
     } catch { }

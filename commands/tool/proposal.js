@@ -18,7 +18,7 @@ exports.run = async (client, message, args) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setTitle(`${message.author.tag} 向你發起了求婚!`)
+                .setTitle(`${message.author.newName} 向你發起了求婚!`)
                 .setDescription(
                     `你是否同意與 ${message.member} 結婚?\n若同意請輸入: 我願意、我愿意\n不同意請輸入: 不願意、不愿意`,
                 ),

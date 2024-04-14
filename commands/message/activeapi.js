@@ -12,7 +12,7 @@ exports.run = async (client, message, args) => {
             embeds: [
                 new MessageEmbed()
                     .setColor('#ffae00')
-                    .setTitle(`${target.user.tag} 的訊息資料`)
+                    .setTitle(`${target.user.newName} 的訊息資料`)
                     .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
                     .setDescription('```無訊息資料```')
                     .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
@@ -66,11 +66,11 @@ exports.run = async (client, message, args) => {
         const avatar = await Canvas.loadImage(target.displayAvatarURL());
         ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 20, 20, 100, 100);
         ctx.restore();
-        ctx.font = '100px SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
+        ctx.font = `100px ${Canvas.font}`;
         ctx.fillStyle = '#FFFFFF';
-        ctx.fillText(target.user.tag, 140, 105, 1075);
+        ctx.fillText(target.user.newName, 140, 105, 1075);
         ctx.textAlign = 'center';
-        ctx.font = '70px GG_SANS_MEDIUM, NOTO_SANS_TC';
+        ctx.font = `70px ${Canvas.font}`;
         const y = 287.5;
         ctx.fillText(`${today}`, 420, y);
         ctx.fillText(`${sActive}`, 420, y + 107.5);

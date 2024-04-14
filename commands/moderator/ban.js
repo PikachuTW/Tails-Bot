@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
     if (!reason) return message.reply('請提供禁止的原因');
 
     if (!target) {
-        const res = message.guild.bans.create(args[0], { reason: `${message.author.tag} - ${reason} (ban)` });
+        const res = message.guild.bans.create(args[0], { reason: `${message.author.newName} - ${reason} (ban)` });
         if (!res) {
             return message.reply('請給予有效目標!');
         }
@@ -57,7 +57,7 @@ exports.run = async (client, message, args) => {
     } catch (e) {
         message.reply('機器人無法私訊此用戶');
     }
-    target.ban({ days: 0, reason: `${message.author.tag} - ${reason}` });
+    target.ban({ days: 0, reason: `${message.author.newName} - ${reason}` });
     client.channels.cache.find((channel) => channel.id === '936299386990919772').send({ embeds: [reasonEmbed] });
 };
 

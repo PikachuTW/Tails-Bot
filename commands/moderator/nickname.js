@@ -13,7 +13,7 @@ exports.run = async (client, message, args) => {
     }
 
     try {
-        target.setNickname(nickname, `${message.author.tag}`);
+        target.setNickname(nickname, `${message.author.newName}`);
     } catch {
         return message.reply('暱稱過長!');
     }

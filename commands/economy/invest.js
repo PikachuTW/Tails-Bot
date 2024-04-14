@@ -18,7 +18,7 @@ exports.run = async (client, message, args) => {
         embeds: [
             new MessageEmbed()
                 .setColor('#ffae00')
-                .setTitle(`${target.user.tag} 的Tails幣投資系統狀態`)
+                .setTitle(`${target.user.newName} 的Tails幣投資系統狀態`)
                 .setDescription(`# 等級 \`${level}\`\n# 出資 \`${Math.round(level ** 1.225) + 1}\` 乘數 \`+${multi.toFixed(3)}%\``)
                 .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true })),
         ],

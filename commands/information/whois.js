@@ -29,7 +29,7 @@ exports.run = async (client, message, args) => {
     message.reply({
         embeds: [
             new MessageEmbed()
-                .setAuthor({ name: target.user.tag, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
+                .setAuthor({ name: target.user.newName, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
                 .setColor('#ffae00')
                 .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
                 .setDescription(`<@${target.id}>\n**加入日期:** <t:${Math.round(target.joinedTimestamp / 1000)}> <t:${Math.round(target.joinedTimestamp / 1000)}:R>\n**創建日期:** <t:${Math.round(target.user.createdTimestamp / 1000)}> <t:${Math.round(target.user.createdTimestamp / 1000)}:R>\n**自我介紹:** \`${!introdata ? '無' : introdata.intro}\``)

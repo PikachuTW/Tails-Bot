@@ -18,7 +18,7 @@ module.exports = async (client, ban) => {
 
     // const resEmbed = new MessageEmbed()
     //     .setColor('#ffae00')
-    //     .setTitle(`${ban.user.tag} ${ban.user.id} 已經被 ${banLog.executor.tag} ${banLog.executor.id} 禁止`)
+    //     .setTitle(`${ban.user.newName} ${ban.user.id} 已經被 ${banLog.executor.newName} ${banLog.executor.id} 禁止`)
     //     .setFooter({ text: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }) });
     // client.channels.cache.find((channel) => channel.id == '941142890703360020').send({ embeds: [resEmbed] });
     // client.users.cache.find((user) => user.id == '650604337000742934').send({ embeds: [resEmbed] });

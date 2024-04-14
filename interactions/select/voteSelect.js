@@ -58,6 +58,8 @@ module.exports = async (client, interaction) => {
         const candidate = client.users.cache.get(d) || {
             tag: '未知',
             id: d,
+            username: '未知',
+
         };
         str += `${emojis[i]} <@${candidate.id}> (${arr.length}票)\n`;
         if (arr.length === max) {
@@ -67,7 +69,7 @@ module.exports = async (client, interaction) => {
             max = arr.length;
         }
         selectList.push({
-            label: candidate.tag,
+            label: candidate.discriminator === '0' ? candidate.username : candidate.tag,
             value: d,
             emoji: emojis[i],
         });

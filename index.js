@@ -48,6 +48,7 @@ client.container = {
     gptDataBase: new Collection(),
     gptCooldown: new Collection(),
     wordcd: new Collection(),
+    fiftycd: new Collection(),
 };
 client.fn = functions;
 client.word = {};

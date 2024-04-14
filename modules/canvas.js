@@ -8,7 +8,10 @@ const fonts = [
     { path: `${__dirname}/../fonts/NotoSansTC-Regular.otf`, name: 'NOTO_SANS_TC' },
     { path: `${__dirname}/../fonts/gg_sans_Medium.ttf`, name: 'GG_SANS_MEDIUM' },
     { path: `${__dirname}/../fonts/arial-unicode-ms.ttf`, name: 'ARIAL' },
+    { path: `${__dirname}/../fonts/Kalam-Bold.ttf`, name: 'KALAMBOLD' },
 ];
+
+Canvas.font = 'GG_SANS_MEDIUM, SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
 
 fonts.forEach((font) => {
     Canvas.GlobalFonts.registerFromPath(font.path, font.name);
@@ -18,7 +21,7 @@ const chartCallback = (chartJs) => {
     chartJs.defaults.font.family = 'SEMIBOLD, NOTO_SANS_TC, NOTO_COLOR_EMOJI, ARIAL';
 };
 const chartJs = new ChartJSNodeCanvas({
-    width: 500,
+    width: 600,
     height: 300,
     backgroundColour: 'white',
     chartCallback,
