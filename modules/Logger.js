@@ -5,9 +5,9 @@ exports.log = (content, type = 'log') => {
 
     switch (type) {
     case 'log': return console.log(`${timestamp} LOG ${content} `);
-    case 'warn': return console.log(`${timestamp} WARN ${content} `);
-    case 'error': return console.log(`${timestamp} ERROR ${content} `);
-    case 'debug': return console.log(`${timestamp} DEBUG ${content} `);
+    case 'warn': return console.warn(`${timestamp} WARN ${content} `);
+    case 'error': return console.error(`${timestamp} ERROR ${content} `);
+    case 'debug': return console.debug(`${timestamp} DEBUG ${content} `);
     case 'cmd': return console.log(`${timestamp} CMD ${content}`);
     case 'ready': return console.log(`${timestamp} READY ${content}`);
     case 'eval': return console.log(`${timestamp} EVAL ${content}`);

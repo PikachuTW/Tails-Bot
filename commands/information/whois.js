@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const introduction = require('../../models/introduction.js');
 
 exports.run = async (client, message, args) => {
+    const got = (await import('got')).default;
     const target = message.mentions.members.first() || message.guild.members.cache.find((member) => member.id === args[0]) || message.member;
     if (!target) return message.reply('請給予有效目標!');
 
@@ -26,12 +27,21 @@ exports.run = async (client, message, args) => {
 
     const introdata = await introduction.findOne({ discordid: target.id });
 
+    let banner;
+
+    const targetUser = await target.user.fetch();
+    if (targetUser.banner) {
+        const res = await got.head(`https://cdn.discordapp.com/banners/${target.id}/${targetUser.banner}`);
+        banner = `https://cdn.discordapp.com/banners/${target.id}/${targetUser.banner}.${res.headers['content-type'].slice(6)}?size=4096`;
+    }
+
     message.reply({
         embeds: [
             new MessageEmbed()
-                .setAuthor({ name: target.user.newName, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
+                .setAuthor({ name: target.user.username, iconURL: target.displayAvatarURL({ format: 'png', dynamic: true }) })
                 .setColor('#ffae00')
                 .setThumbnail(target.displayAvatarURL({ format: 'png', dynamic: true }))
+                .setImage(banner)
                 .setDescription(`<@${target.id}>\n**加入日期:** <t:${Math.round(target.joinedTimestamp / 1000)}> <t:${Math.round(target.joinedTimestamp / 1000)}:R>\n**創建日期:** <t:${Math.round(target.user.createdTimestamp / 1000)}> <t:${Math.round(target.user.createdTimestamp / 1000)}:R>\n**自我介紹:** \`${!introdata ? '無' : introdata.intro}\``)
                 .addField('重要伺服器權限', `\`${perm.filter((d) => target.permissions.has(d[0])).map((d) => d[1]).join('` `') || '無'}\``)
                 .addField(`身分組 [${target.roles.cache.filter((roles) => roles.id !== message.guild.id).size}]`, `${target.roles.cache.filter((roles) => roles.id !== message.guild.id).sort((a, b) => b.rawPosition - a.rawPosition).map((role) => role.toString()).join('')}`.slice(0, 1024))

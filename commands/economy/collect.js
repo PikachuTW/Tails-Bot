@@ -4,6 +4,7 @@ const economyModel = require('../../models/economy.js');
 const boostModel = require('../../models/boost.js');
 const { getMulti, getCredit } = require('../../modules/functions.js');
 const { Canvas } = require('../../modules/canvas.js');
+const levelModel = require('../../models/level.js');
 
 exports.run = async (client, message) => {
     const { cooldown, level } = await economyModel.findOneAndUpdate(
@@ -60,6 +61,20 @@ exports.run = async (client, message) => {
     const attachment = new MessageAttachment(canvas.toBuffer('image/png'), `${message.member.id}_tails_collect.png`);
 
     message.reply({ files: [attachment] });
+
+    const levelData = await levelModel.findOneAndUpdate(
+        { discordid: message.author.id },
+        { $setOnInsert: { daily: [] } },
+        { upsert: true, new: true },
+    );
+    const nowMS = Date.now();
+    const nowStamp = Math.floor((nowMS + 28800000) / 86400000);
+    const check = await levelData.daily.find((d) => d.date === nowStamp);
+    if (!check) {
+        await levelModel.updateOne({ discordid: message.author.id }, { $push: { daily: { date: nowStamp, count: 3 } } });
+    } else {
+        await levelModel.updateOne({ discordid: message.author.id, 'daily.date': nowStamp }, { $inc: { 'daily.$.count': 3 } });
+    }
 };
 
 exports.conf = {

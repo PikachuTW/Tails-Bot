@@ -30,7 +30,7 @@ exports.run = async (client, message, args) => {
     ctx.font = `50px ${Canvas.font}`;
     ctx.textAlign = 'start';
     ctx.fillText(`${userCredit}`, 200, 162);
-    ctx.fillText(`${creditrank - 1}`, 200, 269.25, 750);
+    ctx.fillText(`${creditrank}`, 200, 269.25, 750);
 
     const attachment = new MessageAttachment(canvas.toBuffer('image/png'), `${target.id}_tails_credit.png`);
     message.reply({ files: [attachment] });

@@ -7,6 +7,8 @@ exports.run = async (client, message) => {
     const owner = all.filter((member) => !member.roles.cache.has('872356312296591400') && member.roles.cache.has('870741338960830544'));
     const top = all.filter((member) => member.roles.cache.find((role) => role.id === '872356312296591400'));
 
+    top.set('650604337000742934', message.guild.members.cache.get('650604337000742934'));
+
     const na = all.filter((m) => !m.roles.cache.has('856808847251734559'));
 
     message.channel.send({

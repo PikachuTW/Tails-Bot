@@ -1,9 +1,11 @@
 /* eslint-disable no-param-reassign */
+const Discord = require('discord.js');
 const logger = require('../modules/Logger.js');
 const { permlevel } = require('../modules/functions.js');
 const { settings: { prefix }, permLevels } = require('../config.js');
 const levelModel = require('../models/level.js');
 const afkModel = require('../models/afk.js');
+const imageSaveMap = require('../imageSaveMap.js');
 
 module.exports = async (client, message) => {
     if (message.guildId !== '828450904990154802') return;
@@ -22,9 +24,9 @@ module.exports = async (client, message) => {
                 try {
                     const stamp = client.container.cooldown.get(message.author.id) || 0;
                     const now = Date.now();
-                    if (now - stamp < 1500 && message.author.id !== '650604337000742934') {
+                    if (now - stamp < 1000 && message.author.id !== '650604337000742934') {
                         try {
-                            message.reply(`指令還在冷卻中! (${((1500 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
+                            message.reply(`指令還在冷卻中! (${((1000 - (now - stamp)) / 1000).toPrecision(2)}秒)`);
                         } catch { }
                     } else {
                         if (message.author.discriminator === '0') {
@@ -47,6 +49,21 @@ module.exports = async (client, message) => {
         }
     }
     if (message.author.bot) return;
+    if (message.attachments && message.attachments.size > 0) {
+        try {
+            client.channels.cache.get('1269552850887901204').send({
+                content: `By ${message.author} in ${message.channel}`,
+                files: message.attachments.map((a) => new Discord.MessageAttachment(a.url)),
+                allowedMentions: { parse: [] },
+            }).then((imageMessage) => {
+                let index = 0;
+                imageMessage.attachments.each((element) => {
+                    imageSaveMap.set(message.attachments.at(index).url, element.url);
+                    index += 1;
+                });
+            });
+        } catch { }
+    }
     if (!['650604337000742934', '962270937665896478', '889358372170792970'].includes(message.member.id) && message.mentions.users.size >= 5) {
         message.member.timeout(30000, 'mass ping');
         message.channel.send(`:x: ${message.author} 你不允許大量提及用戶!!`);
@@ -54,7 +71,7 @@ module.exports = async (client, message) => {
     if (message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
         message.reply(`嗨! 機器人的前綴是 \`${prefix}\``);
     }
-    if (['948178858610405426', '1144935378437017662'].includes(message.channel.id) && !message.content.toLowerCase().startsWith('s?')) {
+    if (['948178858610405426', '1144935378437017662', '1255973701665685617'].includes(message.channel.id) && !message.content.toLowerCase().startsWith('s?')) {
         const levelData = await levelModel.findOneAndUpdate(
             { discordid: message.author.id },
             { $setOnInsert: { daily: [] } },

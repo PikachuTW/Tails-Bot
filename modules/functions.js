@@ -3,6 +3,7 @@ const config = require('../config.js');
 const creditModel = require('../models/credit.js');
 const boostModel = require('../models/boost.js');
 const miscModel = require('../models/misc.js');
+const phase1 = require('../models/phase1.js');
 
 const permlevel = (target) => {
     const permOrder = config.permLevels.slice(0).sort((p, c) => c.level - p.level);
@@ -73,11 +74,13 @@ const getCredit = async (member) => {
 
 const getMulti = async (member) => {
     const bt = await boostModel.findOne({ user: member.id, timestamp: { $gte: Date.now() } });
+    const { value_num } = await miscModel.findOne({ key: 'ac' });
+    const phase1Data = await phase1.findOne({ discordid: member.id });
     let multi = 1;
     const roleMultipliers = {
-        '856808847251734559': 0.15, // 活躍
-        '1014857925107392522': 0.3, // 中等活躍
-        '861459068789850172': 0.5, // 超級活躍
+        '856808847251734559': 0.2, // 活躍
+        '1014857925107392522': 0.45, // 中等活躍
+        '861459068789850172': 0.7, // 超級活躍
         '830689873367138304': 0.3, // 加成者
     };
     member.roles.cache.each((role) => {
@@ -86,8 +89,13 @@ const getMulti = async (member) => {
         }
     });
     if (bt && bt.type === 'MONEY') multi += 0.5;
-    const { value_num } = await miscModel.findOne({ key: 'ac' });
-    multi += (value_num ** 1.11 / 200);
+    multi += (value_num ** 1.1 / 250);
+    let tails_credit_acc_v1 = 0;
+    if (phase1Data && phase1Data.tails_credit_acc_v1) {
+        tails_credit_acc_v1 = phase1Data.tails_credit_acc_v1;
+    }
+    if (tails_credit_acc_v1 > 10) tails_credit_acc_v1 = 10;
+    multi *= (1 + tails_credit_acc_v1 * 0.05);
     return multi;
 };
 

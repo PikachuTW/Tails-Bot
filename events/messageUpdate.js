@@ -14,6 +14,7 @@ module.exports = async (client, oldMessage, newMessage) => {
     }
 
     if (!oldMessage.content && !newMessage.content) return;
+    if (oldMessage.content === newMessage.content) return;
     client.channels.cache.get('932992270918119434').send({
         embeds: [
             new MessageEmbed()

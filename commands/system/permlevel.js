@@ -1,8 +1,9 @@
 const { permlevel } = require('../../modules/functions.js');
 const config = require('../../config.js');
+const { targetGet } = require('../../modules/functions.js');
 
 exports.run = async (client, message, args) => {
-    const target = client.fn.targetGet(message, args) || message.member;
+    const target = targetGet(message, args) || message.member;
     const level = permlevel(target);
     const friendly = config.permLevels.find((l) => l.level === level).name;
     message.reply({ content: `${target} 的權限等級為: ${friendly} (${level})`, allowedMentions: { repliedUser: 'true' } });

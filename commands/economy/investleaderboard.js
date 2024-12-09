@@ -2,14 +2,14 @@ const { MessageAttachment } = require('discord.js');
 const economyModel = require('../../models/economy.js');
 const { Canvas } = require('../../modules/canvas.js');
 
-exports.run = async (client, message) => {
-    let res = await economyModel.find({}).sort({ level: -1 }).limit(11);
+exports.run = async (client, message, args) => {
+    let res = await economyModel.find({}).sort({ level: -1 });
 
     res = res.filter((k) => k.discordid !== '650604337000742934');
-
-    const top10 = res.slice(0, 10);
+    const page = parseInt(args[0], 10) - 1 || 0;
+    const top10 = res.slice(0 + page * 10, 10 + page * 10);
     const leaderboard = top10.map(({ discordid, level }, index) => ({
-        0: `${index + 1}`, 1: client.users.cache.get(discordid)?.username || 'Unknown', 4: `${level}`, 6: `${Math.round(level ** 1.225) + 1}`,
+        0: `${index + 1 + page * 10}`, 1: client.users.cache.get(discordid)?.username || 'Unknown', 4: `${level}`, 6: `${Math.round(level ** 1.225) + 1}`,
     }));
 
     const canvaWidth = 3500;

@@ -1,10 +1,13 @@
 const { MessageEmbed } = require('discord.js');
 const snipe = require('../models/snipe.js');
+const imageSaveMap = require('../imageSaveMap.js');
 
 module.exports = async (client, message) => {
     if (message.guildId !== '828450904990154802' || !message.author) return;
 
     const currentdate = new Date(message.createdTimestamp).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+
+    if (!message.content && (!message.attachments || message.attachments.size === 0)) return;
 
     client.channels.cache.get('932974877630148658').send({
         embeds: [
@@ -30,22 +33,28 @@ module.exports = async (client, message) => {
         mc += `\n[貼圖: ${message.stickers.first().name}]`;
     }
 
+    let snipesender = message.author.tag;
+    const [name, tagNumber] = snipesender.split('#');
+    if (tagNumber === '0') {
+        snipesender = name;
+    }
+
     const res = await snipe.findOne({ channelid: message.channel.id });
     if (!res) {
         await snipe.create({
             channelid: message.channel.id,
             snipemsg: mc,
-            snipesender: message.author.tag,
+            snipesender,
             snipetime: currentdate,
-            snipeatt: message.attachments.size > 0 ? message.attachments.map((a) => a.proxyURL) : message.stickers.size > 0 ? message.stickers.map((a) => a.url) : null,
+            snipeatt: message.attachments.size > 0 ? message.attachments.map((a) => a.url) : message.stickers.size > 0 ? message.stickers.map((a) => a.url) : null,
         });
     } else {
         await snipe.updateOne({ channelid: message.channel.id }, {
             $set: {
                 snipemsg: mc,
-                snipesender: message.author.tag,
+                snipesender,
                 snipetime: currentdate,
-                snipeatt: message.attachments.size > 0 ? message.attachments.map((a) => a.proxyURL) : message.stickers.size > 0 ? message.stickers.map((a) => a.url) : null,
+                snipeatt: message.attachments.size > 0 ? message.attachments.map((a) => imageSaveMap.get(a.url)) : message.stickers.size > 0 ? message.stickers.map((a) => a.url) : null,
             },
         });
     }

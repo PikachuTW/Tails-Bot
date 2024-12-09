@@ -30,6 +30,7 @@ module.exports = async (client) => {
         ['tool', '工具'],
         ['misc', '雜項'],
         ['mission', '任務'],
+        ['phase1', '階段1'],
     ]);
 
     const helpEmbed = new MessageEmbed()
@@ -264,6 +265,7 @@ module.exports = async (client) => {
     }, 60000);
 
     const dropF = async () => {
+        setTimeout(dropF, getRandomNum(300000, 1200000));
         const res = await drop.findOneAndDelete({});
         const Channel = client.channels.cache.get('948178858610405426');
         const Message = await Channel.send({
@@ -289,7 +291,6 @@ module.exports = async (client) => {
                 await DM.delete();
             } catch { }
         }
-        setTimeout(dropF, getRandomNum(300000, 1200000));
     };
 
     setTimeout(dropF, getRandomNum(300000, 1200000));
