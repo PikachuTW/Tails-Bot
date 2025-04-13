@@ -1,10 +1,12 @@
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message, args) => {
-    const targets = args.map((k) => k.slice(2, -1));
+    const targets = args.map((k) => (k.startsWith('<@') ? k.slice(2, -1) : k));
 
     targets.forEach((k) => {
-        message.guild.bans.create(k, { reason: `${message.author.newName} mass ban` });
+        message.guild.bans.create(k, {
+            reason: `${message.author.newName} mass ban`,
+        });
     });
 
     message.reply({
@@ -13,7 +15,10 @@ exports.run = async (client, message, args) => {
                 .setTitle('大量成員已被禁止!')
                 .setColor('#ffae00')
                 .setDescription(`<@${targets.join('> <@')}>`)
-                .setFooter({ text: 'Tails Bot | Made By Tails', iconURL: 'https://i.imgur.com/IOgR3x6.png' }),
+                .setFooter({
+                    text: 'Tails Bot | Made By Tails',
+                    iconURL: 'https://i.imgur.com/IOgR3x6.png',
+                }),
         ],
     });
 };

@@ -1,6 +1,14 @@
 exports.run = async (client, message, args) => {
-    const res = await message.guild.bans.fetch(args[0]);
-    message.reply({ content: `Banned, reason: ${res.reason}`, allowedMentions: { parse: ['users'] } });
+    if (!args[0]) return message.reply('請給予ID');
+    try {
+        const res = await message.guild.bans.fetch(args[0]);
+        message.reply({
+            content: `\`\`\`Banned, reason: ${res.reason}\`\`\``,
+            allowedMentions: { parse: ['users'] },
+        });
+    } catch (e) {
+        message.reply('未被ban');
+    }
 };
 
 exports.conf = {

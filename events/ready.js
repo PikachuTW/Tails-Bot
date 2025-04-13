@@ -267,7 +267,7 @@ module.exports = async (client) => {
     const dropF = async () => {
         setTimeout(dropF, getRandomNum(300000, 1200000));
         const res = await drop.findOneAndDelete({});
-        const Channel = client.channels.cache.get('948178858610405426');
+        const Channel = client.channels.cache.get('832282589649436694');
         const Message = await Channel.send({
             embeds: [
                 new MessageEmbed()

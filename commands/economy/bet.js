@@ -65,7 +65,7 @@ exports.run = async (client, message, args) => {
                         .setDisabled(true);
                     await response.update(messageGenerator());
                     if (buttonLeft >= 2) {
-                        delay(400);
+                        await delay(400);
                         await sendAndWait();
                     } else {
                         buttons = buttons.map((button) => button.setDisabled(true));
