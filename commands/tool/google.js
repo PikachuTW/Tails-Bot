@@ -1,4 +1,4 @@
-const google = require('googlethis');
+const DDG = require('duck-duck-scrape');
 const { MessageEmbed } = require('discord.js');
 
 exports.run = async (client, message, args) => {
@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
         return message.reply('請給予你要查詢的關鍵字!');
     }
 
-    const res = await google.search(input, {
+    const res = await DDG.search(input, {
         page: 0,
         safe: false,
         additional_params: {
@@ -21,12 +21,14 @@ exports.run = async (client, message, args) => {
     }
     const data = res.results[0];
 
+    console.log(res, data);
+
     message.reply({
         embeds: [
             new MessageEmbed()
                 .setTitle(data.title)
                 .setColor('#ffae00')
-                .setThumbnail(data?.favicons.high_res)
+                .setThumbnail(data?.icon)
                 .setURL(data.url)
                 .setDescription(data.description),
         ],
@@ -34,7 +36,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    aliases: [],
+    aliases: ['ddg', 'duckduckgo'],
     permLevel: 'User',
-    description: '搜尋Google',
+    description: '搜尋DuckDuckGo',
 };

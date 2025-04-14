@@ -16,12 +16,7 @@ exports.run = async (client, message, args) => {
         [['ra', 'ら'], ['ri', 'り'], ['ru', 'る'], ['re', 'れ'], ['ro', 'ろ']],
         [['wa', 'わ'], ['wo', 'を'], ['n', 'ん']],
     ];
-    let data;
-    if (num === 0) {
-        data = words.flat();
-    } else {
-        data = words[num - 1];
-    }
+    const data = num === 0 ? words.flat() : words[num - 1];
     const cd = client.container.fiftycd.get(message.author.id);
     if (cd === true) return;
     client.container.fiftycd.set(message.author.id, true);
