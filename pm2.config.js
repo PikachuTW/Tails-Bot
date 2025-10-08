@@ -4,5 +4,6 @@ module.exports = {
         script: 'index.js',
         watch: false,
         ignore_watch: ['node_modules', 'enmap', '.git'],
+	exec_mode: "cluster",
     }],
 };

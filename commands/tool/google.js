@@ -21,8 +21,6 @@ exports.run = async (client, message, args) => {
     }
     const data = res.results[0];
 
-    console.log(res, data);
-
     message.reply({
         embeds: [
             new MessageEmbed()
